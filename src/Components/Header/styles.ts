@@ -108,7 +108,7 @@ display:flex;
 background-color:#fff;
 box-shadow: 0px 0px 5px;
   color: #a4a4a4;
-height:70px;
+height:75px;
 display:flex;
 /* justify-content: space-between; */
 padding: 0.5rem calc((100vw - 1000px) /2);

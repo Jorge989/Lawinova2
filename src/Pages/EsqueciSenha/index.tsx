@@ -6,6 +6,7 @@ import React, {
   useRef,
   InputHTMLAttributes,
 } from "react";
+import Header from '../../Components/Header';
 import { FiArrowLeft } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
 import Logo from "../../assets/logolaw.svg";
@@ -21,9 +22,7 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import {
   Container,
-  Header,
-  Entrar,
-  Entrar2,
+
   Blue,
   Lockicon1,
   Draw,
@@ -182,116 +181,49 @@ const EsqueciSenha: React.FC = () => {
     setUrl(response.profileObj.imageUrl);
   };
   return (
+    <div>
+    <Header />
+
     <Container>
-      <Header>
-        <div className="cont">
-        <button className="logo1">
-            <a href="/">
-          <img src={Logo} className="logo" />
-          </a>
-          </button>
-          <li>
-            {" "}
-            <a href="/faq" className="cool-link">
-              Faq
-            </a>
-          </li>
-          <li>
-            {" "}
-            <a href="#" className="cool-link1">
-              Sobre
-            </a>
-          </li>
-          <li>
-            {" "}
-            <a href="#" className="cool-link2">
-              Preços
-            </a>
-          </li>
-          <li>
-            {" "}
-            <a href="#" className="cool-link3">
-              Contate-nos
-            </a>
-          </li>
-        </div>
-        <Entrar>
-        <Lockicon1 />
-          <button>Entrar</button>
-        </Entrar>
-        <Entrar2>
-          <button>Teste Grátis</button>
-        </Entrar2>
-      </Header>
-
       <Blue>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <div>
-            <Link to="/">
-              <FiArrowLeft
-                size={50}
-                style={{
-                  color: "#141111",
-                  width: "30px",
-                  position: "absolute",
-                  marginLeft: "460px",
-                  marginTop: "-160px",
-                }}
+        <div className='formBox'>
+          <h3>Esqueci Senha</h3>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <div className='input1'>
+              <h2>Email</h2>
+              <Input
+                className='input'
+                name='email'
+                icon={FiMail}
+                type='email'
+                placeholder='email'
               />
-            </Link>
 
-            <h2>Informar endereço de e-mail</h2>
-            <Input
-              name="email"
-              value={mail}
-              icon={FiMail}
-              type="email"
-              onChange={(e) => setMail(e.target.value)}
-              placeholder="email"
-            />
+       
 
-            <Button
-              isLoading={loading}
-              className="btn"
-              type="submit"
-              onClick={(e) => {
-                handleSubmit(e);
-                handleSubmit2(e);
-              }}
-            >
-              Confirmar
-            </Button>
-          </div>
-          <h1>Esqueci Senha</h1>
-          <button
-            onClick={togglePasswordVisiblity}
-            type="button"
-            className="eye"
-          >
-            {passwordShown ? <FiEye /> : <FiEyeOff />}
-          </button>
-          {/* <h3>Alterar Senha</h3> */}
 
-          {/* <h4>ou acesse rapidamente!</h4> */}
-
-          <Draw />
-
-          {/* 
-<GoogleLogin 
-    clientId="211368015593-fucd3no6bv208m9iuf809l9f72ulmejr.apps.googleusercontent.com"
-    render={renderProps => (
-      <button  className="btngoogle"  onClick={renderProps.onClick} disabled={renderProps.disabled}><Googleicon/></button>
-    )}
-    buttonText="Login"
-    onSuccess={responseGoogle}
-    onFailure={responseGoogle}
-    cookiePolicy={'single_host_origin'}
-    
-    />
-<button><a href="login">Já possui login?</a></button> */}
-        </Form>
+              <Button
+                className='btnazul'
+                type='submit'
+                isLoading={loading}
+                onClick={() => handleSubmit}
+              >
+                Entrar
+              </Button>
+            </div>
+           
+          </Form>
+        </div>
       </Blue>
+      {
+        /* 
+          <button onClick={togglePasswordVisiblity} type="button" className="eye">
+            {passwordShown ? <FiEye size={21} /> : <FiEyeOff size={21} />}
+          </button>  
+        */
+      }
     </Container>
+  </div>
   );
 };
 

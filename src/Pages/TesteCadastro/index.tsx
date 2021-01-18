@@ -130,10 +130,10 @@ const Testenovocadastro: React.FC = () => {
         ({
           loginDTO: data,
           userData: response.data,
-          
+          email:email,
         });
         console.log(response.data)
-        console.log(data.loginDTO.email);
+            
         await api.post(
           "escritorios",
           {
@@ -141,28 +141,31 @@ const Testenovocadastro: React.FC = () => {
             nome: name,
             documento:"",
             plano: planos,
-            data_inicio_plano: dataStart,
-            data_final_trial: dataFim,
+            data_inicio_plano: dataFormatadaInicio,
+            data_final_trial: dataFormatadaFim,
             tipo_pag: "cartao_credito",
             nick_name: name,
-            email: data.loginDTO.email,
+            email: response.data.usuario.email,
             telefone: tel,
             qtde_processos: qtd,
             quantidade_advogados: qtdavogados,
             tipo_escritorio: tipoperfil,
           },
-          {
-            headers: {
-              "content-type": "application/json",
-               Authorization: `Bearer ${data.userData.token}`,
-            },
-          }
+          // {
+          //   headers: {
+          //     "content-type": "application/json",
+          //     //  Authorization: `Bearer ${response.data.token}`,
+          //   },
+          // }
         );
-
+        history.push("/planos", {
+       plano:planos,
+        });
         addToast({
           type: "sucess",
           title: "Cadastro realizado com sucesso",
         });
+// console.log(data.userData.token)
       } catch (err) {
         console.log(err);
         setLoading(false);
@@ -320,10 +323,28 @@ case "escritorio":
   const handleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);
   };
-   const dataFim = new Date(new Date().getTime() + 1209600000).toLocaleString();
-   const dataStart = new Date(new Date().getTime()).toLocaleString();
-  
-  
+   const dataFim = new Date(new Date().getDate() + 120960000).toLocaleString();
+   const dataStart = new Date(new Date()).toLocaleString();
+   const dataFormatadaInicio = converteData(dataStart, '/', '-')
+   const dataFormatadaFim = converteData(dataFim, '/', '-')
+ console.log(dataStart)
+  console.log(dataFim)
+
+ 
+  function converteData(data:String, divisorPraSeparar:String, divisorPraColocar:String) {
+    const temp = data.split(`${divisorPraSeparar}`)
+    console.log('data', temp)
+    const ano = temp[2].split(" ")
+    const dataBanco =
+    ano[0] +
+      `${divisorPraColocar}` +
+      temp[1] +
+      `${divisorPraColocar}` +
+      temp[0]
+    return dataBanco
+  }
+  console.log(dataFormatadaInicio+"esse")
+  console.log(dataFormatadaFim+"esse")
   return (
     <div>
       <Header2></Header2>
@@ -332,12 +353,11 @@ case "escritorio":
         <Blue>
           <div className="formBox">
             <h3 className="h1C">Cadastrar</h3>
-            <h1>{dataFim}</h1>
-<h1>{dataStart}</h1>
+   
             <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="radio">
                 <div>
-                  <h1>{gender}</h1>
+               
                   <span className="pessoafisica">Pessoa fisíca</span>
                   <Radio
                     value="cpf"
@@ -362,6 +382,7 @@ case "escritorio":
                 <Input
                   className="input"
                   name="nome"
+                  value={name}
                   icon={FiUser}
                   type="text"
                   placeholder="nome"

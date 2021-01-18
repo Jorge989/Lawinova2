@@ -5,7 +5,7 @@ import React, {
   useRef,
   ChangeEvent,
 } from "react";
-import { Radio } from '@material-ui/core';
+import { Radio } from "@material-ui/core";
 import { FiArrowLeft } from "react-icons/fi";
 import { FiLock } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
@@ -22,7 +22,7 @@ import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import {
   Container,
   Blue,
@@ -97,75 +97,66 @@ interface IBGEUFResponse {
 interface IBGECityResponse {
   nome: string;
 }
+
+interface CepInfo {
+  bairro: string;
+  cep: string;
+  complemento: string;
+  ddd: string;
+  gia: string;
+  ibge: string;
+  localidade: string;
+  logradouro: string;
+  siafi: string;
+  uf: string;
+}
 const Dados: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({});
-  const history = useHistory();
-  const formRef = useRef<FormHandles>(null);
-  const { addToast } = useToast();
-
-  const handleSubmit = useCallback(
-    async (data: SigInFormData): Promise<void> => {
-      setLoading(true);
-      try {
-        formRef.current?.setErrors({});
-
-        const schema = Yup.object().shape({
-          nome: Yup.string().required("Nome obrigatório"),
-          email: Yup.string().required("E-mail obrigatório"),
-
-          senha: Yup.string()
-            .trim()
-            .matches(
-              /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1}).*$/,
-              "senha deve conter pelo menos 8 caracteres, um número e um caractere especial"
-            )
-            .min(8, "No minimo 8 dígitos"),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
-        const response = await api.post("usuarios", data);
-
-        history.push("/planos", {
-          loginDTO: data,
-          userData: response.data,
-        });
-
-        addToast({
-          type: "sucess",
-          title: "Cadastro realizado com sucesso",
-        });
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-        if (err instanceof Yup.ValidationError) {
-          console.log(err);
-          const errors = getValidationErrors(err);
-          formRef.current?.setErrors(errors);
-
-          addToast({
-            type: "error",
-            title: "Erro na cadastro",
-            description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
-          });
-        }
-        if (err.response?.data) {
-          addToast({
-            type: "error",
-            title: "Erro na cadastro",
-            description: `Usuário já cadastrado.
-            `,
-          });
-        }
-      }
+  const {
+    state: {
+      contractAccepted,
+      officeId,
+      userId,
+      userPhone,
+      userEmail,
+      username,
+      plano,
+      token,
     },
-    [addToast]
+  } = useLocation<{
+    contractAccepted: boolean;
+    officeId: number;
+    plano: string;
+    token: string;
+    userId: number;
+    userPhone: string;
+    userEmail: string;
+    username: string;
+    email: string;
+  }>();
+
+  console.log(
+    "Params Dados",
+    contractAccepted,
+    officeId,
+    userId,
+    userEmail,
+    userPhone,
+    username,
+    plano,
+    token
   );
 
-  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({});
+  const [address, setAddress] = useState({
+    logradouro: "",
+    bairro: "",
+    cep: "",
+    numero: "",
+    complemento: "",
+  });
+  const [name, setName] = useState(username);
+  const [documentNumber, setDocumentNumber] = useState("");
   const [tel, setTelefone] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -173,13 +164,162 @@ const Dados: React.FC = () => {
   const [errorE, setErrorE] = useState([""]);
   const [errorS, setErrorS] = useState([""]);
   const [passwordError, setPasswordError] = useState("");
+  const [selectedUF, setSelectedUF] = useState("0");
+  const [selectedCity, setSelectedCity] = useState("0");
+  const [cities, setCities] = useState<string[]>([]);
+  const [ufs, setUfs] = useState<string[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
+  const [type, setType] = useState(1);
+  const [gender, setGender] = useState("juridica");
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [inputType, setInputType] = useState("password");
+
+  const history = useHistory();
+  const formRef = useRef<FormHandles>(null);
+  const { addToast } = useToast();
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      formRef.current?.setErrors({});
+
+      // const schema = Yup.object().shape({
+      //   nome: Yup.string().required("Nome obrigatório"),
+      //   email: Yup.string().required("E-mail obrigatório"),
+
+      //   senha: Yup.string()
+      //     .trim()
+      //     .matches(
+      //       /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1}).*$/,
+      //       "senha deve conter pelo menos 8 caracteres, um número e um caractere especial"
+      //     )
+      //     .min(8, "No minimo 8 dígitos"),
+      // });
+
+      // await schema.validate(data, {
+      //   abortEarly: false,
+      // });
+
+      console.log("tipo_documento", gender === "fisica" ? "CPF" : "CNPJ");
+      console.log("documento", documentNumber);
+
+      const addressData = {
+        id_escritorio: officeId,
+        id_pessoa: userId,
+        tipo_endereco: "comercial",
+        logradouro: address.logradouro,
+        numero: address.numero,
+        complemento: address.complemento,
+        bairro: address.bairro,
+        cidade: selectedCity,
+        uf: selectedUF,
+        pais: "Brasil",
+        cep: address.cep,
+      };
+
+      // console.log(addressData);
+
+      // const responseOffice = await axios.put(
+      //   `https://inova-actionsys.herokuapp.com/escritorio/${officeId}`,
+      //   {
+      //     tipo_documento: gender === "fisica" ? "CPF" : "CNPJ",
+      //     documento: documentNumber,
+      //   },
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+
+      // await api.put(
+      //   `escritorio/${officeId}`,
+      //   {
+      //     tipo_documento: gender === "fisica" ? "CPF" : "CNPJ",
+      //     documento: documentNumber,
+      //   },
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+
+      // await api.post("enderecos", addressData, {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+
+      const vindiData = {
+        name,
+        code: "10",
+        email: userEmail,
+        address: {
+          street: address.logradouro,
+          number: address.numero,
+          zipcode: address.cep,
+          neighborhood: address.bairro,
+          city: selectedCity,
+          state: selectedUF,
+          country: "BR",
+        },
+        phones: [
+          {
+            phone_type: "mobile",
+            number: userPhone,
+          },
+        ],
+      };
+
+      console.log(vindiData);
+      await axios.post("https://app.vindi.com.br/api/v1/customers", vindiData, {
+        auth: {
+          username: "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ",
+          password: "",
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      addToast({
+        type: "sucess",
+        title: "Endereço cadastro com sucesso",
+      });
+
+      setLoading(false);
+    } catch (err) {
+      console.log("Erro aqui", err.response?.data);
+      setLoading(false);
+      if (err instanceof Yup.ValidationError) {
+        console.log(err);
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+
+        addToast({
+          type: "error",
+          title: "Erro na cadastro",
+          description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
+        });
+      }
+      if (err.response?.data) {
+        addToast({
+          type: "error",
+          title: "Erro na cadastro",
+          description: `Usuário já cadastrado.
+            `,
+        });
+      }
+    }
+  };
 
   var reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/;
   var regemail = /^\w+([-+.']\w+)@\w+([-.]\w+).\w+([-.]\w+)*$/;
   const eye = <FiEyeOff />;
 
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [inputType, setInputType] = useState("password");
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown === true ? false : true);
     setInputType(inputType === "password" ? "text" : "password");
@@ -187,11 +327,11 @@ const Dados: React.FC = () => {
 
   <i onClick={togglePasswordVisiblity}>{eye}</i>;
 
-  useEffect(() => {
-    api.get("escritorios/listar").then((response) => {
-      console.log(response.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   api.get("escritorios/listar").then((response) => {
+  //     console.log(response.data);
+  //   });
+  // }, []);
 
   const responseGoogle = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
@@ -305,16 +445,12 @@ const Dados: React.FC = () => {
   //     });
   //     });
   //   });
-  const [selectedUF, setSelectedUF] = useState("0");
-  const [selectedCity, setSelectedCity] = useState("0");
-  const [cities, setCities] = useState<string[]>([]);
-  const [ufs, setUfs] = useState<string[]>([]);
-  const [items, setItems] = useState<Item[]>([]);
-  useEffect(() => {
-    api.get("items").then((response) => {
-      setItems(response.data);
-    });
-  }, []);
+
+  // useEffect(() => {
+  //   api.get("items").then((response) => {
+  //     setItems(response.data);
+  //   });
+  // }, []);
   useEffect(() => {
     axios
       .get<IBGEUFResponse[]>(
@@ -328,21 +464,20 @@ const Dados: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedUF === "0") {
-      return;
-    }
+    if (selectedUF === "0") return;
+
     axios
       .get<IBGECityResponse[]>(
         `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`
       )
       .then((response) => {
         const cityNames = response.data.map((city) => city.nome);
-
         setCities(cityNames);
       });
   }, [selectedUF]);
 
   function handleSelectedUF(event: ChangeEvent<HTMLSelectElement>) {
+    setSelectedCity("0");
     const uf = event.target.value;
     setSelectedUF(uf);
   }
@@ -351,12 +486,54 @@ const Dados: React.FC = () => {
     setSelectedCity(city);
   }
 
-  const [gender, setGender] = useState("juridica");
   const componetClicked = (data: any) => {
     console.warn(data);
   };
   const handleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);
+  };
+
+  function handleCep() {
+    const cep = document.querySelector("#cep") as HTMLInputElement;
+    cep?.addEventListener("blur", (e) => {
+      let search = cep.value.replace("-", "");
+      // const options = {
+      //   method: "GET",
+      //   mode: "cors",
+      //   cache: "default",
+      // } as RequestInit;
+
+      console.log("Search", search);
+      axios
+        .get<CepInfo>(`https://viacep.com.br/ws/${search}/json/`)
+        .then((response) => {
+          console.log(response.data);
+          setSelectedUF(response.data.uf);
+          setSelectedCity(response.data.localidade);
+          setAddress({ ...response.data, numero: "", complemento: "" });
+          // response.data
+          // response.json().then((data) => showData(data));
+          // const showData = (result: string[]) => {
+          //   for (const campo in result) {
+          //     const elemento = document.getElementById(
+          //       campo
+          //     ) as HTMLInputElement;
+
+          //     elemento.value = result[campo];
+          //   }
+          // };
+        })
+        .catch((e) => console.log("Deu Erro: " + e.message));
+    });
+  }
+
+  const handleAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    // console.log("HandleAddress", id);
+    setAddress({
+      ...address,
+      [id]: value,
+    });
   };
   return (
     <div>
@@ -368,22 +545,22 @@ const Dados: React.FC = () => {
             <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="radio">
                 <div>
-                  <span>Pessoa fisíca</span>
                   <Radio
                     value="fisica"
                     checked={gender === "fisica"}
                     color="primary"
                     onChange={handleGender}
                   />
+                  <span>Pessoa fisíca</span>
                 </div>
                 <div>
-                  <span>Pessoa juridíca</span>
                   <Radio
                     value="juridica"
                     checked={gender === "juridica"}
                     color="primary"
                     onChange={handleGender}
                   />
+                  <span>Pessoa juridíca</span>
                 </div>
               </div>
               <div className="div1">
@@ -394,17 +571,36 @@ const Dados: React.FC = () => {
                     name="nome"
                     type="text"
                     placeholder="nome"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className="input2">
-                  <h2>CPF/CNPJ</h2>
-
-                  <Input
-                    className="input"
-                    name="CPF"
-                    type="text"
-                    placeholder="CPF"
-                  />
+                  {gender === "fisica" ? (
+                    <>
+                      <h2>CPF</h2>
+                      <Input
+                        name="cpf"
+                        type="text"
+                        placeholder="CPF"
+                        className="input"
+                        value={documentNumber}
+                        onChange={(e) => setDocumentNumber(e.target.value)}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <h2>CNPJ</h2>
+                      <Input
+                        name="cnpj"
+                        type="text"
+                        placeholder="CNPJ"
+                        className="input"
+                        value={documentNumber}
+                        onChange={(e) => setDocumentNumber(e.target.value)}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
               <div className="div2">
@@ -412,8 +608,11 @@ const Dados: React.FC = () => {
                   <h2>CEP</h2>
                   <Input
                     className="input"
+                    maxLength={9}
                     name="CEP"
                     type="text"
+                    id="cep"
+                    onChange={handleCep}
                     placeholder="CEP"
                   />
                 </div>
@@ -422,25 +621,31 @@ const Dados: React.FC = () => {
                   <Input
                     className="input"
                     name="logradouro"
+                    id="logradouro"
                     type="text"
                     placeholder="logradouro"
+                    value={address.logradouro}
+                    onChange={handleAddress}
                   />
                 </div>
                 <div className="input5">
                   <h2>Bairro</h2>
                   <Input
                     className="input"
+                    id="bairro"
                     name="bairro"
                     type="text"
                     placeholder="bairro"
+                    value={address.bairro}
+                    onChange={handleAddress}
                   />
                 </div>
                 <div className="div3">
                   <div className="input6">
                     {/* cidade */}
-                    <h2 className="label" >Cidade</h2>
+                    <h2 className="label">Cidade</h2>
                     <select
-                    className="uf"
+                      className="uf"
                       name="city"
                       id="city"
                       value={selectedCity}
@@ -453,28 +658,27 @@ const Dados: React.FC = () => {
                         </option>
                       ))}
                     </select>
-                    </div>
-                    {/* cidade */}
-                    <div className="input7">
-                      {/* uf */}
-                      <h2 >Estado (UF)</h2>
-                      <select
-                      className="uf"
-                        name="uf"
-                        id="uf"
-                        value={selectedUF}
-                        onChange={handleSelectedUF}
-                      >
-                        <option value="0">Selecione uma UF</option>
-                        {ufs.map((uf) => (
-                          <option key={uf} value={uf}>
-                            {uf}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                  </div>
+                  {/* cidade */}
+                  <div className="input7">
                     {/* uf */}
-            
+                    <h2>Estado (UF)</h2>
+                    <select
+                      className="uf"
+                      name="uf"
+                      id="uf"
+                      value={selectedUF}
+                      onChange={handleSelectedUF}
+                    >
+                      <option value="0">Selecione uma UF</option>
+                      {ufs.map((uf) => (
+                        <option key={uf} value={uf}>
+                          {uf}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* uf */}
                 </div>
                 <div className="div4">
                   <div className="input8">
@@ -482,8 +686,11 @@ const Dados: React.FC = () => {
                     <Input
                       className="input"
                       name="numero"
+                      id="numero"
                       type="text"
                       placeholder="número"
+                      value={address.numero}
+                      onChange={handleAddress}
                     />
                   </div>
                   <div className="input9">
@@ -492,8 +699,11 @@ const Dados: React.FC = () => {
                     <Input
                       className="input2"
                       name="complemento"
+                      id="complemento"
                       type="text"
                       placeholder="complemento"
+                      value={address.complemento}
+                      onChange={handleAddress}
                     />
                   </div>
                 </div>
@@ -502,10 +712,18 @@ const Dados: React.FC = () => {
                 <Button
                   className="btnazul1"
                   isLoading={loading}
-                  type="submit"
+                  type="button"
                   onClick={() => {
-                    handleSubmit;
-                    handleLogin;
+                    history.push("/planos", {
+                      contractAccepted,
+                      officeId,
+                      userId,
+                      userEmail,
+                      userPhone,
+                      username,
+                      plano,
+                      token,
+                    });
                   }}
                 >
                   Escolher plano
@@ -514,20 +732,17 @@ const Dados: React.FC = () => {
                   className="btnazul"
                   isLoading={loading}
                   type="submit"
-                  onClick={() => {
-                    handleSubmit;
-                    handleLogin;
-                  }}
+                  // onClick={() => {
+                  //   handleSubmit;
+                  //   handleLogin;
+                  // }}
                 >
-             Dados de Pagamento
+                  Dados de Pagamento
                 </Button>
               </div>
             </Form>
           </div>
         </Blue>
-        {/* <button onClick={togglePasswordVisiblity} type="button" className="eye">
-        {passwordShown ? <FiEye size={21} /> : <FiEyeOff size={21} />}
-      </button> */}
       </Container>
     </div>
   );

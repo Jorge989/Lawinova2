@@ -1,13 +1,13 @@
 //2846445278933444
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { FiArrowLeft } from "react-icons/fi";
-import Logo from "../../assets/logolaw.svg";
+// import Logo from "../../assets/logolaw.svg";
 import Header2 from "../../Components/Header";
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import {
   Container,
@@ -24,7 +24,7 @@ import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { FiMail } from "react-icons/fi";
 import { FiLock } from "react-icons/fi";
-import {  useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Form } from "@unform/web";
 import getValidationErrors from "../../utils/getValidationErros";
 import * as Yup from "yup";
@@ -34,14 +34,67 @@ import { FiEyeOff } from "react-icons/fi";
 import { useAuth } from "../../hooks/auth";
 import { useToast } from "../../hooks/toast";
 import api from "../../services/api";
-// async function handleSignIn(){
-//   console.log('Logar');
-// }
+import { AxiosError } from "axios";
 
 interface SigInFormData {
   email: string;
   senha: string;
 }
+
+const plans = [
+  {
+    id: "0",
+    name: "individual",
+    value: 50,
+    offers: [
+      { id: "0", name: "ilimitado" },
+      { id: "1", name: "adicionar processos" },
+      { id: "2", name: "controle de equipe" },
+      { id: "3", name: "controle de clientes" },
+      { id: "4", name: "controle de despesas" },
+      { id: "5", name: "atualização histórico de processos" },
+      { id: "6", name: "controle de honorários" },
+      { id: "7", name: "dashboard gerencial" },
+      { id: "8", name: "alertas" },
+      { id: "9", name: "mapas" },
+    ],
+  },
+  {
+    id: "1",
+    name: "pro",
+    value: 100,
+    offers: [
+      { id: "0", name: "ilimitado" },
+      { id: "1", name: "adicionar processos" },
+      { id: "2", name: "controle de equipe" },
+      { id: "3", name: "controle de clientes" },
+      { id: "4", name: "controle de despesas" },
+      { id: "5", name: "atualização histórico de processos" },
+      { id: "6", name: "controle de honorários" },
+      { id: "7", name: "dashboard gerencial" },
+      { id: "8", name: "alertas" },
+      { id: "9", name: "mapas" },
+    ],
+  },
+  {
+    id: "2",
+    name: "premium",
+    value: 150,
+    offers: [
+      { id: "0", name: "ilimitado" },
+      { id: "1", name: "adicionar processos" },
+      { id: "2", name: "controle de equipe" },
+      { id: "3", name: "controle de clientes" },
+      { id: "4", name: "controle de despesas" },
+      { id: "5", name: "atualização histórico de processos" },
+      { id: "6", name: "controle de honorários" },
+      { id: "7", name: "dashboard gerencial" },
+      { id: "8", name: "alertas" },
+      { id: "9", name: "mapas" },
+    ],
+  },
+];
+
 const Planos: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
@@ -49,73 +102,132 @@ const Planos: React.FC = () => {
   const history = useHistory();
   const { addToast } = useToast();
 
-  const handleSubmit = useCallback(
-    async (data: SigInFormData): Promise<void> => {
-      setLoading(true);
-    
-      try {
-        formRef.current?.setErrors({});
-
-        const schema = Yup.object().shape({
-          nome: Yup.string().required("Nome obrigatório"),
-          email: Yup.string().required("E-mail obrigatório"),
-      
-          senha: Yup.string()
-            .trim()
-            .matches(
-              /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1}).*$/,
-              "senha deve conter pelo menos 8 caracteres, um número e um caractere especial"
-            )
-            .min(8, "No minimo 8 dígitos"),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
-        const response = await api.put("escritorio",{
-
-          plano: "fredwdwe"
-        });
-        history.push("/dados", {
-          
-        });
-        
-        // addToast({
-        //   type: "sucess",
-        //   title: "Cadastro realizado com sucesso",
-        // });
-
-   
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-        if (err instanceof Yup.ValidationError) {
-          console.log(err);
-          const errors = getValidationErrors(err);
-          formRef.current?.setErrors(errors);
-
-          // addToast({
-          //   type: "error",
-          //   title: "Erro na cadastro",
-          //   description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
-          // });
-          
-        }
-        // if (err.response?.data) {
-        //   addToast({
-        //     type: "error",
-        //     title: "Erro na cadastro",
-        //     description: `Usuário já cadastrado.
-        //     `,
-        //   });
-        // }
-      }
+  const {
+    state: {
+      plano,
+      officeId,
+      userId,
+      userEmail,
+      userPhone,
+      username,
+      token,
+      contractAccepted,
     },
-    [addToast]
-  );
+  } = useLocation<{
+    officeId: number;
+    plano: string;
+    token: string;
+    userId: number;
+    userPhone: string;
+    userEmail: string;
+    username: string;
+    contractAccepted?: boolean;
+  }>();
 
- 
+  const [planos, setPlanos] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [inputType, setInputType] = useState("password");
+
+  useEffect(() => {
+    setPlanos(plano);
+  }, []);
+
+  console.log("Planos", planos);
+  console.log("Planos TOKEN:", token);
+  console.log("officeId", officeId);
+  console.log("contractAccepted", contractAccepted);
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      formRef.current?.setErrors({});
+
+      // const schema = Yup.object().shape({
+      //   nome: Yup.string().required("Nome obrigatório"),
+      //   email: Yup.string().required("E-mail obrigatório"),
+
+      //   senha: Yup.string()
+      //     .trim()
+      //     .matches(
+      //       /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1}).*$/,
+      //       "senha deve conter pelo menos 8 caracteres, um número e um caractere especial"
+      //     )
+      //     .min(8, "No minimo 8 dígitos"),
+      // });
+
+      // await schema.validate(data, {
+      //   abortEarly: false,
+      // });
+
+      await api.put(
+        `escritorio/${officeId}`,
+        {
+          plano: planos,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!contractAccepted) {
+        return history.push({
+          pathname: "/contrato",
+          state: {
+            officeId,
+            userId,
+            userEmail,
+            userPhone,
+            username,
+            plano: planos,
+            token,
+          },
+        });
+      }
+
+      history.push({
+        pathname: "/dados",
+        state: {
+          officeId,
+          userId,
+          userEmail,
+          userPhone,
+          username,
+          plano: planos,
+          token,
+          contractAccepted,
+        },
+      });
+
+      // addToast({
+      //   type: "sucess",
+      //   title: "Cadastro realizado com sucesso",
+      // });
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      if (err instanceof Yup.ValidationError) {
+        console.log(err);
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+
+        // addToast({
+        //   type: "error",
+        //   title: "Erro na cadastro",
+        //   description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
+        // });
+      }
+      // if (err.response?.data) {
+      //   addToast({
+      //     type: "error",
+      //     title: "Erro na cadastro",
+      //     description: `Usuário já cadastrado.
+      //     `,
+      //   });
+      // }
+    }
+  };
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -143,7 +255,7 @@ const Planos: React.FC = () => {
   const responseFacebook = async (response: any) => {
     console.log(response);
     const { data } = await api.post("/autenticar", {
-      email: response.userID + "@facebook.com",
+      email: response.officeId + "@facebook.com",
     });
     setAuthData({ user: data.usuario, token: data.token });
   };
@@ -153,8 +265,6 @@ const Planos: React.FC = () => {
   };
 
   const eye = <FiEyeOff />;
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [inputType, setInputType] = useState("password");
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown === true ? false : true);
     setInputType(inputType === "password" ? "text" : "password");
@@ -164,115 +274,49 @@ const Planos: React.FC = () => {
 
   return (
     <div className="ehad">
-      <Header2>
-        
-      </Header2>
-    <Container>
-
-      <Blue>
-  
-
-      
-
-        <Form ref={formRef} onSubmit={handleSubmit}>
-       
-       
-          
-        
+      <Header2 />
+      <Container>
+        <Blue>
+          <Form ref={formRef} onSubmit={handleSubmit}>
             <section className="pricing-container">
-<h1>Planos e Preços</h1>
-<p>Selecione o plano perfeito para voçê</p>
-<div className="plans-container">
-  <div className="plan">
-    <ul>
-  
-      <li className="plan-name">INDIVIDUAL</li>
-      
-      <div className="hr" />
-      <div className="Valores">
-                    <h4 className="grana">R$50</h4>
-                    <h4 className="grana1">/Mês</h4>
-                  </div>
-      <li>ILIMITADO</li>
-      <li>ADICIONAR PROCESSOS</li>
-      <li>CONTROLE DE EQUIPE</li>
-      <li>CONTROLE DE CLIENTES</li>
-      <li>CONTROLE DE DESPESAS</li>
-         <li>ATUALIZAÇÃO HISTÓRICO DE PROCESSOS</li>
-         <li>CONTROLE DE HONORÁRIOS</li>
-         <li>DASHBOARD GERENCIAL</li>
-         <li>ALERTAS</li>
-         <li>MAPA</li>
+              <h1>Planos e Preços</h1>
+              <p>Selecione o plano perfeito para voçê</p>
+              <div className="plans-container">
+                {plans.map((plan) => (
+                  <div
+                    key={plan.id}
+                    className="plan"
+                    style={{
+                      borderColor: plan.name === planos ? "blue" : "#cccc",
+                    }}
+                    onClick={() => setPlanos(plan.name)}
+                  >
+                    <ul>
+                      <li className="plan-name">{plan.name.toUpperCase()}</li>
 
-    </ul>
-  </div>
-  <div className="plan">
-    <ul>
-    
-      <li className="plan-name">PRO</li>
-      <div className="hr" />
-      <div className="Valores">
-                    <h4 className="grana">R$100</h4>
-                    <h4 className="grana1">/Mês</h4>
-                  </div>
-      <li>ILIMITADO</li>
-      <li>ADICIONAR PROCESSOS</li>
-      <li>CONTROLE DE EQUIPE</li>
-      <li>CONTROLE DE CLIENTES</li>
-      <li>CONTROLE DE DESPESAS</li>
-         <li>ATUALIZAÇÃO HISTÓRICO DE PROCESSOS</li>
-         <li>CONTROLE DE HONORÁRIOS</li>
-         <li>DASHBOARD GERENCIAL</li>
-         <li>ALERTAS</li>
-         <li>MAPA</li>
- 
-    </ul>
-  </div>
-  <div className="plan">
-    <ul>
-     
-      <li className="plan-name">PREMIUM</li>
-      <div className="hr" />
-      <div className="Valores">
-                    <h4 className="grana">R$150</h4>
-                    <h4 className="grana1">/Mês</h4>
-                  </div>
-                  <li>ILIMITADO</li>
-      <li>ADICIONAR PROCESSOS</li>
-      <li>CONTROLE DE EQUIPE</li>
-      <li>CONTROLE DE CLIENTES</li>
-      <li>CONTROLE DE DESPESAS</li>
-         <li>ATUALIZAÇÃO HISTÓRICO DE PROCESSOS</li>
-         <li>CONTROLE DE HONORÁRIOS</li>
-         <li>DASHBOARD GERENCIAL</li>
-         <li>ALERTAS</li>
-         <li>MAPA</li>
-     
-    </ul>
-    
-  </div>
-        
-   </div>
-  
-          </section>
-    
+                      <div className="hr" />
+                      <div className="Valores">
+                        <h4 className="grana">R${plan.value}</h4>
+                        <h4 className="grana1">/Mês</h4>
+                      </div>
 
-          <div className="button">
-   <Button
-            className="btnazul"
-            type="submit"
-            isLoading={loading}
-            onClick={() => handleSubmit}
-          >
-            Confirmar
-          </Button>
-   </div>
-        </Form>
+                      {plan.offers.map((offer) => (
+                        <li key={offer.id}>{offer.name.toUpperCase()}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </section>
 
-  
-      </Blue>
-     
-    </Container>
+            <div className="button">
+              <Button className="btnazul" type="submit" isLoading={loading}>
+                Confirmar
+              </Button>
+            </div>
+          </Form>
+        </Blue>
+      </Container>
     </div>
   );
 };

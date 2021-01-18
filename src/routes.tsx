@@ -35,7 +35,7 @@ const Routes: React.FC = () => {
         exact
         component={Recuperarsenha}
       />
-      <Route path="/home" exact component={Homepage}  />
+      <Route path="/home" exact component={Homepage}/>
       <Route path="/trocarsenha" exact component={TrocarSenha}  />
       {<Route path="/planos" exact component={Planos} />}
       {<Route path="/meuplano" exact component={Meuplano} />}
