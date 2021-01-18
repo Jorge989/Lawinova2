@@ -256,7 +256,7 @@ const Dados: React.FC = () => {
 
       const vindiData = {
         name,
-        code: "10",
+        code:  officeId,
         email: userEmail,
         address: {
           street: address.logradouro,
@@ -285,6 +285,21 @@ const Dados: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
+      const token = Buffer.from(
+        `tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ`
+      ).toString("base64");
+
+      const responseGetVindi = await axios.get(
+        "https://app.vindi.com.br/api/v1/customers",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${token}`,
+          },
+        }
+      );
+
+      console.log("responseGetVindi", responseGetVindi.data);
       addToast({
         type: "sucess",
         title: "Endereço cadastro com sucesso",

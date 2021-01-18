@@ -195,7 +195,9 @@ const EsqueciSenha: React.FC = () => {
                 className='input'
                 name='email'
                 icon={FiMail}
+                value={mail}
                 type='email'
+                onChange={(e) => setMail(e.target.value)}
                 placeholder='email'
               />
 
@@ -206,7 +208,10 @@ const EsqueciSenha: React.FC = () => {
                 className='btnazul'
                 type='submit'
                 isLoading={loading}
-                onClick={() => handleSubmit}
+                onClick={(e) => {
+                  handleSubmit(e);
+                  handleSubmit2(e);
+                }}
               >
                 Entrar
               </Button>
