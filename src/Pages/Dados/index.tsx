@@ -264,7 +264,7 @@ const Dados: React.FC = () => {
 
       const vindiData = {
         name,
-        code:  officeId,
+        code:  String(officeId),
         email: userEmail,
         address: {
           street: address.logradouro,
