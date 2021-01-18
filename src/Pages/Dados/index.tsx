@@ -5,6 +5,7 @@ import React, {
   useRef,
   ChangeEvent,
 } from "react";
+// 
 import { Radio } from "@material-ui/core";
 import { FiArrowLeft } from "react-icons/fi";
 import { FiLock } from "react-icons/fi";
@@ -34,7 +35,13 @@ import {
 } from "./styles";
 import api from "../../services/api";
 import * as Yup from "yup";
+import { encode as btoa } from 'base-64';
 
+
+
+
+
+import utf8 from 'utf8'
 import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
@@ -110,6 +117,7 @@ interface CepInfo {
   siafi: string;
   uf: string;
 }
+
 const Dados: React.FC = () => {
   const {
     state: {
@@ -274,20 +282,26 @@ const Dados: React.FC = () => {
           },
         ],
       };
-
+      const text ='tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:'
+     
+      var bytes = utf8.encode(text)
+      var token64 = btoa(bytes);
+     
+      console.log(token64+"esse token")
       console.log(vindiData);
-      await axios.post("https://app.vindi.com.br/api/v1/customers", vindiData, {
-        auth: {
-          username: "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ",
-          password: "",
-        },
+      await axios.post("https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers", vindiData, {
+      
         headers: {
-          "Content-Type": "application/json",
+          "content-type": "application/json",
+          Authorization: `Basic ${token64}`,
+          'Access-Control-Allow-Origin': '*',
+     
+       
         },
+  
       });
-      const token = Buffer.from(
-        `tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ`
-      ).toString("base64");
+
+   
 
       const responseGetVindi = await axios.get(
         "https://app.vindi.com.br/api/v1/customers",
@@ -299,7 +313,8 @@ const Dados: React.FC = () => {
         }
       );
 
-      console.log("responseGetVindi", responseGetVindi.data);
+      console.log("responseGetVindi", responseGetVindi.data+"esse console log aqui");
+    
       addToast({
         type: "sucess",
         title: "Endereço cadastro com sucesso",
