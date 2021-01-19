@@ -299,7 +299,7 @@ const NovoCadastro: React.FC = () => {
 
     const { email: email_, familyName: nome_ } = data.profileObj;
 
-    history.push("/cadastroinfo", {
+    history.push("/planos", {
       loginDTO: {
         ...data,
         email: email_,
@@ -325,7 +325,7 @@ const NovoCadastro: React.FC = () => {
 
     const apiresponse = await api.post("usuarios", dadosCadastro);
 
-    history.push("/cadastroinfo", {
+    history.push("/planos", {
       loginDTO: {
         email: response.userID + "@facebook.com",
         nome: response.name,
@@ -398,7 +398,7 @@ const NovoCadastro: React.FC = () => {
                   icon={FiPhoneCall}
                   type="text"
                   value={tel}
-                  placeholder="(00)000000000"
+                  placeholder="55(00)000000000"
                   onChange={(e) => setTelefone(e.target.value)}
                 />
                 <h2>Email</h2>

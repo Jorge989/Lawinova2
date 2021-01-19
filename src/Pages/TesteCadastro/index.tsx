@@ -396,7 +396,7 @@ case "escritorio":
                   value={tel}
                   icon={FiPhoneCall}
                   type="text"
-                  placeholder="(00)000000000"
+                  placeholder="55(00)000000000"
                   onChange={(e) => setTelefone(e.target.value)}
                 />
                 <h2>Email</h2>
