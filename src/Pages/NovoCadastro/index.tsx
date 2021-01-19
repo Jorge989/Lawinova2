@@ -377,7 +377,7 @@ const NovoCadastro: React.FC = () => {
         <Blue>
           <div className="formBox">
             <h3>Cadastrar</h3>
-            <h1>{name}</h1>
+    
             <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="input1">
                 <h2>Nome</h2>

@@ -5,7 +5,7 @@ import React, {
   useRef,
   ChangeEvent,
 } from "react";
-// 
+//
 import { Radio } from "@material-ui/core";
 import { FiArrowLeft } from "react-icons/fi";
 import { FiLock } from "react-icons/fi";
@@ -35,13 +35,9 @@ import {
 } from "./styles";
 import api from "../../services/api";
 import * as Yup from "yup";
-import { encode as btoa } from 'base-64';
+import { encode as btoa } from "base-64";
 
-
-
-
-
-import utf8 from 'utf8'
+import utf8 from "utf8";
 import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
@@ -264,7 +260,7 @@ const Dados: React.FC = () => {
 
       const vindiData = {
         name,
-        code:  String(officeId),
+        code: officeId,
         email: userEmail,
         address: {
           street: address.logradouro,
@@ -282,39 +278,77 @@ const Dados: React.FC = () => {
           },
         ],
       };
-      const text ='tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:'
-     
-      var bytes = utf8.encode(text)
+      const text = "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:";
+
+      var bytes = utf8.encode(text);
       var token64 = btoa(bytes);
-     
-      console.log(token64+"esse token")
+
+      console.log(token64 + "esse token");
       console.log(vindiData);
-      await axios.post("https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers", vindiData, {
-      
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Basic ${token64}`,
-          'Access-Control-Allow-Origin': '*',
-     
-       
-        },
-  
-      });
 
-   
-
-      const responseGetVindi = await axios.get(
-        "https://app.vindi.com.br/api/v1/customers",
+      const responseVindi = await axios.post<{
+        customer: {
+          id: number;
+          name: string;
+          email: string;
+          registry_code: null;
+          code: string;
+          notes: null;
+          status: string;
+          created_at: string;
+          updated_at: string;
+          metadata: {};
+          address: {
+            street: string;
+            number: string;
+            additional_details: null;
+            zipcode: string;
+            neighborhood: string;
+            city: string;
+            state: string;
+            country: string;
+          };
+          phones: [
+            {
+              id: number;
+              phone_type: string;
+              number: string;
+              extension: null;
+            }
+          ];
+        };
+      }>(
+        "https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers",
+        vindiData,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Basic ${token}`,
+            Authorization: `Basic ${token64}`,
+            "Access-Control-Allow-Origin": "*",
           },
         }
       );
 
-      console.log("responseGetVindi", responseGetVindi.data+"esse console log aqui");
-    
+      console.log(responseVindi.data);
+
+      history.push("/detalhes", {
+        plano,
+        customerId: responseVindi.data.customer.id,
+      });
+
+      // const responseGetVindi = await axios.get(
+      //   "https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers",
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Basic ${token64}`,
+      //       "Access-Control-Allow-Origin": "*",
+      //     },
+      //   }
+      // );
+
+      // console.log("responseGetVindi", responseGetVindi.data);
+
       addToast({
         type: "sucess",
         title: "Endereço cadastro com sucesso",
