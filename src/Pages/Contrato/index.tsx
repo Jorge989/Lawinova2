@@ -41,13 +41,23 @@ const Contrato: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const {
-    state: { plano, officeId, userId, userEmail, userPhone, username, token },
+    state: {
+      plano,
+      officeId,
+      userId,
+      userEmail,
+      userPhone,
+      userPassword,
+      username,
+      token,
+    },
   } = useLocation<{
     officeId: number;
     userId: number;
     username: string;
     userEmail: string;
     userPhone: string;
+    userPassword: string;
     plano: string;
     token: string;
   }>();
@@ -63,6 +73,7 @@ const Contrato: React.FC = () => {
         userId,
         userEmail,
         userPhone,
+        userPassword,
         username,
         token,
       });

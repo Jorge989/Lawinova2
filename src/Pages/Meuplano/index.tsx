@@ -24,16 +24,21 @@ import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { FiMail } from "react-icons/fi";
 import { FiLock } from "react-icons/fi";
-import {  useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Form } from "@unform/web";
 import getValidationErrors from "../../utils/getValidationErros";
 import * as Yup from "yup";
+import axios from "axios";
+import utf8 from "utf8";
+import { encode as btoa } from "base-64";
+
 import { FormHandles } from "@unform/core";
 import { FiEye } from "react-icons/fi";
 import { FiEyeOff } from "react-icons/fi";
 import { useAuth } from "../../hooks/auth";
 import { useToast } from "../../hooks/toast";
 import api from "../../services/api";
+import PlansData from "../../data/PlansData";
 // async function handleSignIn(){
 //   console.log('Logar');
 // }
@@ -42,252 +47,292 @@ interface SigInFormData {
   email: string;
   senha: string;
 }
+
 const Meuplano: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [planId, setPlanId] = useState(0);
+  const [customerId, setCustomerId] = useState(0);
+  const [officeId, setOfficeId] = useState(0);
+  const [subscriptionId, setSubscriptionId] = useState(0);
+  const [plano, setPlano] = useState("");
+  // const [subscription, setSubscription] = useState<{
+  //   product_items: { product: { name: string } }[];
+  // }>();
   const formRef = useRef<FormHandles>(null);
   const { signIn, setAuthData } = useAuth();
   const history = useHistory();
   const { addToast } = useToast();
 
-  const handleSubmit = useCallback(
-    async (data: SigInFormData): Promise<void> => {
-      setLoading(true);
-    
-      try {
-        formRef.current?.setErrors({});
+  const privateApi = "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:";
+  const bytes = utf8.encode(privateApi);
+  const token64 = btoa(bytes);
+  const user = localStorage.getItem("@ActionLaw: user");
+  const token = localStorage.getItem("@ActionLaw: token");
+  const parsedUser: {
+    id_usuario: number;
+    nome: string;
+    status_usuario: string;
+    email: string;
+    tipo_conta: string;
+    perfil: string;
+  } = user && JSON.parse(user);
+  console.log("User", parsedUser);
 
-        const schema = Yup.object().shape({
-          nome: Yup.string().required("Nome obrigatório"),
-          email: Yup.string().required("E-mail obrigatório"),
-      
-          senha: Yup.string()
-            .trim()
-            .matches(
-              /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1}).*$/,
-              "senha deve conter pelo menos 8 caracteres, um número e um caractere especial"
-            )
-            .min(8, "No minimo 8 dígitos"),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
-        const response = await api.put("escritorio",{
-
-          plano: "fredwdwe"
-        });
-        history.push("/dados", {
-          
-        });
-        
-        // addToast({
-        //   type: "sucess",
-        //   title: "Cadastro realizado com sucesso",
-        // });
-
-   
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-        if (err instanceof Yup.ValidationError) {
-          console.log(err);
-          const errors = getValidationErrors(err);
-          formRef.current?.setErrors(errors);
-
-          // addToast({
-          //   type: "error",
-          //   title: "Erro na cadastro",
-          //   description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
-          // });
-          
+  useEffect(() => {
+    axios
+      .get(
+        "https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/plans",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${token64}`,
+          },
         }
-        // if (err.response?.data) {
-        //   addToast({
-        //     type: "error",
-        //     title: "Erro na cadastro",
-        //     description: `Usuário já cadastrado.
-        //     `,
-        //   });
-        // }
-      }
-    },
-    [addToast]
+      )
+      .then((response) => setPlanId(response.data.plans[0].id));
+
+    api
+      .get(`escritorios?nome=${parsedUser.nome}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("EscritorioID", response.data[0].id_escritorio);
+        setPlano(response.data[0].plano);
+        setOfficeId(response.data[0].id_escritorio);
+        axios
+          .get(
+            `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers?query=code=${response.data[0].id_escritorio}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Basic ${token64}`,
+              },
+            }
+          )
+          .then((response) => setCustomerId(response.data.customers[0].id));
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/subscriptions?query=customer_id=${customerId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${token64}`,
+          },
+        }
+      )
+      .then((response) =>
+        setSubscriptionId(response.data.subscriptions[0]?.id)
+      );
+  }, [customerId]);
+
+  console.log("PlanId", planId);
+  console.log("CustomerId", customerId);
+  console.log("Subscription", subscriptionId);
+
+  console.log("PLANO", plano);
+
+  const formattedDate = (date: string, time: string) => {
+    const splitedDate = date.split("/");
+    const changedDate = `${splitedDate[2]}-${splitedDate[1]}-${splitedDate[0]}`;
+    return `${changedDate}T${time}:03.000-03:00`;
+  };
+
+  console.log(
+    "Data:",
+    formattedDate(
+      new Date().toLocaleDateString(),
+      new Date().toLocaleTimeString()
+    )
   );
 
- 
+  const handleSubmit = async () => {
+    setLoading(true);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [url, setUrl] = useState("");
+    try {
+      formRef.current?.setErrors({});
 
-  const responseGoogle = async (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): Promise<void> => {
-    if (!("profileObj" in response)) return;
-    setName(response.profileObj.name);
-    setEmail(response.profileObj.email);
-    setUrl(response.profileObj.imageUrl);
-    const { data } = await api.post("/autenticar", {
-      email: response.profileObj.email,
+      console.log("Aqui", officeId, plano, subscriptionId);
+
+      const responseProduct = await axios.get<{
+        products: {
+          id: number;
+          name: string;
+          code: null;
+          unit: string;
+          status: string;
+          description: string;
+          invoice: string;
+          created_at: string;
+          updated_at: string;
+          pricing_schema: {
+            id: number;
+            short_format: string;
+            price: string;
+            minimum_price: null;
+            schema_type: string;
+            pricing_ranges: [];
+            created_at: string;
+          };
+          metadata: {};
+        }[];
+      }>(
+        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/products?query=name=${plano}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${token64}`,
+          },
+        }
+      );
+
+      console.log("ProductId", responseProduct.data.products[0].id);
+
+      const updatedSubscription = {
+        plan_id: planId,
+        customer_id: customerId,
+        payment_method_code: "credit_card",
+        product_items: [{ product_id: responseProduct.data.products[0].id }],
+      };
+      console.log("updatedSubscription", updatedSubscription);
+
+      const responseSubscriptions = await axios.put(
+        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/subscriptions/${subscriptionId}`,
+        updatedSubscription,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${token64}`,
+          },
+        }
+      );
+
+      console.log("responseSubscriptions", responseSubscriptions.data);
+
+      await api.put(
+        `escritorio/${officeId}`,
+        {
+          plano,
+          data_inicio_plano: new Date(),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      console.log("Error", err);
+      console.log("Error", err.response?.data);
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+
+        // addToast({
+        //   type: "error",
+        //   title: "Erro na cadastro",
+        //   description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
+        // });
+      }
+    }
+  };
+
+  const handleCancelSubscription = async () => {
+    await axios.delete(
+      `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/subscriptions/${subscriptionId}`,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${token64}`,
+        },
+      }
+    );
+
+    await api.put(
+      `escritorio/${officeId}`,
+      {
+        plano: "cancelado",
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    addToast({
+      type: "sucess",
+      title: "Plano cancelado com sucesso",
     });
-    setAuthData({ user: data.usuario, token: data.token });
 
-    console.log(data);
+    setLoading(false);
   };
-
-  const responseGoogleFailed = (response: GoogleLoginResponse): void => {
-    console.log(response);
-  };
-
-  const responseFacebook = async (response: any) => {
-    console.log(response);
-    const { data } = await api.post("/autenticar", {
-      email: response.userID + "@facebook.com",
-    });
-    setAuthData({ user: data.usuario, token: data.token });
-  };
-
-  const componetClicked = (data: any) => {
-    console.warn(data);
-  };
-
-  const eye = <FiEyeOff />;
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [inputType, setInputType] = useState("password");
-  const togglePasswordVisiblity = () => {
-    setPasswordShown(passwordShown === true ? false : true);
-    setInputType(inputType === "password" ? "text" : "password");
-  };
-
-  <i onClick={togglePasswordVisiblity}>{eye}</i>;
 
   return (
     <div className="ehad">
-      <Header2>
-        
-      </Header2>
-    <Container>
-
-      <Blue>
-  
-
-      
-
-        <Form ref={formRef} onSubmit={handleSubmit}>
-       
-       
-          
-        
+      <Header2 />
+      <Container>
+        <Blue>
+          <Form ref={formRef} onSubmit={handleSubmit}>
             <section className="pricing-container">
-<h1>Meu Plano</h1>
-<p>SMART</p>
-<div className="plans-container">
-  <div className="plan">
-    <ul>
-  
-      <li className="plan-name">INDIVIDUAL</li>
-      
-      <div className="hr" />
-      <div className="Valores">
-                    <h4 className="grana">R$50</h4>
-                    <h4 className="grana1">/Mês</h4>
-                  </div>
-      <li>ILIMITADO</li>
-      <li>ADICIONAR PROCESSOS</li>
-      <li>CONTROLE DE EQUIPE</li>
-      <li>CONTROLE DE CLIENTES</li>
-      <li>CONTROLE DE DESPESAS</li>
-         <li>ATUALIZAÇÃO HISTÓRICO DE PROCESSOS</li>
-         <li>CONTROLE DE HONORÁRIOS</li>
-         <li>DASHBOARD GERENCIAL</li>
-         <li>ALERTAS</li>
-         <li>MAPA</li>
+              <h1>Meu Plano</h1>
+              <p>SMART</p>
+              <div className="plans-container">
+                {PlansData.map((plan) => (
+                  <div
+                    key={plan.id}
+                    className="plan"
+                    style={{
+                      borderColor:
+                        plano && plan.code === plano ? "blue" : "#cccc",
+                    }}
+                    onClick={() => setPlano(plan.code)}
+                  >
+                    <ul>
+                      <li className="plan-name">{plan.name.toUpperCase()}</li>
 
-    </ul>
-  </div>
-  <div className="plan">
-    <ul>
-    
-      <li className="plan-name">PRO</li>
-      <div className="hr" />
-      <div className="Valores">
-                    <h4 className="grana">R$100</h4>
-                    <h4 className="grana1">/Mês</h4>
+                      <div className="hr" />
+                      <div className="Valores">
+                        <h4 className="grana">R${plan.value}</h4>
+                        <h4 className="grana1">/Mês</h4>
+                      </div>
+
+                      {plan.offers.map((offer) => (
+                        <li key={offer.id}>{offer.name.toUpperCase()}</li>
+                      ))}
+                    </ul>
                   </div>
-      <li>ILIMITADO</li>
-      <li>ADICIONAR PROCESSOS</li>
-      <li>CONTROLE DE EQUIPE</li>
-      <li>CONTROLE DE CLIENTES</li>
-      <li>CONTROLE DE DESPESAS</li>
-         <li>ATUALIZAÇÃO HISTÓRICO DE PROCESSOS</li>
-         <li>CONTROLE DE HONORÁRIOS</li>
-         <li>DASHBOARD GERENCIAL</li>
-         <li>ALERTAS</li>
-         <li>MAPA</li>
- 
-    </ul>
-  </div>
-  <div className="plan">
-    <ul>
-     
-      <li className="plan-name">PREMIUM</li>
-      <div className="hr" />
-      <div className="Valores">
-                    <h4 className="grana">R$150</h4>
-                    <h4 className="grana1">/Mês</h4>
-                  </div>
-                  <li>ILIMITADO</li>
-      <li>ADICIONAR PROCESSOS</li>
-      <li>CONTROLE DE EQUIPE</li>
-      <li>CONTROLE DE CLIENTES</li>
-      <li>CONTROLE DE DESPESAS</li>
-         <li>ATUALIZAÇÃO HISTÓRICO DE PROCESSOS</li>
-         <li>CONTROLE DE HONORÁRIOS</li>
-         <li>DASHBOARD GERENCIAL</li>
-         <li>ALERTAS</li>
-         <li>MAPA</li>
-     
-    </ul>
-    
-  </div>
-        
-   </div>
-  
-          </section>
-    
-          <div className="btnblue">
-     
-          <Button
-                  className="btnazul1"
-                  isLoading={loading}
-                  type="submit"
-                  onClick={() => {
-                    handleSubmit
-              
-                  }}
-                >
+                ))}
+              </div>
+            </section>
+
+            <div className="btnblue">
+              <Button
+                className="btnazul1"
+                isLoading={loading}
+                type="button"
+                onClick={handleCancelSubscription}
+              >
                 Cancelar Plano
-                </Button>
-          <Button
-                  className="btnazul"
-                  isLoading={loading}
-                  type="submit"
-                  onClick={() => {
-                    handleSubmit
-                 
-                  }}
-                >
-                  Confirmar
-                </Button>
-
-   </div>
-        </Form>
-
-  
-      </Blue>
-     
-    </Container>
+              </Button>
+              <Button className="btnazul" isLoading={loading} type="submit">
+                Confirmar
+              </Button>
+            </div>
+          </Form>
+        </Blue>
+      </Container>
     </div>
   );
 };

@@ -194,7 +194,7 @@ const Login: React.FC = () => {
               </div>
 
               <button className='cadastre'>
-                <a href={`/novocadastro/plano=pro`}>Cadastre-se</a>
+                <a href={`/novocadastro/plano=plano2`}>Cadastre-se</a>
               </button>
               <button className="esqueci">
             <a href="esquecisenha">Esqueceu sua senha?</a>

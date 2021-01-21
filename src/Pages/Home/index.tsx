@@ -3,6 +3,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { BsFillQuestionOctagonFill } from "react-icons/bs";
 import Header from "../../Components/Header";
 import { FiPlus } from "react-icons/fi";
+import { useAuth } from "../../hooks/auth";
 import { FiMinus } from "react-icons/fi";
 import {
   GoogleLoginResponse,
@@ -10,7 +11,7 @@ import {
 } from "react-google-login";
 import {
   Container,
-
+Sair,
   Blue,
  
 } from "./styles";
@@ -29,6 +30,7 @@ const Login: React.FC = () => {
   const [isShow3, setIsShow3] = useState(false);
   const [isShow4, setIsShow4] = useState(false);
   const [isShow5, setIsShow5] = useState(false);
+  const { signOut, user: any } = useAuth();
     const responseGoogleFailed = (response: GoogleLoginResponse): void => {};
   useEffect(() => {
     const script = document.createElement("script");
@@ -50,8 +52,16 @@ const Login: React.FC = () => {
   }, 1000);
   return (
     <div>
-      <Header />
-
+      <Header>
+    
+      <Sair>
+          <button onClick={signOut}>Sair</button>
+          <button onClick={() => setIsShow(!isShow)}>
+          <h1 className="menuzinho">Menu</h1>
+          </button>
+          </Sair>
+      </Header>
+     
       <Container>
         <Blue>
        

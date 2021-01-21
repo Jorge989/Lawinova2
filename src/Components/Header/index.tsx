@@ -16,6 +16,10 @@ NavBtnLink,
  
   } from "./styles";
 import Logo from "../../assets/principal.png";
+interface HeaderProps {
+  Sair: object;
+  style: object;
+}
 const Header: React.FC = () => {
   const [isShow, setIsShow] = useState(false);
   return (

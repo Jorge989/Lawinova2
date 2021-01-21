@@ -220,6 +220,7 @@ const NovoCadastro: React.FC = () => {
           username: response.data.usuario.nome,
           userEmail: data.email,
           userPhone: data.telefone,
+          userPassword: data.senha,
         });
         addToast({
           type: "sucess",
@@ -377,7 +378,7 @@ const NovoCadastro: React.FC = () => {
         <Blue>
           <div className="formBox">
             <h3>Cadastrar</h3>
-    
+
             <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="input1">
                 <h2>Nome</h2>

@@ -117,6 +117,7 @@ export const Blue = styled.div`
     .btnazul {
       text-align: center;
       margin-top: 11%;
+    
     }
 
     .cadastre {

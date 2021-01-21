@@ -37,84 +37,57 @@ import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useToast } from "../../hooks/toast";
-interface SigInFormData {
-  email: string;
-  senha: string;
-  nome: string;
-}
-interface LocationState {
-  token: string;
-}
-interface MyValues {
-  state: string;
-}
+import PlansData from "../../data/PlansData";
+import { useAuth } from "../../hooks/auth";
 
-interface Usuario {
-  date_insert: string;
-  email: string;
-  id_usuario: number;
-  ip_insert: string;
-  nome: string;
-  status_usuario: string;
-  time_insert: string;
-  tipo_conta: string;
-  user_insert: string;
-}
-interface LoginDTO {
-  senha: string;
-  email: string;
-  nome: string;
-}
-
-interface UserData {
-  token: string;
-  usuario: Usuario;
-}
-
-interface PushedHistory {
-  loginDTO: LoginDTO;
-  userData: UserData;
-}
-
-interface SigInFormData {
-  email: string;
-  senha: string;
-}
-interface MyValues {
-  state: string;
-}
-interface Item {
-  id: number;
-  title: string;
-  image_url: string;
-}
-interface IBGEUFResponse {
-  sigla: string;
-}
-
-interface IBGECityResponse {
-  nome: string;
-}
 const Detalhes: React.FC = () => {
+  const { signIn } = useAuth();
   const {
-    state: { plano, customerId },
+    state: {
+      plano,
+      customerId,
+      phoneId,
+      contractAccepted,
+      officeId,
+      token,
+      userEmail,
+      userId,
+      userPhone,
+      userPassword,
+      username,
+    },
   } = useLocation<{
     customerId: number;
+    phoneId: number;
     plano: string;
     contractAccepted: boolean;
     officeId: number;
     token: string;
     userId: number;
     userPhone: string;
+    userPassword: string;
     userEmail: string;
     username: string;
-    email: string;
   }>();
 
-  console.log("Params Dados", plano, customerId);
+  console.log(
+    "Params Dados",
+    plano,
+    customerId,
+    phoneId,
+    contractAccepted,
+    officeId,
+    token,
+    userEmail,
+    userId,
+    userPhone,
+    userPassword,
+    username
+  );
+
+  console.log("CustomerId", customerId);
 
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({});
   const [planId, setPlanId] = useState(0);
   const [productId, setProductId] = useState(0);
   const [paymentData, setPaymentData] = useState({
@@ -129,18 +102,24 @@ const Detalhes: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
 
-  const plans: { [key: string]: string } = {
-    individual: "Plano1",
-    pro: "Plano2",
-    premium: "Plano3",
-  };
+  const chosenPlan:
+    | {
+        id: string;
+        name: string;
+        value: number;
+        offers: {
+          id: string;
+          name: string;
+        }[];
+      }
+    | undefined = PlansData.find((plan) => plan.code === plano);
 
   const privateApi = "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:";
   const publicApi = "39zh9E2rTCZAZ_Vu1-qbIbty-7KUciSaw0Ssd7s5bhg";
   const bytes = utf8.encode(privateApi);
   const token64 = btoa(bytes);
   const publicToken64 = btoa(utf8.encode(publicApi));
-  // console.log(token64 + "esse token");
+  console.log(token64 + "esse token");
 
   useEffect(() => {
     axios
@@ -157,7 +136,7 @@ const Detalhes: React.FC = () => {
 
     axios
       .get(
-        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/products?query=name=${plans[plano]}`,
+        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/products?query=name=${plano}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -243,6 +222,8 @@ const Detalhes: React.FC = () => {
           },
         }
       );
+
+      await signIn({ email: userEmail, senha: userPassword });
 
       addToast({
         type: "sucess",
@@ -369,26 +350,19 @@ const Detalhes: React.FC = () => {
                     <h2 className="resumopedido">Resumo do pedido</h2>
                     <hr />
                     <div className="planoS">
-                      <h4>Plano Smart</h4>
-                      <h4 className="money">R$ 300,00</h4>
+                      <h4>Plano {chosenPlan?.name}</h4>
+                      <h4 className="money">R$ {chosenPlan?.value}</h4>
                     </div>
                     <div className="resumodoplano">
                       <h4>Resumo do Plano</h4>
                       <ul>
-                        <li>Ilimitado</li>
-                        <li>Adicionar processos</li>
-                        <li>Controle de equipe</li>
-                        <li>Controle de clientes</li>
-                        <li>Controle de despesas</li>
-                        <li>Atualização historíco de processos</li>
-                        <li>Controle de honorários</li>
-                        <li>dashboard gerencial</li>
-                        <li>Alertas</li>
-                        <li>Mapa</li>
+                        {chosenPlan?.offers.map((offer) => (
+                          <li key={offer.id}>{offer.name}</li>
+                        ))}
                       </ul>
                       <div className="planoS2">
                         <h4>Total:</h4>
-                        <h4 className="money2">R$ 300,00</h4>
+                        <h4 className="money2">R$ {chosenPlan?.value}</h4>
                       </div>
                     </div>
                     <hr className="hr2" />
@@ -398,25 +372,26 @@ const Detalhes: React.FC = () => {
               <div className="btnblue">
                 <Button
                   className="btnazul1"
-                  // isLoading={loading}
                   type="button"
-                  // onClick={() => {
-                  //   handleSubmit;
-                  //   handleLogin;
-                  // }}
+                  onClick={() => {
+                    history.push("/dados", {
+                      plano,
+                      customerId,
+                      phoneId,
+                      contractAccepted,
+                      officeId,
+                      token,
+                      userEmail,
+                      userId,
+                      userPhone,
+                      userPassword,
+                      username,
+                    });
+                  }}
                 >
                   Dados de Indentificação
                 </Button>
-                <Button
-                  className="btnazul"
-                  isLoading={loading}
-                  type="submit"
-                  // onClick={() => {
-                  //   handleSubmit;
-                  //   handleLogin;
-                  // }}
-                  
-                >
+                <Button className="btnazul" isLoading={loading} type="submit">
                   Confirmar
                 </Button>
               </div>

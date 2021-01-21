@@ -22,10 +22,13 @@ import Faq2 from "./Pages/Faq2";
 const Routes: React.FC = () => {
   return (
     <BrowserRouter>
-     
       <Route path="/login" exact component={Login} />
       <Route path="/novocadastro/plano=:plano" exact component={NovoCadastro} />
-      <Route path="/testecadastro/plano=:plano" exact component={TesteCadastro} />
+      <Route
+        path="/testecadastro/plano=:plano"
+        exact
+        component={TesteCadastro}
+      />
       <Route path="/cadastroinfo" exact component={Cadastroinfo} />
       <Route path="/faq" exact component={Faq} />
       <Route path="/faq2" exact component={Faq2} />
@@ -35,10 +38,10 @@ const Routes: React.FC = () => {
         exact
         component={Recuperarsenha}
       />
-      <Route path="/home" exact component={Homepage}/>
-      <Route path="/trocarsenha" exact component={TrocarSenha}  />
+      <Route path="/home" exact isPrivate component={Homepage} />
+      <Route path="/trocarsenha" exact component={TrocarSenha} />
       {<Route path="/planos" exact component={Planos} />}
-      {<Route path="/meuplano" exact component={Meuplano} />}
+      {<Route path="/meuplano" exact isPrivate component={Meuplano} />}
       {<Route path="/dados" exact component={Dados} />}
       {<Route path="/contrato" exact component={Contrato} />}
       {<Route path="/detalhes" exact component={Detalhes} />}

@@ -256,10 +256,7 @@ border: none;
         justify-content: center;
         align-items: center;
 
-        & + div {
-          margin-top: 4%;
-          border: 1px solid #c4c4c4;
-        }
+    
       }
       input .cadastre {
         width: 100%;
@@ -374,10 +371,6 @@ border: none;
       justify-content: center;
       align-items: center;
 
-      & + div {
-        margin-top: 4%;
-        border: 1px solid #c4c4c4;
-      }
     }
       button {
         width: fit-content;
@@ -400,10 +393,7 @@ border: none;
         justify-content: center;
         align-items: center;
 
-        & + div {
-          margin-top: 4%;
-          border: 1px solid #c4c4c4;
-        }
+      
       }
 
       .cadastre {

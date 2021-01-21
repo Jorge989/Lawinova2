@@ -114,6 +114,39 @@ interface CepInfo {
   uf: string;
 }
 
+interface VindiCustomerResponse {
+  customer: {
+    id: number;
+    name: string;
+    email: string;
+    registry_code: null;
+    code: string;
+    notes: null;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    metadata: {};
+    address: {
+      street: string;
+      number: string;
+      additional_details: null;
+      zipcode: string;
+      neighborhood: string;
+      city: string;
+      state: string;
+      country: string;
+    };
+    phones: [
+      {
+        id: number;
+        phone_type: string;
+        number: string;
+        extension: null;
+      }
+    ];
+  };
+}
+
 const Dados: React.FC = () => {
   const {
     state: {
@@ -122,11 +155,16 @@ const Dados: React.FC = () => {
       userId,
       userPhone,
       userEmail,
+      userPassword,
       username,
       plano,
       token,
+      customerId,
+      phoneId,
     },
   } = useLocation<{
+    customerId?: number;
+    phoneId?: number;
     contractAccepted: boolean;
     officeId: number;
     plano: string;
@@ -134,8 +172,8 @@ const Dados: React.FC = () => {
     userId: number;
     userPhone: string;
     userEmail: string;
+    userPassword: string;
     username: string;
-    email: string;
   }>();
 
   console.log(
@@ -144,10 +182,13 @@ const Dados: React.FC = () => {
     officeId,
     userId,
     userEmail,
+    userPassword,
     userPhone,
     username,
     plano,
-    token
+    token,
+    customerId,
+    phoneId
   );
 
   const [loading, setLoading] = useState(false);
@@ -187,23 +228,6 @@ const Dados: React.FC = () => {
     try {
       formRef.current?.setErrors({});
 
-      // const schema = Yup.object().shape({
-      //   nome: Yup.string().required("Nome obrigatório"),
-      //   email: Yup.string().required("E-mail obrigatório"),
-
-      //   senha: Yup.string()
-      //     .trim()
-      //     .matches(
-      //       /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1}).*$/,
-      //       "senha deve conter pelo menos 8 caracteres, um número e um caractere especial"
-      //     )
-      //     .min(8, "No minimo 8 dígitos"),
-      // });
-
-      // await schema.validate(data, {
-      //   abortEarly: false,
-      // });
-
       console.log("tipo_documento", gender === "fisica" ? "CPF" : "CNPJ");
       console.log("documento", documentNumber);
 
@@ -220,43 +244,6 @@ const Dados: React.FC = () => {
         pais: "Brasil",
         cep: address.cep,
       };
-
-      // console.log(addressData);
-
-      // const responseOffice = await axios.put(
-      //   `https://inova-actionsys.herokuapp.com/escritorio/${officeId}`,
-      //   {
-      //     tipo_documento: gender === "fisica" ? "CPF" : "CNPJ",
-      //     documento: documentNumber,
-      //   },
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-
-      // await api.put(
-      //   `escritorio/${officeId}`,
-      //   {
-      //     tipo_documento: gender === "fisica" ? "CPF" : "CNPJ",
-      //     documento: documentNumber,
-      //   },
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-
-      // await api.post("enderecos", addressData, {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
 
       const vindiData = {
         name,
@@ -278,6 +265,7 @@ const Dados: React.FC = () => {
           },
         ],
       };
+
       const text = "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:";
 
       var bytes = utf8.encode(text);
@@ -286,40 +274,94 @@ const Dados: React.FC = () => {
       console.log(token64 + "esse token");
       console.log(vindiData);
 
-      const responseVindi = await axios.post<{
-        customer: {
-          id: number;
-          name: string;
-          email: string;
-          registry_code: null;
-          code: string;
-          notes: null;
-          status: string;
-          created_at: string;
-          updated_at: string;
-          metadata: {};
-          address: {
-            street: string;
-            number: string;
-            additional_details: null;
-            zipcode: string;
-            neighborhood: string;
-            city: string;
-            state: string;
-            country: string;
-          };
-          phones: [
-            {
-              id: number;
-              phone_type: string;
-              number: string;
-              extension: null;
-            }
-          ];
-        };
-      }>(
-        "https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers",
-        vindiData,
+      if (!customerId) {
+        console.log("Não tem customerId");
+        await api.put(
+          `escritorio/${officeId}`,
+          {
+            tipo_documento: gender === "fisica" ? "CPF" : "CNPJ",
+            documento: documentNumber,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        await api.post("enderecos", addressData, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const responseVindi = await axios.post<VindiCustomerResponse>(
+          "https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers",
+          vindiData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Basic ${token64}`,
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        );
+
+        console.log(responseVindi.data.customer.id);
+
+        console.log(responseVindi.data.customer.phones[0].id);
+        return history.push("/detalhes", {
+          plano,
+          customerId: responseVindi.data.customer.id,
+          phoneId: responseVindi.data.customer.phones[0].id,
+          contractAccepted,
+          officeId,
+          userId,
+          userEmail,
+          userPassword,
+          userPhone,
+          username,
+          token,
+        });
+      }
+
+      await api.put(
+        `escritorio/${officeId}`,
+        {
+          tipo_documento: gender === "fisica" ? "CPF" : "CNPJ",
+          documento: documentNumber,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      await api.put(`enderecos/${officeId}/${userId}`, addressData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const updatedVindiData = {
+        ...vindiData,
+        phones: [
+          {
+            id: phoneId,
+            phone_type: "mobile",
+            number: userPhone,
+          },
+        ],
+      };
+
+      await axios.put<VindiCustomerResponse>(
+        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers/${customerId}`,
+        updatedVindiData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -329,11 +371,18 @@ const Dados: React.FC = () => {
         }
       );
 
-      console.log(responseVindi.data);
-
       history.push("/detalhes", {
         plano,
-        customerId: responseVindi.data.customer.id,
+        customerId,
+        phoneId,
+        contractAccepted,
+        officeId,
+        userId,
+        userEmail,
+        userPassword,
+        userPhone,
+        username,
+        token,
       });
 
       // const responseGetVindi = await axios.get(
@@ -780,9 +829,12 @@ const Dados: React.FC = () => {
                   onClick={() => {
                     history.push("/planos", {
                       contractAccepted,
+                      customerId,
+                      phoneId,
                       officeId,
                       userId,
                       userEmail,
+                      userPassword,
                       userPhone,
                       username,
                       plano,
@@ -792,15 +844,7 @@ const Dados: React.FC = () => {
                 >
                   Escolher plano
                 </Button>
-                <Button
-                  className="btnazul"
-                  isLoading={loading}
-                  type="submit"
-                  // onClick={() => {
-                  //   handleSubmit;
-                  //   handleLogin;
-                  // }}
-                >
+                <Button className="btnazul" isLoading={loading} type="submit">
                   Dados de Pagamento
                 </Button>
               </div>

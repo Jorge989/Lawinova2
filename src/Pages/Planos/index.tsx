@@ -35,65 +35,12 @@ import { useAuth } from "../../hooks/auth";
 import { useToast } from "../../hooks/toast";
 import api from "../../services/api";
 import { AxiosError } from "axios";
+import PlansData from "../../data/PlansData";
 
 interface SigInFormData {
   email: string;
   senha: string;
 }
-
-const plans = [
-  {
-    id: "0",
-    name: "individual",
-    value: 50,
-    offers: [
-      { id: "0", name: "ilimitado" },
-      { id: "1", name: "adicionar processos" },
-      { id: "2", name: "controle de equipe" },
-      { id: "3", name: "controle de clientes" },
-      { id: "4", name: "controle de despesas" },
-      { id: "5", name: "atualização histórico de processos" },
-      { id: "6", name: "controle de honorários" },
-      { id: "7", name: "dashboard gerencial" },
-      { id: "8", name: "alertas" },
-      { id: "9", name: "mapas" },
-    ],
-  },
-  {
-    id: "1",
-    name: "pro",
-    value: 100,
-    offers: [
-      { id: "0", name: "ilimitado" },
-      { id: "1", name: "adicionar processos" },
-      { id: "2", name: "controle de equipe" },
-      { id: "3", name: "controle de clientes" },
-      { id: "4", name: "controle de despesas" },
-      { id: "5", name: "atualização histórico de processos" },
-      { id: "6", name: "controle de honorários" },
-      { id: "7", name: "dashboard gerencial" },
-      { id: "8", name: "alertas" },
-      { id: "9", name: "mapas" },
-    ],
-  },
-  {
-    id: "2",
-    name: "premium",
-    value: 150,
-    offers: [
-      { id: "0", name: "ilimitado" },
-      { id: "1", name: "adicionar processos" },
-      { id: "2", name: "controle de equipe" },
-      { id: "3", name: "controle de clientes" },
-      { id: "4", name: "controle de despesas" },
-      { id: "5", name: "atualização histórico de processos" },
-      { id: "6", name: "controle de honorários" },
-      { id: "7", name: "dashboard gerencial" },
-      { id: "8", name: "alertas" },
-      { id: "9", name: "mapas" },
-    ],
-  },
-];
 
 const Planos: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -112,6 +59,9 @@ const Planos: React.FC = () => {
       username,
       token,
       contractAccepted,
+      customerId,
+      phoneId,
+      userPassword,
     },
   } = useLocation<{
     officeId: number;
@@ -120,8 +70,11 @@ const Planos: React.FC = () => {
     userId: number;
     userPhone: string;
     userEmail: string;
+    userPassword: string;
     username: string;
     contractAccepted?: boolean;
+    customerId?: number;
+    phoneId?: number;
   }>();
 
   const [planos, setPlanos] = useState("");
@@ -182,6 +135,7 @@ const Planos: React.FC = () => {
             username,
             plano: planos,
             token,
+            userPassword,
           },
         });
       }
@@ -197,6 +151,9 @@ const Planos: React.FC = () => {
           plano: planos,
           token,
           contractAccepted,
+          customerId,
+          phoneId,
+          userPassword,
         },
       });
 
@@ -282,14 +239,14 @@ const Planos: React.FC = () => {
               <h1>Planos e Preços</h1>
               <p>Selecione o plano perfeito para voçê</p>
               <div className="plans-container">
-                {plans.map((plan) => (
+                {PlansData.map((plan) => (
                   <div
                     key={plan.id}
                     className="plan"
                     style={{
-                      borderColor: plan.name === planos ? "blue" : "#cccc",
+                      borderColor: plan.code === planos ? "blue" : "#cccc",
                     }}
-                    onClick={() => setPlanos(plan.name)}
+                    onClick={() => setPlanos(plan.code)}
                   >
                     <ul>
                       <li className="plan-name">{plan.name.toUpperCase()}</li>

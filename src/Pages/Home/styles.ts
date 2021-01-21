@@ -372,6 +372,7 @@ height:70%;
     }
     
   }
+  
   @media screen and (max-width: 900px) {
     display: flex;
   justify-content: center;
@@ -1059,6 +1060,10 @@ export const Draw = styled(DrawCadastro)`
     width: 70px;
     height: 70px;
   }
+`;
+export const Sair = styled.div`
+background-color:red;
+z-index:999;
 `;
 
 export const Lockicon1 = styled(Lock)``;
