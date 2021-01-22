@@ -9,3 +9,4 @@ export { Googleicon as Go } from "../assets/Icons/Googleicon";
 export { Facebookicon as face } from "../assets/Icons/Facebookicon";
 export { Drawinfo as Drawinfo } from "../assets/Icons/Drawinfo";
 export { Cinzaicon as CinzaIcon } from "../assets/Icons/Cinza";
+export { Personicon as Personicon } from "../assets/Icons/Person";

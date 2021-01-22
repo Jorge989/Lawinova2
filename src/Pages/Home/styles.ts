@@ -3,6 +3,7 @@ import { DrawCadastro } from "../../styles/icons";
 import { Lock } from "../../styles/icons";
 import { Go } from "../../styles/icons";
 import { face } from "../../styles/icons";
+import { Personicon } from "../../styles/icons";
 import { GoogleLogin as CustomGoogleLogin } from "react-google-login";
 export const Container = styled.div`
   display: flex;
@@ -1062,10 +1063,92 @@ export const Draw = styled(DrawCadastro)`
   }
 `;
 export const Sair = styled.div`
-background-color:red;
-z-index:999;
-`;
+display:flex;
+justify-content: space-between;
 
+
+border-radius:6%;
+
+z-index:3;
+margin-left:255px;
+button{
+  display:flex;
+justify-content: center;
+outline:0;
+  font-size:22px;
+  cursor: pointer;
+  .logo{
+    display:flex;
+    justify-content:center;
+    height:30px;
+    margin-left:15px;
+
+  }
+  &:hover {
+          color: #007aff;
+        }
+}
+`;
+export const Menu = styled.div`
+ 
+ background-color:#696563;
+border-radius:3px;
+display:flex;
+/* display:none; */
+position: static;
+z-index:10;
+
+right:0;
+margin-left:86%;
+
+  width:13%;
+  height:101px;
+  color:#fff;
+   animation: drop 0.5s ease forwards;
+   ul{
+    margin-left:5px;
+    list-style:none;
+    display:flex;
+
+
+    flex-direction:column;
+    color:#fff;
+    hr{
+  width:100%;
+  height:1px;
+background-color:#fff;
+}
+  }
+ 
+  a{
+    color:#fff;
+    font-weight:400;
+    text-decoration:none;
+    font-size:15px;
+    line-height: 23px;
+    &:hover {
+          color: #C2BBB8;
+        }
+  }
+
+
+
+    @keyframes drop {
+      0% {
+        transform: translateX(80px);
+      }
+     
+      100% {
+        transform: translateX(10px);
+      }
+    }
+    @media screen and (max-width: 900px) {
+      display:none;
+    }
+    @media screen and (max-width: 576px) {
+      display:none;
+    }
+`;
 export const Lockicon1 = styled(Lock)``;
 export const Googleicon = styled(Go)``;
 export const Facebokcion = styled(face)``;

@@ -2,9 +2,12 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { BsFillQuestionOctagonFill } from "react-icons/bs";
 import Header from "../../Components/Header";
+import { FaUser} from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { useAuth } from "../../hooks/auth";
 import { FiMinus } from "react-icons/fi";
+import {FiUser} from 'react-icons/fi'
+
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -12,6 +15,7 @@ import {
 import {
   Container,
 Sair,
+Menu,
   Blue,
  
 } from "./styles";
@@ -19,7 +23,7 @@ Sair,
 import Person from "../../assets/person.svg";
 import Appstore from "../../assets/Appstore.svg";
 import Playstore from "../../assets/Playstore.svg";
-
+import User from '../../assets/user3.svg'
 interface ReturnDate {
   time: string;
 }
@@ -30,6 +34,7 @@ const Login: React.FC = () => {
   const [isShow3, setIsShow3] = useState(false);
   const [isShow4, setIsShow4] = useState(false);
   const [isShow5, setIsShow5] = useState(false);
+  const [isShow6, setIsShow6] = useState(false);
   const { signOut, user: any } = useAuth();
     const responseGoogleFailed = (response: GoogleLoginResponse): void => {};
   useEffect(() => {
@@ -55,12 +60,36 @@ const Login: React.FC = () => {
       <Header>
     
       <Sair>
-          <button onClick={signOut}>Sair</button>
-          <button onClick={() => setIsShow(!isShow)}>
-          <h1 className="menuzinho">Menu</h1>
+          <button onClick={signOut} className="sair">Sair</button>
+          <button onClick={() => setIsShow6(!isShow6)}>
+          <FaUser className="logo" />
+
+    
+         
           </button>
+          
           </Sair>
-      </Header>
+        
+      </Header>    {isShow6 && (
+        <Menu className="menu">
+         <ul>
+           <li>  <a href="/meuplano" className="cool-link1">
+Planos
+
+      </a></li>
+      <hr className="linha"/>
+      <li>    <a href="/about" className="cool-link1">
+Casos de Sucesso
+      </a>     <hr className="linha"/></li>
+      <li>    <a href="/about" className="cool-link1">
+      Perguntas Frequentes
+      </a>     <hr className="linha"/></li>
+      <li>      <a href="/faq2" className="cool-link3">
+      Site da Empresa/Produto
+      </a></li>
+         </ul>
+    </Menu>
+        )}
      
       <Container>
         <Blue>

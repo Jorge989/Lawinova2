@@ -8,7 +8,7 @@ import React, {
 import { IconBaseProps } from "react-icons";
 import { FiAlertCircle } from "react-icons/fi";
 import { useField } from "@unform/core";
-import { Container, Error,PasswordButtonContainer } from "./styles";
+import { Container, Error, PasswordButtonContainer } from "./styles";
 import { FiEye } from "react-icons/fi";
 import { FiEyeOff } from "react-icons/fi";
 
@@ -16,6 +16,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: React.ComponentType<IconBaseProps>;
   type?: string;
+  preffix?: boolean;
 }
 
 const PasswordToggle = ({
@@ -26,26 +27,35 @@ const PasswordToggle = ({
   onToggle: () => any;
 }) => {
   return (
-    <PasswordButtonContainer onClick={onToggle} type="button" className="eye" >
-      {visible ? <FiEye size={18}width="10px"/> : <FiEyeOff size={18}width="10px" />}
+    <PasswordButtonContainer onClick={onToggle} type="button" className="eye">
+      {visible ? (
+        <FiEye size={18} width="10px" />
+      ) : (
+        <FiEyeOff size={18} width="10px" />
+      )}
     </PasswordButtonContainer>
   );
 };
 
-const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  preffix = false,
+  icon: Icon,
+  ...rest
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const [currentType, setCurrentType] = useState(rest.type);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
-  const handleInputFocus =  useCallback(() =>{
+  const handleInputFocus = useCallback(() => {
     setIsFocused(false);
   }, []);
 
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
-    setIsFilled(!! inputRef.current?.value);
+    setIsFilled(!!inputRef.current?.value);
   }, []);
 
   useEffect(() => {
@@ -59,6 +69,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   return (
     <Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused}>
       {Icon && <Icon size={18} />}
+      {preffix && <span style={{ marginRight: 4, fontSize: 14 }}>+55</span>}
       <input
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}

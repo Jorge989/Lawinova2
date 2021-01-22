@@ -185,7 +185,7 @@ const NovoCadastro: React.FC = () => {
           tipo_pag: "cartao_credito",
           nick_name: data.nome,
           email: data.email,
-          telefone: data.telefone,
+          telefone: "55" + data.telefone,
           // qtde_processos: qtd,
           quantidade_advogados: 0,
           tipo_escritorio: "escritorio",
@@ -219,7 +219,7 @@ const NovoCadastro: React.FC = () => {
           userId: response.data.usuario.id_usuario,
           username: response.data.usuario.nome,
           userEmail: data.email,
-          userPhone: data.telefone,
+          userPhone: "55" + data.telefone,
           userPassword: data.senha,
         });
         addToast({
@@ -294,20 +294,65 @@ const NovoCadastro: React.FC = () => {
       perfil: data.profileObj.imageUrl,
     };
 
-    const response = await api.post("usuarios", dadosCadastro);
+    const response = await api.post<{
+      token: string;
+      usuario: UserResponse;
+    }>("usuarios", dadosCadastro);
 
     const { profileObj } = data;
 
     const { email: email_, familyName: nome_ } = data.profileObj;
 
-    history.push("/planos", {
-      loginDTO: {
-        ...data,
-        email: email_,
-        nome: nome_,
-      },
-      userData: response.data,
-    });
+    // const sendOfficeData = {
+    //   tipo_documento: gender,
+    //   nome: dadosCadastro.nome,
+    //   documento: "CNPJ",
+    //   plano: plano,
+    //   data_inicio_plano: dataFormatadaInicio,
+    //   data_final_trial: dataFormatadaFim,
+    //   tipo_pag: "cartao_credito",
+    //   nick_name: dadosCadastro.nome,
+    //   email: dadosCadastro.email,
+    //   telefone: dadosCadastro.telefone,
+    //   // qtde_processos: qtd,
+    //   quantidade_advogados: 0,
+    //   tipo_escritorio: "escritorio",
+    // };
+
+    // await signIn({ email: data.email, senha: data.senha });
+
+    // console.log("sendOfficeData", sendOfficeData);
+
+    // const responseOffice = await api.post<OfficeResponse>(
+    //   "escritorios",
+    //   sendOfficeData,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${response.data.token}`,
+    //     },
+    //   }
+    // );
+
+    // history.push("/planos", {
+    //   plano: plano,
+    //   token: response.data.token,
+    //   officeId: responseOffice.data.id_escritorio,
+    //   userId: response.data.usuario.id_usuario,
+    //   username: response.data.usuario.nome,
+    //   userEmail: dadosCadastro.email,
+    //   userPhone: dadosCadastro.telefone,
+    //   userPassword: dadosCadastro.senha,
+    // });
+
+    // history.push("/planos", {
+    //   loginDTO: {
+    //     ...data,
+    //     email: email_,
+    //     nome: nome_,
+    //   },
+    //   userData: response.data,
+    // });
 
     addToast({
       type: "sucess",
@@ -316,6 +361,8 @@ const NovoCadastro: React.FC = () => {
   }
 
   const responseFacebook = async (response: any) => {
+    console.log("Response Facebook: ", response);
+
     const dadosCadastro = {
       email: response.userID + "@facebook.com",
       nome: response.name,
@@ -371,9 +418,10 @@ const NovoCadastro: React.FC = () => {
   }
   console.log(dataFormatadaInicio + "esse");
   console.log(dataFormatadaFim + "esse");
+
   return (
     <div>
-      <Header2></Header2>
+      <Header2 />
       <Container>
         <Blue>
           <div className="formBox">
@@ -399,7 +447,9 @@ const NovoCadastro: React.FC = () => {
                   icon={FiPhoneCall}
                   type="text"
                   value={tel}
-                  placeholder="55(00)000000000"
+                  maxLength={13}
+                  preffix
+                  placeholder="(xx) xxxxx-xxxx"
                   onChange={(e) => setTelefone(e.target.value)}
                 />
                 <h2>Email</h2>

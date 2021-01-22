@@ -25,6 +25,7 @@ import {
   GoogleLogin,
   Googleicon,
   Facebokcion,
+  Entra
 } from './styles';
 
 interface SigInFormData {
@@ -127,7 +128,21 @@ const Login: React.FC = () => {
 
   return (
     <div>
-      <Header />
+      <Header>
+      <Entra>
+          <button >
+          <a href={`/testecadastro/plano=plano2`}>Teste-grátis</a>
+          </button>
+          
+         
+
+    
+         
+          
+          
+          </Entra>
+
+      </Header>
 
       <Container>
         <Blue>

@@ -33,6 +33,7 @@ import {
   GoogleLogin,
   Googleicon,
   Facebokcion,
+  Entra
 } from "./styles";
 import api from "../../services/api";
 import * as Yup from "yup";
@@ -347,7 +348,21 @@ case "escritorio":
   console.log(dataFormatadaFim+"esse")
   return (
     <div>
-      <Header2></Header2>
+      <Header2>
+
+      <Entra>
+          <button >
+          <a href={`/login`}>Entrar</a>
+          </button>
+          
+         
+
+    
+         
+          
+          
+          </Entra>
+      </Header2>
 
       <Container>
         <Blue>

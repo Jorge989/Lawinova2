@@ -39,7 +39,7 @@ const Routes: React.FC = () => {
         component={Recuperarsenha}
       />
       <Route path="/home" exact isPrivate component={Homepage} />
-      <Route path="/trocarsenha" exact component={TrocarSenha} />
+      <Route path="/trocarsenha" exact isPrivate component={TrocarSenha} />
       {<Route path="/planos" exact component={Planos} />}
       {<Route path="/meuplano" exact isPrivate component={Meuplano} />}
       {<Route path="/dados" exact component={Dados} />}

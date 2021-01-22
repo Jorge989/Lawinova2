@@ -16,14 +16,13 @@ NavBtnLink,
  
   } from "./styles";
 import Logo from "../../assets/principal.png";
-interface HeaderProps {
-  Sair: object;
-  style: object;
-}
-const Header: React.FC = () => {
+
+const Header: React.FC = ({children}) => {
   const [isShow, setIsShow] = useState(false);
   return (
+    
     <>
+    
   <Nav>
     <button className="btnimg">
       <img src={Logo} className="logo"/>
@@ -46,13 +45,16 @@ Perguntas Frequentes
       <NavLink to="/about" className="cool-link3">
 Casos de Sucesso
       </NavLink>
-      <NavLink to="/about" className="cool-link4">
+      {/* <NavLink to="/about" className="cool-link4">
 Entrar
-      </NavLink>
+      </NavLink> */}
+      <div>
+    {children}
+    </div>
       {/* <NavBtnLink to="/singin">Entrar</NavBtnLink> */}
     </NavMenu>
     <NavBtn>
-      <NavBtnLink to="/singin">  <a href="/novocadastro"> <FiShoppingCart  size={24}/></a></NavBtnLink>
+      {/* <NavBtnLink to="/singin">  <a href="/novocadastro"> <FiShoppingCart  size={24}/></a></NavBtnLink> */}
     </NavBtn>
         </Nav>
         {isShow && (
