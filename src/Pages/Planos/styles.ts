@@ -340,7 +340,7 @@ export const Blue = styled.div`
     .plan li {
    
         list-style: none;
-        height: 40px;
+        height: 50px;
         font-size: 13px;
         width: 249px;
         line-height: 30px;
