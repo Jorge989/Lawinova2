@@ -73,7 +73,7 @@ ${(props) =>
   @media (max-width: 601px) {
    
 
-
+    height: 45px;
   
   
   ${(props) =>
