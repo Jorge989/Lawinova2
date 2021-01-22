@@ -425,14 +425,11 @@ export const Entra = styled.div`
 display:flex;
 justify-content:center;
 
- margin-left:250px;
+
 a{
   text-decoration:none;
   color:#000;
   font-size:20px;
-  &:hover {
-          color: #007aff;
-        }
 }
 `;
 

@@ -147,7 +147,7 @@ cursor:pointer;
 
   margin-left:3%;
   img{
-    width:100px;
+    width:85px;
   }
 
 }

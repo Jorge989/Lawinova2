@@ -270,8 +270,8 @@ export const Blue = styled.div`
       justify-content:center;
     width: 100%;
     max-width:100px;
-   margin-top:170px;
-    height:1600px;
+   margin-top:200px;
+    height:1700px;
 
     .plan .plan-name {
      
@@ -340,7 +340,7 @@ export const Blue = styled.div`
     .plan li {
    
         list-style: none;
-        height: 35px;
+        height: 40px;
         font-size: 13px;
         width: 249px;
         line-height: 30px;
