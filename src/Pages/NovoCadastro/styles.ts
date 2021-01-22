@@ -289,7 +289,7 @@ border: none;
 
   @media screen and (max-width: 576px) {
     position: relative;
-
+    
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -312,7 +312,7 @@ border: none;
       background-color: #ffffff;
 
       border-radius: 0px 5px 5px 0px;
-
+     
       .redessociais {
         position: relative;
         display: flex;
@@ -370,7 +370,7 @@ border: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
+      
     }
       button {
         width: fit-content;
@@ -395,7 +395,7 @@ border: none;
 
       
       }
-
+      
       .cadastre {
         width: 100%;
         margin-top: 16px;
@@ -411,6 +411,20 @@ border: none;
           }
         }
       }
+      .politica{
+    display:flex;
+    flex-direction:column;
+    outline:none;
+
+
+    align-items:center;
+    justify-content:center;
+    width:85%;
+    outline:0;
+    border: none;
+
+   
+  }
       .esqueci {
         width: 100%;
         margin-top: 0px;

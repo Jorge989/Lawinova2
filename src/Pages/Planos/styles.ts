@@ -270,8 +270,8 @@ export const Blue = styled.div`
       justify-content:center;
     width: 100%;
     max-width:100px;
-   
-    height:1670px;
+   margin-top:170px;
+    height:1600px;
 
     .plan .plan-name {
      
@@ -282,7 +282,14 @@ export const Blue = styled.div`
       background-color: #f3f2f2;
 
  
+      form {
+    width: 100%;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+      }
     }
     .button {
       display:flex;
@@ -295,7 +302,7 @@ export const Blue = styled.div`
     
       margin-top: -5%;
     button {
-      height: 90%;
+      height: 82%;
       width: 105%;
       display:flex;
       
@@ -304,7 +311,7 @@ export const Blue = styled.div`
     }
     }
     .plan .plan-name {
-      
+     
       display:flex;
       justify-content:center;
       text-transform: uppercase;
@@ -319,19 +326,21 @@ export const Blue = styled.div`
    
     }
     .pricing-container h1 {
+      
       font-size: 36px;
       font-weight: 400;
-      margin-top: -50px;
+      margin-top: -40px;
     
     }
     .pricing-container p {
+      
       font-size: 21px;
  
     }
     .plan li {
    
         list-style: none;
-        height: 30px;
+        height: 35px;
         font-size: 13px;
         width: 249px;
         line-height: 30px;
@@ -346,7 +355,7 @@ export const Blue = styled.div`
       width: 21%;
       height: 40px;
       text-align: center;
-      margin-top: -10%;
+      margin-top: -0%;
       margin-left: 0%;
      
     }

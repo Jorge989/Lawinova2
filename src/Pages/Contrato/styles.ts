@@ -350,7 +350,7 @@ margin-top:0;
     button {
       width: fit-content;
       padding: 0 16px;
-      width: 80%;
+      width: 90%;
       height: 64px;
       text-align: center;
   
