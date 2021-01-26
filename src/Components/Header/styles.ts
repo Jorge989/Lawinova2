@@ -7,6 +7,7 @@ export const Menu = styled.div`
 display:none;
 
 @media screen and (max-width: 900px){
+  overflow:hidden;
 margin-left:60%;
   
   background-color:#696563;
@@ -58,7 +59,7 @@ background-color:#fff;
   }
 
 @media screen and (max-width: 576px){
-
+  overflow:hidden;
   margin-left:29%;
   background-color:#696563;
 border-radius:3px;

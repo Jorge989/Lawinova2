@@ -503,7 +503,7 @@ case "escritorio":
                 </Button>
               </div>
               <div className="politica">
-                <h4>Ao continuar, voçê concorda com a&nbsp;</h4>
+                <h4>Ao continuar, você concorda com a&nbsp;</h4>
 
                 <h4 className="policticablue"> Política de Privacidade</h4>
               </div>
