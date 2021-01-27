@@ -28,21 +28,7 @@ export const Container = styled.div`
     }
   }
 
-  @media screen and (max-width: 576px) {
-  
-    justify-content: center;
-  height: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  width: 100%;
-  z-index: 10;
- 
-    .btnazul {
-      width: 80%;
-      height: 3.5%;
-      text-align: center;
-    }
-  }
+
 `;
 
 export const Blue = styled.div`
@@ -270,9 +256,10 @@ export const Blue = styled.div`
       justify-content:center;
     width: 100%;
     max-width:100px;
-   margin-top:200px;
-    height:1700px;
+   margin-top:160px;
+    height:2050px;
 
+margin-left:-1%;
     .plan .plan-name {
      
       text-transform: uppercase;
@@ -281,7 +268,7 @@ export const Blue = styled.div`
       color: #000;
       background-color: #f3f2f2;
 
- 
+    
       form {
     width: 100%;
 
@@ -289,6 +276,7 @@ export const Blue = styled.div`
     flex-direction: column;
     align-items: center;
     height: 100%;
+  
       }
     }
     .button {
@@ -296,14 +284,15 @@ export const Blue = styled.div`
       justify-content:center;
 
    text-align: center;
-      width: 340px;
+      width: 380px;
       height: 73px;
       text-align: center;
-    
-      margin-top: -5%;
+    margin-left:2%;
+      margin-top: -10%;
+  
     button {
-      height: 82%;
-      width: 105%;
+      height: 100%;
+      width: 100%;
       display:flex;
       
       justify-content:center;
@@ -323,14 +312,15 @@ export const Blue = styled.div`
 
       padding-top: 0px;
       padding-bottom: 0px;
+    
    
     }
     .pricing-container h1 {
       
       font-size: 36px;
       font-weight: 400;
-      margin-top: -40px;
-    
+      margin-top: 20px;
+
     }
     .pricing-container p {
       
@@ -346,6 +336,7 @@ export const Blue = styled.div`
         line-height: 30px;
         background-color: #fff;
         color: #333;
+      
       }
 
       button {
@@ -361,7 +352,8 @@ export const Blue = styled.div`
     }
     .btnazul {
       text-align: center;
-
+      margin-top: -5%;
+ 
     }
     
     }}

@@ -96,6 +96,7 @@ right:0;
     text-decoration:none;
     font-size:20px;
     line-height: 35px;
+    overflow:hidden;
   }
 
 
