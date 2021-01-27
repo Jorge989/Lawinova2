@@ -319,7 +319,7 @@ margin-left:-1%;
       
       font-size: 36px;
       font-weight: 400;
-      margin-top: 35px;
+      margin-top: 100px;
 
     }
     .pricing-container p {
