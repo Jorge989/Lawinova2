@@ -34,11 +34,19 @@ export const Blue = styled.div`
   border-radius: 5px 10px 10px 5px;
 
   width: 70%;
-  height: 650px;
+  height: 580px;
 
   margin-top: 10px;
 
+.cartao{
+
+  width:75px;
+  height:65px;
+  margin-top:190px;
+  margin-left:-25px;
+}
   .formBox {
+ 
     display: flex;
     padding: 17px;
 
@@ -47,6 +55,7 @@ export const Blue = styled.div`
     width: 90%;
     margin-top: 10px;
     border-radius: 0px 5px 5px 0px;
+ 
 
   
   h2 {
@@ -75,7 +84,8 @@ export const Blue = styled.div`
     margin-left:1%;
     height: 100%;
     width:100%;
-  
+   
+
 
     
     
@@ -89,14 +99,18 @@ export const Blue = styled.div`
      
       width:100%;
       height:100%;
+  
+
     }
     .resumo{
+    
       display:flex;
       flex-direction:column;
-      justify-content:center;
 align-items:center;
-width:100%;
+      justify-content:center;
+width:35%;
 height:100%;
+margin-left:10px;
 
       
     }
@@ -105,6 +119,7 @@ height:100%;
     
       width:90%;
       height:100%;
+    
     }
     .resumopedido{
       display: flex;
@@ -149,7 +164,7 @@ height:100%;
       background-color:#BBBBBB;
       height:0.3%;
       width:80%;
-      margin-top:-6.5%;
+      margin-top:-9%;
     }
     .resumodoplano{
       display:flex;
@@ -182,9 +197,10 @@ height:100%;
       justify-content:space-between;
       align-items:center;
  
-      width:40%;
+      width:55%;
       margin-left:10%;
       margin-top:1%;
+    
      
     }
     .input1 {
@@ -212,6 +228,7 @@ height:100%;
       margin-bottom:100px;
       flex-direction:row;
       justify-content:space-between;
+      gap:14px;
       align-items:center;
       margin-right:0%;
       width:100%;
@@ -317,6 +334,9 @@ font-size:15px;
 font-weight:500;
 cursor:pointer;
 vertical-align: middle;
+&:hover {
+          background-color: #007aff;
+        }
     }
     .btnazul1 {
       width: 30%;
@@ -377,7 +397,13 @@ vertical-align: middle;
   height: 650px;
 
   margin-top: 10px;
+  .cartao{
 
+width:75px;
+height:65px;
+margin-top:190px;
+margin-left:5px;
+}
   .formBox {
     display: flex;
     padding: 17px;
@@ -694,7 +720,30 @@ vertical-align: middle;
   height: 800px;
 
   margin-top: 10px;
+  .ccv{
+  display:flex;
 
+  align-items:center;
+  justify-content:center;
+  margin-top:-32%;
+  width:10%;
+  height:65px;
+
+margin-left:255px;
+}
+.ccv2{
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+  margin-left:50px;
+  width:100%;
+  height:100%;
+
+svg{
+  margin-left:50px;
+}
+}
   .formBox {
     display: flex;
     padding: 17px;
@@ -748,7 +797,7 @@ vertical-align: middle;
       height:100%;
     }
     .resumo{
-      margin-top:-25%;
+      margin-top:-5%;
       display:flex;
       flex-direction:column;
       justify-content:center;

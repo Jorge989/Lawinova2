@@ -1,33 +1,12 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  ChangeEvent,
-} from "react";
-import Radio from "@material-ui/core/Radio";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
-import { FiEyeOff } from "react-icons/fi";
-import { FiEye } from "react-icons/fi";
+import CCV from '../../assets/ccvcard.png';
 import Header2 from "../../Components/Header";
-import FacebookLogin from "react-facebook-login";
 import axios from "axios";
-import {
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-} from "react-google-login";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import {
-  Container,
-  Blue,
-  Lockicon1,
-  Draw,
-  GoogleLogin,
-  Googleicon,
-  Facebokcion,
-} from "./styles";
+import { useHistory, useLocation } from "react-router-dom";
+import { Container, Blue } from "./styles";
 import api from "../../services/api";
 import * as Yup from "yup";
 import utf8 from "utf8";
@@ -37,8 +16,32 @@ import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useToast } from "../../hooks/toast";
-import PlansData from "../../data/PlansData";
+import DetailedPlans from "../../data/DetailedPlans"
 import { useAuth } from "../../hooks/auth";
+
+interface ChosenPlanOptions {
+  id: string;
+  name: string;
+  value: number;
+  offers: {
+    id: string;
+    name: string;
+  }[];
+}
+
+interface LocationProps {
+  customerId: number;
+  phoneId: number;
+  plano: string;
+  contractAccepted: boolean;
+  officeId: number;
+  token: string;
+  userId: number;
+  userPhone: string;
+  userPassword: string;
+  userEmail: string;
+  username: string;
+}
 
 const Detalhes: React.FC = () => {
   const { signIn } = useAuth();
@@ -56,19 +59,7 @@ const Detalhes: React.FC = () => {
       userPassword,
       username,
     },
-  } = useLocation<{
-    customerId: number;
-    phoneId: number;
-    plano: string;
-    contractAccepted: boolean;
-    officeId: number;
-    token: string;
-    userId: number;
-    userPhone: string;
-    userPassword: string;
-    userEmail: string;
-    username: string;
-  }>();
+  } = useLocation<LocationProps>();
 
   console.log(
     "Params Dados",
@@ -102,17 +93,9 @@ const Detalhes: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
 
-  const chosenPlan:
-    | {
-        id: string;
-        name: string;
-        value: number;
-        offers: {
-          id: string;
-          name: string;
-        }[];
-      }
-    | undefined = PlansData.find((plan) => plan.code === plano);
+  const chosenPlan: ChosenPlanOptions | undefined = DetailedPlans.find(
+    (plan) => plan.code === plano
+  );
 
   const privateApi = "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:";
   const publicApi = "39zh9E2rTCZAZ_Vu1-qbIbty-7KUciSaw0Ssd7s5bhg";
@@ -153,6 +136,29 @@ const Detalhes: React.FC = () => {
     setLoading(true);
     try {
       formRef.current?.setErrors({});
+
+      const schema = Yup.object().shape({
+        cardNumber: Yup.string().required("O número do cartão é obrigatório"),
+        holderName: Yup.string().required("O Nome do cartão é obrigatório"),
+        cardExpiration: Yup.string().required(
+          "A data de expiração é obrigatório"
+        ),
+        cardCVV: Yup.string()
+          .required("O cvv do cartão é obrigatório")
+          .length(3, "O tamanho do cvv precisa ser de 3 dígitos"),
+      });
+
+      await schema.validate(
+        {
+          cardNumber: paymentData.cardNumber,
+          holderName: paymentData.holderName,
+          cardExpiration: paymentData.cardExpiration,
+          cardCVV: paymentData.cardCVV,
+        },
+        {
+          abortEarly: false,
+        }
+      );
 
       console.log("paymentData", paymentData);
       console.log("paymentCompanyCode", getBrand(paymentData.cardNumber));
@@ -234,23 +240,26 @@ const Detalhes: React.FC = () => {
       console.log("Error", err.response?.data);
       setLoading(false);
       if (err instanceof Yup.ValidationError) {
-        console.log(err);
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
-
-        addToast({
-          type: "error",
-          title: "Erro na cadastro",
-          description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
-        });
+        return err.inner.map((error) =>
+          addToast({
+            type: "error",
+            title: "Erro nos dados de pagamento",
+            description: `${error.message}`,
+          })
+        );
       }
-      if (err.response?.data) {
-        addToast({
-          type: "error",
-          title: "Erro na cadastro",
-          description: `Usuário já cadastrado.
-              `,
-        });
+
+      if (err.response?.data.errors?.length) {
+        return err.response?.data.errors.map(
+          (error: { id: string; message: string; parameter: string }) =>
+            addToast({
+              type: "error",
+              title: "Erro nos dados de pagamento",
+              description: ` ${error.message}`,
+            })
+        );
       }
     }
   };
@@ -274,7 +283,6 @@ const Detalhes: React.FC = () => {
 
   const handlePayment = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    // console.log("HandleAddress", id);
     setPaymentData({
       ...paymentData,
       [id]: value,
@@ -283,7 +291,7 @@ const Detalhes: React.FC = () => {
 
   return (
     <div>
-      <Header2></Header2>
+      <Header2 />
       <Container>
         <Blue>
           <div className="formBox">
@@ -323,6 +331,7 @@ const Detalhes: React.FC = () => {
                         className="input"
                         type="text"
                         placeholder="00/0000"
+                        maxLength={7}
                         name="cardExpiration"
                         id="cardExpiration"
                         value={paymentData.cardExpiration}
@@ -336,6 +345,7 @@ const Detalhes: React.FC = () => {
                         className="input"
                         type="text"
                         placeholder="***"
+                        maxLength={3}
                         name="cardCVV"
                         id="cardCVV"
                         value={paymentData.cardCVV}
@@ -344,7 +354,9 @@ const Detalhes: React.FC = () => {
                     </div>
                   </div>
                 </div>
-
+<div>
+  <img src={CCV} className="cartao"></img>
+</div>
                 <div className="resumo">
                   <div className="dentro">
                     <h2 className="resumopedido">Resumo do pedido</h2>
@@ -389,7 +401,7 @@ const Detalhes: React.FC = () => {
                     });
                   }}
                 >
-                  Dados de Indentificação
+                  Voltar
                 </Button>
                 <Button className="btnazul" isLoading={loading} type="submit">
                   Confirmar

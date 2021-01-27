@@ -37,6 +37,7 @@ export const Blue = styled.div`
   height: 650px;
 
   margin-top: 10px;
+
 .radio{
   display:flex;
   justify-content:center;
@@ -164,7 +165,7 @@ export const Blue = styled.div`
       align-items:stretch;
      
       width:80%;
- 
+
     
     .input3 {
       width: 30%;
@@ -239,6 +240,7 @@ border: 1px solid #C4C4C4;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+  
 
 label{
   display:flex;
@@ -263,7 +265,7 @@ label{
   
     }
     .input8 {
-      width: 30%;
+      width: 35%;
   
       margin-left:80px;
       display: flex;
@@ -271,7 +273,7 @@ label{
       justify-content: center;
       align-items: center;
 
-
+     
   
     }
     .input9 {

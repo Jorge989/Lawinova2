@@ -36,7 +36,9 @@ export const Blue = styled.div`
   width: 70%;
   height: 730px;
 
-  margin-top: 22px;
+  margin-top: 3px;
+  margin-left:1%;
+ 
   .div4{
 
 margin-top:-0%;
@@ -90,6 +92,7 @@ color: #007aff;
 font-weight:400;
   }
   .politica{
+    margin-top:10px;
     display:flex;
     flex-direction:row;
 
@@ -126,6 +129,7 @@ width:100%;
     background-color: #ffffff;
     border-radius: 0px 5px 5px 0px;
 
+
     .redessociais {
       position: relative;
       display: flex;
@@ -158,15 +162,17 @@ width:100%;
     font-weight: 400;
     font-size: 17px;
     margin-top: 13px;
+
   }
   h3 {
-    margin-top: 16px;
+    margin-top: 0px;
     font-size: 29px;
     text-align: center;
     font-weight: 400;
+
   }
   h4 {
-    margin-top: 8px;
+    margin-top: 0px;
     font-weight: 400;
   }
   form {
@@ -211,7 +217,7 @@ width:100%;
     }
     .possuilogin {
       width: 100%;
-      margin-top: 0px;
+      margin-top: 8px;
       a {
         font-weight: 400;
         font-size: 20px;

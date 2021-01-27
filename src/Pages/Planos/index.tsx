@@ -237,7 +237,7 @@ const Planos: React.FC = () => {
           <Form ref={formRef} onSubmit={handleSubmit}>
             <section className="pricing-container">
               <h1>Planos e Preços</h1>
-              <p>Selecione o plano perfeito para voçê</p>
+              <p>Selecione o plano perfeito para você</p>
               <div className="plans-container">
                 {PlansData.map((plan) => (
                   <div

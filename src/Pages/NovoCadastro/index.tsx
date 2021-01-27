@@ -470,7 +470,7 @@ const NovoCadastro: React.FC = () => {
                   icon={FiLock}
                   value={senha}
                   type={inputType}
-                  placeholder="Senha"
+                  placeholder='Dica: 8 digitos + 1 caractere especial'
                   onChange={(e) => setSenha(e.target.value)}
                 />
 
@@ -492,7 +492,7 @@ const NovoCadastro: React.FC = () => {
                 <h4 className="policticablue"> Política de Privacidade</h4>
               </div>
               <div className="redessociais">
-                <GoogleLogin
+                {/* <GoogleLogin
                   clientId="211368015593-fucd3no6bv208m9iuf809l9f72ulmejr.apps.googleusercontent.com"
                   render={(renderProps) => (
                     <button
@@ -517,7 +517,7 @@ const NovoCadastro: React.FC = () => {
                   icon={<Facebokcion />}
                   textButton=""
                   cssClass="facebook"
-                />
+                /> */}
               </div>
               <button className="possuilogin">
                 <a href="login">Já possui login?</a>

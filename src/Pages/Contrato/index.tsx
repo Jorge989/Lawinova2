@@ -128,7 +128,7 @@ const Contrato: React.FC = () => {
                   </h2>
                 </div>
                 <p className="contrato">
-                  Ao clicar em "Concordar e Continuar", voçê confirma que leu o
+                  Ao clicar em "Concordar e Continuar", você confirma que leu o
                   nosso Contrato de
                   <br /> de Assinatura na integra e concorda com ele.
                 </p>

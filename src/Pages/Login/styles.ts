@@ -122,7 +122,7 @@ export const Blue = styled.div`
 
     .cadastre {
       width: 100%;
-      margin-top: 16px;
+      margin-top: 0px;
       a {
         font-weight: 400;
         font-size: 20px;

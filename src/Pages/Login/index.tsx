@@ -85,36 +85,36 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
 
-  const responseGoogle = async (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): Promise<void> => {
-    if (!('profileObj' in response)) return;
-    setName(response.profileObj.name);
-    setEmail(response.profileObj.email);
-    setUrl(response.profileObj.imageUrl);
-    const { data } = await api.post('/autenticar', {
-      email: response.profileObj.email,
-    });
-    setAuthData({ user: data.usuario, token: data.token });
+  // const responseGoogle = async (
+  //   response: GoogleLoginResponse | GoogleLoginResponseOffline
+  // ): Promise<void> => {
+  //   if (!('profileObj' in response)) return;
+  //   setName(response.profileObj.name);
+  //   setEmail(response.profileObj.email);
+  //   setUrl(response.profileObj.imageUrl);
+  //   const { data } = await api.post('/autenticar', {
+  //     email: response.profileObj.email,
+  //   });
+  //   setAuthData({ user: data.usuario, token: data.token });
 
-    console.log(data);
-  };
+  //   console.log(data);
+  // };
 
-  const responseGoogleFailed = (response: GoogleLoginResponse): void => {
-    console.log(response);
-  };
+  // const responseGoogleFailed = (response: GoogleLoginResponse): void => {
+  //   console.log(response);
+  // };
 
-  const responseFacebook = async (response: any) => {
-    console.log(response);
-    const { data } = await api.post('/autenticar', {
-      email: response.userID + '@facebook.com',
-    });
-    setAuthData({ user: data.usuario, token: data.token });
-  };
+  // const responseFacebook = async (response: any) => {
+  //   console.log(response);
+  //   const { data } = await api.post('/autenticar', {
+  //     email: response.userID + '@facebook.com',
+  //   });
+  //   setAuthData({ user: data.usuario, token: data.token });
+  // };
 
-  const componetClicked = (data: any) => {
-    console.warn(data);
-  };
+  // const componetClicked = (data: any) => {
+  //   console.warn(data);
+  // };
 
   const eye = <FiEyeOff />;
   const [passwordShown, setPasswordShown] = useState(false);
@@ -178,9 +178,9 @@ const Login: React.FC = () => {
                   Entrar
                 </Button>
               </div>
-              <h4>ou acesse rapidamente !</h4>
+              {/* <h4>ou acesse rapidamente !</h4> */}
               <div className='redessociais'>
-                <GoogleLogin
+                {/* <GoogleLogin
                   clientId='211368015593-fucd3no6bv208m9iuf809l9f72ulmejr.apps.googleusercontent.com'
                   render={(renderProps) => (
                     <button
@@ -195,8 +195,8 @@ const Login: React.FC = () => {
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
                   cookiePolicy={'single_host_origin'}
-                />
-                <FacebookLogin
+                /> */}
+                {/* <FacebookLogin
                   appId='2846445278933444'
                   autoLoad={false}
                   fields='name,email,picture'
@@ -205,7 +205,7 @@ const Login: React.FC = () => {
                   icon={<Facebokcion />}
                   textButton=''
                   cssClass='facebook'
-                />
+                /> */}
               </div>
 
               <button className='cadastre'>

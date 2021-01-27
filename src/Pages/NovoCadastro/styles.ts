@@ -125,7 +125,7 @@ border: none;
     flex-direction:row;
     outline:none;
 
-
+margin-top:3px;
     align-items:center;
     justify-content:center;
     width:145%;
@@ -154,7 +154,7 @@ border: none;
     }
     .possuilogin {
       width: 100%;
-      margin-top: 0px;
+      margin-top: 16px;
       a {
         font-weight: 400;
         font-size: 20px;
