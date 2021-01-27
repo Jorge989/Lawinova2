@@ -285,7 +285,7 @@ margin-left:-1%;
 
    text-align: center;
       width: 380px;
-      height: 73px;
+      height: 68px;
       text-align: center;
     margin-left:2%;
       margin-top: -10%;
@@ -319,7 +319,7 @@ margin-left:-1%;
       
       font-size: 36px;
       font-weight: 400;
-      margin-top: 20px;
+      margin-top: 35px;
 
     }
     .pricing-container p {
