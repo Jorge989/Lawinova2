@@ -125,9 +125,9 @@ export const Blue = styled.div`
   border-radius: 5px 10px 10px 5px;
 
   width: 100%;
-  height: 590px;
+  height: 550px;
 
-  margin-top: 10px;
+  margin-top: 100px;
 
   form {
     width: 100%;
@@ -158,7 +158,7 @@ export const Blue = styled.div`
       }
     }
     .pricing-container h1 {
-      font-size: 36px;
+      font-size: 31px;
       font-weight: 400;
       margin-top: 0px;
     }
@@ -274,7 +274,7 @@ export const Blue = styled.div`
       width: 48.5%;
       height: 500px;
 
-      margin-top: -6.2%;
+      margin-top: -6%;
       margin-right: 0%;
     }
     button {
@@ -291,7 +291,7 @@ export const Blue = styled.div`
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-color: #007aff;
+      background-color: #74469A;
       font-size: 15px;
       font-weight: 500;
       cursor: pointer;

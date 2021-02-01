@@ -121,9 +121,9 @@ export const Blue = styled.div`
   border-radius: 5px 10px 10px 5px;
 
   width: 100%;
-  height: 570px;
+  height: 550px;
 
-  margin-top: 10px;
+  margin-top: -13px;
 
   form {
     width: 100%;
@@ -147,14 +147,14 @@ export const Blue = styled.div`
       text-align: center;
       margin-top: -5%;
       button {
-        height: 62%;
+        height: 55%;
         display: flex;
         justify-content: center;
         text-align: center;
       }
     }
     .pricing-container h1 {
-      font-size: 36px;
+      font-size: 31px;
       font-weight: 400;
       margin-top: 0px;
     }
@@ -338,8 +338,8 @@ export const Blue = styled.div`
       width: 100%;
       max-width: 100px;
 
-      height: 1670px;
-
+      height: 1500px;
+margin-top:50px;
       .plan .plan-name {
         text-transform: uppercase;
         font-size: 18px;
@@ -352,14 +352,14 @@ export const Blue = styled.div`
         justify-content: center;
 
         text-align: center;
-        width: 340px;
+        width: 375px;
         height: 73px;
         text-align: center;
 
         margin-top: -5%;
         button {
-          height: 90%;
-          width: 105%;
+          height: 68%;
+          width: 100%;
           display: flex;
 
           justify-content: center;

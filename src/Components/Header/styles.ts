@@ -15,6 +15,7 @@ export const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
   z-index: 9999;
+
   .btnimg{
     outline:0;
     cursor:pointer;
@@ -41,13 +42,13 @@ export const NavLink = styled(Link)`
   padding: 0 1rem;
   text-decoration: none;
   cursor: pointer;
-
+  font-family:"Muli";
   &.active {
-    color: #15cdfc;
+    color: #74469A;
   }
 
   &:hover {
-    color: #007aff;
+    color: #941AF9;
     text-decoration: underline;
   }
 `;

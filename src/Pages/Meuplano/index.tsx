@@ -279,7 +279,7 @@ const Meuplano: React.FC = () => {
           <Form ref={formRef} onSubmit={handleSubmit}>
             <section className="pricing-container">
               <h1>Meu Plano</h1>
-              <p>SMART</p>
+              {/* <p>SMART</p> */}
               <div className="plans-container">
                 {PlansData.map((plan) => (
                   <GradientCard

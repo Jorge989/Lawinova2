@@ -32,9 +32,9 @@ export const Blue = styled.div`
 
   border-radius: 5px 10px 10px 5px;
 
-  width: 70%;
+  width: 78%;
   height: 400px;
-
+background-color:red;
   margin-top: 100px;
   .perguntaserespostas{
   margin-top:1%;
@@ -76,6 +76,7 @@ height:100%;
 }
 .subtopo{
   font-size:22px;
+  width:100%;
 
   }
 .dias{
@@ -111,7 +112,7 @@ height:100%;
   flex-direction:row;
   line-height:10px;
 margin-top:-9%;
- margin-left:68%;
+ margin-left:50.5%;
 
   
  

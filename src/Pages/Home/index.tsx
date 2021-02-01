@@ -96,7 +96,7 @@ const Home: React.FC = () => {
       });
 
       signOut();
-      history.push("/login");
+      history.push(`/login/`);
     }
   }, [daysRemaining]);
 
@@ -161,8 +161,7 @@ Trocar Senha
 
               <div className="topo">
                 <p className="subtopo">
-                  Para começar a configurar o app, selecione o Painel no menu
-                  Para ver as próximas etapas.
+                Faça o download do aplicativo para dispositivos móveis e comece a configurar o perfil do seu escritório
                 </p>
                 <div className="all">
                   <div className="btn1">
@@ -437,6 +436,7 @@ Trocar Senha
                         utilizado desde o século XVI, quando um impressor
                         desconhecido pegou uma bandeja de tipos e os embaralhou
                         para fazer um livro de modelos de tipos. Lorem Ipsum
+                        
                         sobreviveu não só a cinco séculos, como também ao salto
                         para a editoração eletrônica, permanecendo
                         essencialmente inalterado. Se popularizou na década de

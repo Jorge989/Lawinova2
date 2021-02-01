@@ -1,7 +1,7 @@
 const PlansData = [
   {
     id: "0",
-    name: "individual",
+    name: "one",
     code: "plano1",
     value: 50,
     offers: [
@@ -19,9 +19,9 @@ const PlansData = [
   },
   {
     id: "1",
-    name: "pro",
+    name: "office",
     code: "plano2",
-    value: 100,
+    value: 75,
     offers: [
       { id: "0", name: "ilimitado" },
       { id: "1", name: "adicionar processos" },
@@ -37,9 +37,9 @@ const PlansData = [
   },
   {
     id: "2",
-    name: "premium",
+    name: "office plus",
     code: "plano3",
-    value: 150,
+    value: 100,
     offers: [
       { id: "0", name: "ilimitado" },
       { id: "1", name: "adicionar processos" },

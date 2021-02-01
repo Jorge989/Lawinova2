@@ -431,6 +431,7 @@ const Dados: React.FC = () => {
               <div className="radio">
                 <div>
                   <Radio
+                 
                     value="fisica"
                     checked={gender === "fisica"}
                     color="primary"

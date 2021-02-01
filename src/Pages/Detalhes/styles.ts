@@ -154,7 +154,7 @@ margin-left:10px;
     }
     .money2{
      font-weight:500;
-     color:#007aff;
+     color:#941AF9;
     }
     .hr2{
       display:flex;
@@ -504,7 +504,7 @@ height:100%;
     }
     .money2{
      font-weight:500;
-     color:#007aff;
+     color:#941AF9;
     }
     .hr2{
       display:flex;
@@ -829,7 +829,7 @@ height:100%;
     }
     .money2{
      font-weight:500;
-     color:#007aff;
+     color:#941AF9;
     }
     .hr2{
       display:flex;

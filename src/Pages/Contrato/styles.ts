@@ -37,10 +37,10 @@ export const Blue = styled.div`
   border-radius: 5px 10px 10px 5px;
 
   width: 70%;
-  height: 480px;
+  height: 500px;
 
   margin-top: 90px;
-
+background-color:red;
 
   .formBox {
     display: flex;
@@ -49,7 +49,7 @@ export const Blue = styled.div`
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    height:600px;
+    height:560px;
     background-color: #ffffff;
     border-radius: 0px 5px 5px 0px;
 
@@ -345,9 +345,9 @@ margin-top:0;
         display:flex;
         justify-content:center;
         align-items:center;
-        width:90%;
+        width:85%;
         margin-top:1%;
-        margin-left:3%;
+      
 
     }
 

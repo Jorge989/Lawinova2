@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
 import CCV from '../../assets/ccvcard.png';
+import { FiEyeOff } from 'react-icons/fi';
 import Header2 from "../../Components/Header";
 import axios from "axios";
 import { useHistory, useLocation } from "react-router-dom";
@@ -287,7 +288,15 @@ const Detalhes: React.FC = () => {
       ...paymentData,
       [id]: value,
     });
+  }; 
+   const eye = <FiEyeOff />;
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [inputType, setInputType] = useState('password');
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown === true ? false : true);
+    setInputType(inputType === 'password' ? 'text' : 'password');
   };
+
 
   return (
     <div>
@@ -329,12 +338,14 @@ const Detalhes: React.FC = () => {
                       <h2>Data de válidade</h2>
                       <Input
                         className="input"
-                        type="text"
+                       
                         placeholder="00/0000"
                         maxLength={7}
                         name="cardExpiration"
                         id="cardExpiration"
                         value={paymentData.cardExpiration}
+               
+                        type={inputType}
                         onChange={handlePayment}
                       />
                     </div>
@@ -356,7 +367,10 @@ const Detalhes: React.FC = () => {
                 </div>
 <div>
   <img src={CCV} className="cartao"></img>
+ 
+  
 </div>
+   
                 <div className="resumo">
                   <div className="dentro">
                     <h2 className="resumopedido">Resumo do pedido</h2>
