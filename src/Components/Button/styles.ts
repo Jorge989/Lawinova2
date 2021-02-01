@@ -12,7 +12,8 @@ export const Container = styled.button<ContainerProps>`
   margin-top: 16px;
  
   border-radius: 5px;
-  background-color: #007AFF;
+  background-color: #74469A
+  ;
   color: #fff;
   font-size: 20px;
   font-weight: 400;
@@ -49,7 +50,7 @@ export const Container = styled.button<ContainerProps>`
       }
     }
   &:hover {
-    background-color: #006ADE;
+    background-color: #623984;
 
    
   
@@ -80,7 +81,7 @@ export const Container = styled.button<ContainerProps>`
       }
     }
   &:hover {
-    background-color: #006EE6;
+    background-color: #623984;
 
    
   }

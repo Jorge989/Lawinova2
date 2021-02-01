@@ -33,10 +33,11 @@ import {
   GoogleLogin,
   Googleicon,
   Facebokcion,
+  Entra,
 } from "./styles";
 import api from "../../services/api";
 import * as Yup from "yup";
-import { useAuth } from "../../hooks/auth";
+import { useAuth } from '../../hooks/auth';
 import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
@@ -142,7 +143,7 @@ const Testenovocadastro: React.FC = () => {
   const history = useHistory();
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const { signIn } = useAuth();
+  const { signIn, setAuthData } = useAuth();
   const handleSubmit = useCallback(
     async (data: {
       nome: string;
@@ -315,7 +316,8 @@ const Testenovocadastro: React.FC = () => {
       },
       userData: apiresponse.data,
     });
-
+    await signIn({ email: email, senha: senha });
+    history.push("/home");
     addToast({
       type: "sucess",
       title: "Cadastro realizado com sucesso",
@@ -357,12 +359,14 @@ const Testenovocadastro: React.FC = () => {
   const handleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);
   };
-  const dataFim = new Date(new Date().getDate() + 120960000).toLocaleString();
-  const dataStart = new Date(new Date()).toLocaleString();
-  const dataFormatadaInicio = converteData(dataStart, "/", "-");
-  const dataFormatadaFim = converteData(dataFim, "/", "-");
-  console.log(dataStart);
-  console.log(dataFim);
+  const endDate = new Date(
+    new Date().getTime() + 1_209_600_000
+  ).toLocaleString();
+  const startDate = new Date(new Date()).toLocaleString();
+  const dataFormatadaInicio = converteData(startDate, "/", "-");
+  const dataFormatadaFim = converteData(endDate, "/", "-");
+  console.log("startDate", startDate);
+  console.log("endDate", endDate);
 
   function converteData(
     data: String,
@@ -384,7 +388,20 @@ const Testenovocadastro: React.FC = () => {
   console.log(dataFormatadaFim + "esse");
   return (
     <div>
-      <Header2 />
+      <Header2>
+      <Entra>
+          <button className="testeG">
+          <a href={`/login/`}className="testeG">Entrar</a>
+          </button>
+          
+         
+
+    
+         
+          
+          
+          </Entra>
+       </Header2>
       <Container>
         <Blue>
           <div className="formBox">
@@ -424,7 +441,7 @@ const Testenovocadastro: React.FC = () => {
                   onChange={(e) => setName(e.target.value)}
                 />
                 <h2>Telefone</h2>
-         
+           
                 <Input
                   className="input"
                   name="telefone"
@@ -437,7 +454,7 @@ const Testenovocadastro: React.FC = () => {
                   onChange={(e) => setTelefone(e.target.value)}
                 />
                 <h2>Email</h2>
-          
+   
                 <Input
                   className="input"
                   name="email"
@@ -449,7 +466,7 @@ const Testenovocadastro: React.FC = () => {
                 />
 
                 <h2>Senha</h2>
-            
+  
                 <Input
                   className="input"
                   name="senha"
@@ -461,7 +478,7 @@ const Testenovocadastro: React.FC = () => {
                 <div className="div4">
                   <div className="input9">
                     <h2>Advogado</h2>
-                
+           
                     <select
                       onChange={handleEscritorio}
                       className="inputsel1"
@@ -484,6 +501,7 @@ const Testenovocadastro: React.FC = () => {
                   {tipoPerfil !== "autonomo" && (
                     <h2 className="qtd">Qtd.Advogados</h2>
                   )}
+                  
                     {tipoPerfil !== "autonomo" && (
                       <select
                         onChange={handlePlano}
@@ -501,7 +519,7 @@ const Testenovocadastro: React.FC = () => {
                 </div>
 
                 <div className="div5">
-              
+    
                   <h2>Quantidade estimada de processos</h2>
                   <Input
                     onChange={(e) => setQtdprocessos(e.target.value)}

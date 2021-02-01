@@ -36,7 +36,7 @@ export const Blue = styled.div`
   width: 70%;
   height: 650px;
 
-  margin-top: 10px;
+  margin-top: 100px;
 
 .radio{
   display:flex;
@@ -314,7 +314,7 @@ label{
       flex-direction: column;
       justify-content: center;
       align-items: center;
-background-color:#007aff;
+background-color: #74469A;
 cursor:pointer;
 font-size:15px;
 font-weight:500;
@@ -347,7 +347,7 @@ color:#000;
         color: #101010;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -360,7 +360,7 @@ color:#000;
         color: #232326;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -376,7 +376,7 @@ color:#000;
   width: 635px;
   height: 650px;
 
-  margin-top: 10px;
+  margin-top: 100px;
 .radio{
   display:flex;
   justify-content:center;
@@ -654,7 +654,7 @@ label{
       flex-direction: column;
       justify-content: center;
       align-items: center;
-background-color:#007aff;
+background-color: #74469A;
 cursor:pointer;
     }
     .btnazul1 {
@@ -684,7 +684,7 @@ color:#000;
         color: #101010;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -697,7 +697,7 @@ color:#000;
         color: #232326;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -714,7 +714,7 @@ color:#000;
   width: 100%;
   height: 940px;
 
-  margin-top: 10px;
+  margin-top: 100px;
 .radio{
   display:flex;
   justify-content:center;
@@ -984,7 +984,7 @@ border: 1px solid #C4C4C4;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-background-color:#007aff;
+background-color: #74469A;
 cursor:pointer;
 margin-bottom:18px;
     }
@@ -1016,7 +1016,7 @@ color:#000;
         color: #101010;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -1029,7 +1029,7 @@ color:#000;
         color: #232326;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }

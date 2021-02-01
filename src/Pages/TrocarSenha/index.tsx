@@ -18,7 +18,7 @@ import {
   GoogleLoginResponseOffline,
 } from "react-google-login";
 import { Link, useHistory } from "react-router-dom";
-import { Container,  Blue, Lockicon1, } from "./styles";
+import { Container, Blue, Lockicon1 } from "./styles";
 import api from "../../services/api";
 import * as Yup from "yup";
 
@@ -41,6 +41,7 @@ const NovoCadastro: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [senha2, setSenha2] = useState("");
   const [url, setUrl] = useState("");
   const [errorE, setErrorE] = useState([""]);
   const [errorS, setErrorS] = useState([""]);
@@ -64,7 +65,7 @@ const NovoCadastro: React.FC = () => {
   const { id_usuario } = user ? JSON.parse(user) : "";
 
   const handleSubmit = useCallback(
-    async (data: SigInFormData): Promise<void> => {
+    async (data: { senha: string; senha2: string }): Promise<void> => {
       setLoading(true);
 
       try {
@@ -74,10 +75,18 @@ const NovoCadastro: React.FC = () => {
             .trim()
             .matches(
               /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1}).*$/,
-              "senha deve conter pelo menos 8 caracteres, um número e um caractere especial"
+              "Senha deve conter pelo menos 8 caracteres, um número e um caractere especial"
             )
             .min(8, "No minimo 8 dígitos"),
+          senha2: Yup.string()
+            .oneOf(
+              [Yup.ref("senha")],
+              "Confirme sua senha precisa ser igual a senha"
+            )
+            .required("Confirmar Senha é Obrigatório"),
         });
+
+        console.log("Data", data);
 
         await schema.validate(data, {
           abortEarly: false,
@@ -88,37 +97,42 @@ const NovoCadastro: React.FC = () => {
         // 2° Porque primeiramente aquela variável 'id_usuario' estava com o valor
         //    de um objeto INTEIRO, por isso desestruturei ela
         //    Depois arrumei a chamada para: /usuarios/trocar_senha/${id_usuario}
-        const response = await api.put(
-          `usuarios/trocar_senha/${id_usuario}`,
-          {
-            senha: senha,
-          },
-          {
-            // Aqui eu ACHO que tava certo, MAS pesquisei lá na documentação do axios pra
-            // ter certeza
-            headers: {
-              "content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
 
-        addToast({
-          type: "sucess",
-          title: "Senha alterada com sucesso",
-        });
-        console.log();
-        history.push("/home");
+        if (data.senha === data.senha2) {
+          await api.put(
+            `usuarios/trocar_senha/${id_usuario}`,
+            { senha: data.senha },
+            {
+              // Aqui eu ACHO que tava certo, MAS pesquisei lá na documentação do axios pra
+              // ter certeza
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
-        // }
+          addToast({
+            type: "sucess",
+            title: "Senha alterada com sucesso",
+          });
+          history.push("/home");
+        }
         //  console.log(response.data);
       } catch (err) {
         setLoading(false);
         console.log(err);
         if (err instanceof Yup.ValidationError) {
-          console.log(err);
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
+          err.inner.map((error) =>
+            addToast({
+              type: "error",
+              title: "Erro ao alterar senha",
+              description: `${error.message}`,
+            })
+          );
+          return;
         }
 
         addToast({
@@ -146,59 +160,53 @@ const NovoCadastro: React.FC = () => {
   <i onClick={togglePasswordVisiblity}>{eye}</i>;
 
   useEffect(() => {
-    api.get("usuarios/").then((response) => {
+    api.get("usuarios").then((response) => {
       console.log(response.data);
     });
   }, []);
 
-  const responseGoogle = (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): void => {
-    if (!("profileObj" in response)) return;
-    setName(response.profileObj.name);
-    setEmail(response.profileObj.email);
-    setUrl(response.profileObj.imageUrl);
-  };
   return (
     <div>
       <Header />
       <Container>
         <Blue>
-        <div className="formBox"> 
-        <h3>Alterar Senha</h3>
-          <Form ref={formRef} onSubmit={handleSubmit}>
-          <div className="input1">
-              
+          <div className="formBox">
+            <h3>Alterar Senha</h3>
+            <Form ref={formRef} onSubmit={handleSubmit}>
+              <div className="input1">
+                <h2>Nova Senha</h2>
+                <Input
+                  className="input"
+                  name="senha"
+                  icon={FiLock}
+                  type={inputType}
+                  value={senha}
+                  placeholder="Dica: 8 digitos + 1 caractere especial"
+                  onChange={(e) => setSenha(e.target.value)}
+                />
+                <h2>Confirmar Senha</h2>
+                <Input
+                  className="input"
+                  name="senha2"
+                  icon={FiLock}
+                  type={inputType}
+                  value={senha2}
+                  placeholder="Dica: 8 digitos + 1 caractere especial"
+                  onChange={(e) => setSenha2(e.target.value)}
+                />
 
-              <h2>Nova Senha</h2>
-              <Input
-              className="input"
-              name="senha"
-              icon={FiLock}
-              type={inputType}
-              value={senha}
-              placeholder="Dica: 8 digitos + 1 caractere especial"
-              onChange={(e) => setSenha(e.target.value)}
-              
-            />
-             
-
-              <Button
-                isLoading={loading}
-                className="btn"
-                type="submit"
-                onClick={() => handleSubmit}
-              >
-                Confirmar
-              </Button>
-            </div>
-    
-
-       
-          </Form>
+                <Button
+                  isLoading={loading}
+                  className="btn"
+                  type="submit"
+                  onClick={() => handleSubmit}
+                >
+                  Confirmar
+                </Button>
+              </div>
+            </Form>
           </div>
         </Blue>
-     
       </Container>
     </div>
   );

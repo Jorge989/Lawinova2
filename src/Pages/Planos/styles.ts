@@ -4,6 +4,12 @@ import { Lock } from "../../styles/icons";
 import { Go } from "../../styles/icons";
 import { face } from "../../styles/icons";
 import { GoogleLogin as CustomGoogleLogin } from "react-google-login";
+
+interface GradientConfig {
+  code: string;
+  plano: string;
+}
+
 export const Container = styled.div`
   justify-content: center;
   height: 100%;
@@ -28,7 +34,82 @@ export const Container = styled.div`
     }
   }
 
+  @media screen and (max-width: 576px) {
+    justify-content: center;
+    height: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    z-index: 10;
 
+    .btnazul {
+      width: 80%;
+      height: 3.5%;
+      text-align: center;
+    }
+  }
+`;
+
+export const GradientCard = styled.div<GradientConfig>`
+  background: ${(props) =>
+    props.code !== props.plano
+      ? "#F6F6F6"
+      : `linear-gradient(
+    157.7deg,
+    #e95a0c -1.83%,
+    #e13d8d 28.93%,
+    #694896 62.87%,
+    #2e1f43 100%
+  )`};
+  flex: 1 1 200px;
+  max-width: 280px;
+  margin-left: 10px;
+  margin-right: 20px;
+  border-radius: 3px;
+  border: none;
+  margin-top: 70px;
+  border-radius: 8px;
+  padding: 16px 0;
+  cursor: pointer;
+
+  .offer {
+    height: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    width: 250px;
+    line-height: 30px;
+    color: #ffffff;
+  }
+`;
+
+export const GradientCardContainer = styled.ul`
+  list-style: none;
+  li {
+    list-style: none;
+    height: 30px;
+    font-size: 12px;
+    width: 250px;
+    line-height: 30px;
+    color: #333;
+  }
+`;
+
+export const GradientText = styled.h4<GradientConfig>`
+  text-transform: uppercase;
+  background: ${(props) =>
+    props.code !== props.plano
+      ? `linear-gradient(
+    157.7deg,
+    #e95a0c -1.83%,
+    #e13d8d 28.93%,
+    #694896 62.87%,
+    #2e1f43 100%
+  )`
+      : "#ffffff"};
+  font-size: 30px;
+  font-weight: 500;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 export const Blue = styled.div`
@@ -57,20 +138,20 @@ export const Blue = styled.div`
       text-align: center;
     }
     .button {
-      display:flex;
-      justify-content:center;
+      display: flex;
+      justify-content: center;
 
-   text-align: center;
+      text-align: center;
       width: 16%;
       height: 75px;
       text-align: center;
       margin-top: -5%;
-    button {
-      height: 62%;
-      display:flex;
-      justify-content:center;
-      text-align: center;
-    }
+      button {
+        height: 62%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
     }
     .pricing-container h1 {
       font-size: 36px;
@@ -94,14 +175,14 @@ export const Blue = styled.div`
     }
 
     .plan {
-      background-color: #ffffff;
+      /* background-color: #ffffff;
       flex: 1 1 200px;
       max-width: 280px;
       margin-left: 10px;
       margin-right: 20px;
       border-radius: 3px;
       border: 2px solid #c4c4c4;
-      margin-top: 70px;
+      margin-top: 70px; */
       .Valores {
         margin-top: 5px;
 
@@ -226,24 +307,24 @@ export const Blue = styled.div`
         margin-top: 130px;
       }
       .button {
-      display:flex;
-      justify-content:center;
+        display: flex;
+        justify-content: center;
 
-   text-align: center;
-      width: 300px;
-      height: 75px;
-      text-align: center;
-  
-      margin-top: -5%;
-    button {
-      height: 75%;
-      width: 80%;
-      display:flex;
-      
-      justify-content:center;
-      text-align: center;
-    }
-    }
+        text-align: center;
+        width: 300px;
+        height: 75px;
+        text-align: center;
+
+        margin-top: -5%;
+        button {
+          height: 75%;
+          width: 80%;
+          display: flex;
+
+          justify-content: center;
+          text-align: center;
+        }
+      }
 
       .plans-container,
       .sepcialti-container ul {
@@ -252,111 +333,84 @@ export const Blue = styled.div`
     }
 
     @media screen and (max-width: 576px) {
-      display:flex;
-      justify-content:center;
-    width: 100%;
-    max-width:100px;
-   margin-top:160px;
-    height:2050px;
-
-margin-left:-1%;
-    .plan .plan-name {
-     
-      text-transform: uppercase;
-      font-size: 18px;
-      font-weight: 400;
-      color: #000;
-      background-color: #f3f2f2;
-
-    
-      form {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-  
-      }
-    }
-    .button {
-      display:flex;
-      justify-content:center;
-
-   text-align: center;
-      width: 380px;
-      height: 68px;
-      text-align: center;
-    margin-left:2%;
-      margin-top: -10%;
-  
-    button {
-      height: 100%;
+      display: flex;
+      justify-content: center;
       width: 100%;
-      display:flex;
-      
-      justify-content:center;
-      text-align: center;
-    }
-    }
-    .plan .plan-name {
-     
-      display:flex;
-      justify-content:center;
-      text-transform: uppercase;
-      font-size: 18px;
-      font-weight: 400;
-      color: #000;
-  
-      background-color: #f3f2f2;
+      max-width: 100px;
 
-      padding-top: 0px;
-      padding-bottom: 0px;
-    
-   
-    }
-    .pricing-container h1 {
-      
-      font-size: 36px;
-      font-weight: 400;
-      margin-top: 100px;
+      height: 1670px;
 
-    }
-    .pricing-container p {
-      
-      font-size: 21px;
- 
-    }
-    .plan li {
-   
+      .plan .plan-name {
+        text-transform: uppercase;
+        font-size: 18px;
+        font-weight: 400;
+        color: #000;
+        background-color: #f3f2f2;
+      }
+      .button {
+        display: flex;
+        justify-content: center;
+
+        text-align: center;
+        width: 340px;
+        height: 73px;
+        text-align: center;
+
+        margin-top: -5%;
+        button {
+          height: 90%;
+          width: 105%;
+          display: flex;
+
+          justify-content: center;
+          text-align: center;
+        }
+      }
+      .plan .plan-name {
+        display: flex;
+        justify-content: center;
+        text-transform: uppercase;
+        font-size: 18px;
+        font-weight: 400;
+        color: #000;
+
+        background-color: #f3f2f2;
+
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+      .pricing-container h1 {
+        font-size: 36px;
+        font-weight: 400;
+        margin-top: -50px;
+      }
+      .pricing-container p {
+        font-size: 21px;
+      }
+      .plan li {
         list-style: none;
-        height: 50px;
+        height: 30px;
         font-size: 13px;
         width: 249px;
         line-height: 30px;
         background-color: #fff;
         color: #333;
-      
       }
 
       button {
-       
-      width: fit-content;
-      padding: 0 16px;
-      width: 21%;
-      height: 40px;
-      text-align: center;
-      margin-top: -0%;
-      margin-left: 0%;
-     
+        width: fit-content;
+        padding: 0 16px;
+        width: 21%;
+        height: 40px;
+        text-align: center;
+        margin-top: -10%;
+        margin-left: 0%;
+      }
+      .btnazul {
+        text-align: center;
+      }
     }
-    .btnazul {
-      text-align: center;
-      margin-top: -5%;
- 
-    }
-    
-    }}
+  }
 `;
 export const GoogleLogin = styled(CustomGoogleLogin)`
   background-color: red;
@@ -371,20 +425,7 @@ export const Draw = styled(DrawCadastro)`
     height: 70px;
   }
 `;
-export const Entra = styled.div`
-display:flex;
-justify-content:center;
 
- margin-left:250px;
-a{
-  text-decoration:none;
-  color:#000;
-  font-size:20px;
-  &:hover {
-          color: #007aff;
-        }
-}
-`;
 export const Lockicon1 = styled(Lock)``;
 export const Googleicon = styled(Go)``;
 export const Facebokcion = styled(face)``;

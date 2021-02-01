@@ -17,6 +17,9 @@ import {
   GoogleLogin,
   Googleicon,
   Facebokcion,
+  GradientCard,
+  GradientCardContainer,
+  GradientText,
 } from "./styles";
 import FacebookLogin from "react-facebook-login";
 
@@ -230,38 +233,47 @@ const Planos: React.FC = () => {
   <i onClick={togglePasswordVisiblity}>{eye}</i>;
 
   return (
-    <div className="ehad">
+    <div className="ehad" style={{ marginTop: 120 }}>
       <Header2 />
       <Container>
         <Blue>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <section className="pricing-container">
               <h1>Planos e Preços</h1>
-              <p>Selecione o plano perfeito para você</p>
+              <p>Selecione o plano perfeito para voçê</p>
               <div className="plans-container">
                 {PlansData.map((plan) => (
-                  <div
+                  <GradientCard
                     key={plan.id}
-                    className="plan"
-                    style={{
-                      borderColor: plan.code === planos ? "blue" : "#cccc",
-                    }}
+                    code={plan.code}
+                    plano={planos}
                     onClick={() => setPlanos(plan.code)}
                   >
-                    <ul>
-                      <li className="plan-name">{plan.name.toUpperCase()}</li>
-
-                      <div className="hr" />
-                      <div className="Valores">
-                        <h4 className="grana">R${plan.value}</h4>
-                        <h4 className="grana1">/Mês</h4>
-                      </div>
+                    <GradientCardContainer>
+                      <GradientText
+                        style={{ fontSize: 16 }}
+                        code={plan.code}
+                        plano={planos}
+                      >
+                        {plan.name}
+                      </GradientText>
+                      <GradientText code={plan.code} plano={planos}>
+                        R${plan.value}
+                      </GradientText>
 
                       {plan.offers.map((offer) => (
-                        <li key={offer.id}>{offer.name.toUpperCase()}</li>
+                        <li
+                          style={{
+                            color: plan.code !== planos ? "#000000" : "#ffffff",
+                          }}
+                          className="offer"
+                          key={offer.id}
+                        >
+                          {offer.name.toUpperCase()}
+                        </li>
                       ))}
-                    </ul>
-                  </div>
+                    </GradientCardContainer>
+                  </GradientCard>
                 ))}
               </div>
             </section>

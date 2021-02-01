@@ -36,9 +36,9 @@ export const Blue = styled.div`
   width: 70%;
   height: 730px;
 
-  margin-top: 3px;
+  margin-top: 85px;
   margin-left:1%;
- 
+
   .div4{
 
 margin-top:-0%;
@@ -165,7 +165,7 @@ width:100%;
 
   }
   h3 {
-    margin-top: 0px;
+    margin-top: 6px;
     font-size: 29px;
     text-align: center;
     font-weight: 400;
@@ -199,7 +199,7 @@ width:100%;
     }
     .btnazul {
       text-align: center;
-      margin-top: 7%;
+      margin-top: 24px;
     }
 
     .cadastre {
@@ -224,7 +224,7 @@ width:100%;
         color: #232326;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -381,7 +381,7 @@ border: 1px solid #C4C4C4;
           color: #101010;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color: #941AF9;
           }
         }
       }
@@ -394,7 +394,7 @@ border: 1px solid #C4C4C4;
           color: #232326;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color: #941AF9;
           }
         }
       }
@@ -552,7 +552,7 @@ font-weight:400;
           color: #101010;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color: #941AF9;
           }
         }
       }
@@ -565,7 +565,7 @@ font-weight:400;
           color: #232326;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color: #941AF9;
           }
         }
       }
@@ -588,14 +588,14 @@ position: fixed;
 export const Entra = styled.div`
 display:flex;
 justify-content:center;
-
+margin-top:-0.5%;
  margin-left:250px;
 a{
   text-decoration:none;
   color:#000;
   font-size:20px;
   &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
 }
 `;

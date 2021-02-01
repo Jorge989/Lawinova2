@@ -23,6 +23,7 @@ import {
   GoogleLogin,
   Googleicon,
   Facebokcion,
+  Entra,
 } from "./styles";
 import api from "../../services/api";
 import * as Yup from "yup";
@@ -139,7 +140,11 @@ const NovoCadastro: React.FC = () => {
         const schema = Yup.object().shape({
           nome: Yup.string().required("Nome obrigatório"),
           email: Yup.string().required("E-mail obrigatório"),
+          telefone: Yup.string().trim().matches(/^.*(?=.{8,}).*$/)
+          .min( 8,"No minimo 8 dígitos"),
 
+
+          
           senha: Yup.string()
             .trim()
             .matches(
@@ -158,11 +163,6 @@ const NovoCadastro: React.FC = () => {
           usuario: UserResponse;
         }>("usuarios", data);
 
-        // ({
-        //   loginDTO: data,
-        //   userData: response.data,
-        //   email: email,
-        // });
         console.log(response.data);
         console.log(name + "nome aqui");
 
@@ -393,12 +393,15 @@ const NovoCadastro: React.FC = () => {
   const handleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);
   };
-  const dataFim = new Date(new Date().getDate() + 120960000).toLocaleString();
-  const dataStart = new Date(new Date()).toLocaleString();
-  const dataFormatadaInicio = converteData(dataStart, "/", "-");
-  const dataFormatadaFim = converteData(dataFim, "/", "-");
-  console.log(dataStart);
-  console.log(dataFim);
+
+  const endDate = new Date(
+    new Date().getTime() + 1_209_600_000
+  ).toLocaleString();
+  const startDate = new Date(new Date()).toLocaleString();
+  const dataFormatadaInicio = converteData(startDate, "/", "-");
+  const dataFormatadaFim = converteData(endDate, "/", "-");
+  console.log(startDate);
+  console.log(endDate);
 
   function converteData(
     data: String,
@@ -421,7 +424,21 @@ const NovoCadastro: React.FC = () => {
 
   return (
     <div>
-      <Header2 />
+      <Header2>
+      <Entra>
+          <button className="testeG">
+          <a href={`/testecadastro/plano=plano2`}className="testeG">Teste-Grátis</a>
+          </button>
+          
+         
+
+    
+         
+          
+          
+          </Entra>
+
+      </Header2>
       <Container>
         <Blue>
           <div className="formBox">
@@ -447,7 +464,7 @@ const NovoCadastro: React.FC = () => {
                   icon={FiPhoneCall}
                   type="text"
                   value={tel}
-                  maxLength={13}
+                  maxLength={11}
                   preffix
                   placeholder="(xx) xxxxx-xxxx"
                   onChange={(e) => setTelefone(e.target.value)}
@@ -470,7 +487,7 @@ const NovoCadastro: React.FC = () => {
                   icon={FiLock}
                   value={senha}
                   type={inputType}
-                  placeholder='Dica: 8 digitos + 1 caractere especial'
+                  placeholder="Senha"
                   onChange={(e) => setSenha(e.target.value)}
                 />
 
@@ -487,7 +504,7 @@ const NovoCadastro: React.FC = () => {
                 </Button>
               </div>
               <div className="politica">
-                <h4>Ao continuar, você concorda com a&nbsp;</h4>
+                <h4>Ao continuar, voçê concorda com a&nbsp;</h4>
 
                 <h4 className="policticablue"> Política de Privacidade</h4>
               </div>
@@ -520,7 +537,7 @@ const NovoCadastro: React.FC = () => {
                 /> */}
               </div>
               <button className="possuilogin">
-                <a href="login">Já possui login?</a>
+                <a href={`/login/`}>Já possui login?</a>
               </button>
             </Form>
           </div>

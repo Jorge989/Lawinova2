@@ -4,6 +4,12 @@ import { Lock } from "../../styles/icons";
 import { Go } from "../../styles/icons";
 import { face } from "../../styles/icons";
 import { GoogleLogin as CustomGoogleLogin } from "react-google-login";
+
+interface GradientConfig {
+  code: string;
+  plano: string;
+}
+
 export const Container = styled.div`
   justify-content: center;
   height: 100%;
@@ -29,20 +35,85 @@ export const Container = styled.div`
   }
 
   @media screen and (max-width: 576px) {
-  
     justify-content: center;
-  height: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  width: 100%;
-  z-index: 10;
- 
+    height: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    z-index: 10;
+
     .btnazul {
       width: 80%;
       height: 3.5%;
       text-align: center;
     }
   }
+`;
+
+export const GradientCard = styled.div<GradientConfig>`
+  background: ${(props) =>
+    props.code !== props.plano
+      ? "#f0f0f0"
+      : `linear-gradient(
+    157.7deg,
+    #e95a0c -1.83%,
+    #e13d8d 28.93%,
+    #694896 62.87%,
+    #2e1f43 100%
+  )`};
+  flex: 1 1 200px;
+  max-width: 280px;
+  margin-left: 10px;
+  margin-right: 20px;
+  border-radius: 3px;
+  border: none;
+  margin-top: 70px;
+  border-radius: 8px;
+  padding: 16px 0;
+
+  display: flex;
+  justify-content: center;
+
+  cursor: pointer;
+
+  .offer {
+    height: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    width: 250px;
+    line-height: 30px;
+    color: #ffffff;
+  }
+`;
+
+export const GradientCardContainer = styled.ul`
+  list-style: none;
+  li {
+    list-style: none;
+    height: 30px;
+    font-size: 12px;
+    width: 250px;
+    line-height: 30px;
+    color: #333;
+  }
+`;
+
+export const GradientText = styled.h4<GradientConfig>`
+  text-transform: uppercase;
+  background: ${(props) =>
+    props.code !== props.plano
+      ? `linear-gradient(
+    157.7deg,
+    #e95a0c -1.83%,
+    #e13d8d 28.93%,
+    #694896 62.87%,
+    #2e1f43 100%
+  )`
+      : "#ffffff"};
+  font-size: 30px;
+  font-weight: 500;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 export const Blue = styled.div`
@@ -71,20 +142,20 @@ export const Blue = styled.div`
       text-align: center;
     }
     .button {
-      display:flex;
-      justify-content:center;
+      display: flex;
+      justify-content: center;
 
-   text-align: center;
+      text-align: center;
       width: 16%;
       height: 75px;
       text-align: center;
       margin-top: -5%;
-    button {
-      height: 62%;
-      display:flex;
-      justify-content:center;
-      text-align: center;
-    }
+      button {
+        height: 62%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
     }
     .pricing-container h1 {
       font-size: 36px;
@@ -194,61 +265,56 @@ export const Blue = styled.div`
       line-height: 75px;
       cursor: pointer;
     }
-    .btnblue{
-        display:flex;
-      flex-direction:row;
-      justify-content:space-between;
-      align-items:center;
-  
-      width:48.5%;
-      height:500px;
-     
-      margin-top:-6.2%;
-      margin-right:0%;
+    .btnblue {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
 
+      width: 48.5%;
+      height: 500px;
+
+      margin-top: -6.2%;
+      margin-right: 0%;
     }
     button {
-        width: fit-content;
-      align-items:center;
+      width: fit-content;
+      align-items: center;
       width: 27%;
       height: 41px;
       text-align: center;
-      
     }
     .btnazul {
-        width: 30%;
-      margin-right:105px;
+      width: 30%;
+      margin-right: 105px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-background-color:#007aff;
-font-size:15px;
-font-weight:500;
-cursor:pointer;
-vertical-align: middle;
-
+      background-color: #007aff;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      vertical-align: middle;
     }
     .btnazul1 {
-        width: 30%;
-      margin-left:115px;
+      width: 30%;
+      margin-left: 115px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-background-color:#F8F8F8;
-box-shadow: 0px 5px 5px #BBBBBB;
-font-size:15px;
-font-weight:500;
-align-items:center;
-color:#000;
-vertical-align: middle;
-&:hover{
-  background-color:#F3F3F3;
-}
-
+      background-color: #f8f8f8;
+      box-shadow: 0px 5px 5px #bbbbbb;
+      font-size: 15px;
+      font-weight: 500;
+      align-items: center;
+      color: #000;
+      vertical-align: middle;
+      &:hover {
+        background-color: #f3f3f3;
+      }
     }
-
 
     @media screen and (max-width: 900px) {
       display: flex;
@@ -294,54 +360,52 @@ vertical-align: middle;
         border: 2px solid #c4c4c4;
         margin-top: 130px;
       }
-      .btnblue{
-      display:flex;
-      flex-direction:row;
-      justify-content:space-between;
-      align-items:center;
-  
-      width:80%;
-      height:500px;
-     
-      margin-top:0%;
-      margin-right:5%;
+      .btnblue {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
 
-    }
-    button {
-      width: fit-content;
-      align-items:center;
-      width: 27%;
-      height: 40px;
-      text-align: center;
-    }
-    .btnazul {
-      width: 30%;
-      height:9%;
-      margin-right:105px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-background-color:#007aff;
-cursor:pointer;
-    }
-    .btnazul1 {
-      width: 30%;
-      margin-left:115px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-background-color:#F8F8F8;
-box-shadow: 0px 5px 5px #BBBBBB;
+        width: 80%;
+        height: 500px;
 
-align-items:center;
-color:#000;
-&:hover{
-  background-color:#F3F3F3;
-}
+        margin-top: 0%;
+        margin-right: 5%;
+      }
+      button {
+        width: fit-content;
+        align-items: center;
+        width: 27%;
+        height: 40px;
+        text-align: center;
+      }
+      .btnazul {
+        width: 30%;
+        height: 9%;
+        margin-right: 105px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #007aff;
+        cursor: pointer;
+      }
+      .btnazul1 {
+        width: 30%;
+        margin-left: 115px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f8f8;
+        box-shadow: 0px 5px 5px #bbbbbb;
 
-    }
+        align-items: center;
+        color: #000;
+        &:hover {
+          background-color: #f3f3f3;
+        }
+      }
 
       .plans-container,
       .sepcialti-container ul {
@@ -350,101 +414,90 @@ color:#000;
     }
 
     @media screen and (max-width: 576px) {
-      display:flex;
-      justify-content:center;
-    width: 100%;
-    max-width:100px;
-   
-    height:1750px;
-
-    .plan .plan-name {
-     
-      text-transform: uppercase;
-      font-size: 18px;
-      font-weight: 400;
-      color: #000;
-      background-color: #f3f2f2;
-
- 
-
-    }
-    
-    .btnblue{
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      align-items:center;
-  
-      width:100%;
-      height:100px;
-     
-      margin-top:0%;
-      margin-right:5%;
-
-    }
-    button {
-      width: fit-content;
-      align-items:center;
+      display: flex;
+      justify-content: center;
       width: 100%;
-      height: 0px;
-      text-align: center;
-    }
-    .btnazul {
+      max-width: 100px;
+
+      height: 1750px;
+
+      .plan .plan-name {
+        text-transform: uppercase;
+        font-size: 18px;
+        font-weight: 400;
+        color: #000;
+        background-color: #f3f2f2;
+      }
+
+      .btnblue {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        width: 100%;
+        height: 100px;
+
+        margin-top: 0%;
+        margin-right: 5%;
+      }
+      button {
+        width: fit-content;
+        align-items: center;
+        width: 100%;
+        height: 0px;
+        text-align: center;
+      }
+      .btnazul {
         width: 345%;
-      height:45px;
-      margin-right:0px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-background-color:#007aff;
-cursor:pointer;
-    }
-    .btnazul1 {
+        height: 45px;
+        margin-right: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #007aff;
+        cursor: pointer;
+      }
+      .btnazul1 {
         width: 345%;
-      margin-left:0px;
-      height:45px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-background-color:#F8F8F8;
-box-shadow: 0px 5px 5px #BBBBBB;
+        margin-left: 0px;
+        height: 45px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f8f8;
+        box-shadow: 0px 5px 5px #bbbbbb;
 
-align-items:center;
-color:#000;
-&:hover{
-  background-color:#F3F3F3;
-}
+        align-items: center;
+        color: #000;
+        &:hover {
+          background-color: #f3f3f3;
+        }
+      }
+      .plan .plan-name {
+        display: flex;
+        justify-content: center;
+        text-transform: uppercase;
+        font-size: 18px;
+        font-weight: 400;
+        color: #000;
 
-    }
-    .plan .plan-name {
-      
-      display:flex;
-      justify-content:center;
-      text-transform: uppercase;
-      font-size: 18px;
-      font-weight: 400;
-      color: #000;
-  
-      background-color: #f3f2f2;
+        background-color: #f3f2f2;
 
-      padding-top: 0px;
-      padding-bottom: 0px;
-   
-    }
-    .pricing-container h1 {
-      font-size: 36px;
-      font-weight: 400;
-      margin-top: -50px;
-    
-    }
-    .pricing-container p {
-      font-size: 21px;
- 
-    }
-    .plan li {
-   
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+      .pricing-container h1 {
+        font-size: 36px;
+        font-weight: 400;
+        margin-top: -50px;
+      }
+      .pricing-container p {
+        font-size: 21px;
+      }
+      .plan li {
         list-style: none;
         height: 30px;
         font-size: 13px;
@@ -455,21 +508,19 @@ color:#000;
       }
 
       button {
-       
-      width: fit-content;
-      padding: 0 16px;
-      width: 21%;
-      height: 40px;
-      text-align: center;
-      margin-top: -10%;
-      margin-left: 0%;
-     
+        width: fit-content;
+        padding: 0 16px;
+        width: 21%;
+        height: 40px;
+        text-align: center;
+        margin-top: -10%;
+        margin-left: 0%;
+      }
+      .btnazul {
+        text-align: center;
+      }
     }
-    .btnazul {
-      text-align: center;
-    }
-    
-    }}
+  }
 `;
 export const GoogleLogin = styled(CustomGoogleLogin)`
   background-color: red;

@@ -34,7 +34,7 @@ export const Blue = styled.div`
   width: 70%;
   height: 480px;
 
-  margin-top: 30px;
+  margin-top: 100px;
 
   .formBox {
     display: flex;
@@ -283,7 +283,7 @@ export const Blue = styled.div`
     width: 100%;
     height: 560px;
 
-    margin-top: 10px;
+    margin-top: 90px;
 
     .formBox {
       display: flex;
@@ -363,7 +363,8 @@ export const Blue = styled.div`
       }
 
       .input1 {
-        height: 100%;
+        margin-top:-5%;
+        height: 50%;
         display: flex;
         flex-direction: column;
         justify-content: center;

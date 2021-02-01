@@ -12,8 +12,17 @@ interface SignInCredentials {
   senha: string;
 }
 
+interface User {
+  id_usuario: number;
+  nome: string;
+  status_usuario: string;
+  email: string;
+  tipo_conta: string;
+  perfil: string;
+}
+
 export interface AuthContextData {
-  user: object;
+  user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
   setAuthData({ token, user }: AuthState): void;
@@ -29,7 +38,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     const user = localStorage.getItem("@ActionLaw: user");
 
     if (token && user && user !== "undefined") {
-      return { token, user: JSON.parse(user) };
+      const parsedUser = JSON.parse(user) as User;
+
+      return { token, user: parsedUser };
     }
     return {} as AuthState;
   });
@@ -61,7 +72,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, setAuthData }}
+      value={{ user: data.user as User, signIn, signOut, setAuthData }}
     >
       {children}
     </AuthContext.Provider>

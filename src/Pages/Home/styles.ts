@@ -35,7 +35,7 @@ export const Blue = styled.div`
   width: 70%;
   height: 400px;
 
-  margin-top: 10px;
+  margin-top: 100px;
   .perguntaserespostas{
   margin-top:1%;
   margin-left:12%;
@@ -51,8 +51,11 @@ max-height:20px;
     color:#6A6A6A;
   }
 }
+
 .Menu h1{
   font-size:16px;
+
+
 
 }
   .topo{
@@ -107,8 +110,8 @@ height:100%;
   display:flex;
   flex-direction:row;
   line-height:10px;
-margin-top:-10%;
- margin-left:63%;
+margin-top:-9%;
+ margin-left:68%;
 
   
  
@@ -187,7 +190,7 @@ color: #9B9B9B;
     margin-left:16%;
     margin-top:-29%;
     &:hover {
-      color: #2828fc;
+      color: #941AF9;
     }
  
     
@@ -242,7 +245,7 @@ color:#101010;
     margin-left:16%;
     margin-top:-28%;
     &:hover {
-      color: #2828fc;
+      color: #941AF9;
     }
  
     
@@ -385,7 +388,7 @@ height:70%;
   width: 90%;
   height: 400px;
 
-  margin-top: 20px;
+  margin-top: 100px;
   .perguntaserespostas{
   margin-top:1%;
   margin-left:12%;
@@ -537,7 +540,7 @@ color: #9B9B9B;
     margin-left:16%;
     margin-top:-29%;
     &:hover {
-      color: #2828fc;
+      color: #941AF9;
     }
  
     
@@ -592,7 +595,7 @@ color:#101010;
     margin-left:16%;
     margin-top:-28%;
     &:hover {
-      color: #2828fc;
+      color: #941AF9;
     }
  
     
@@ -720,7 +723,7 @@ height:70%;
   width: 100%;
   height: 500px;
 
-  margin-top: 50px;
+  margin-top: 130px;
   .perguntaserespostas{
   margin-top:10%;
   margin-left:12%;
@@ -757,9 +760,10 @@ height:100%;
   font-size:35px;
 }
 .subtopo{
-  width:75%;
-  margin-top:-5%;
+  width:68%;
+  margin-top:1%;
   font-size:21px;
+
 
   }
 .dias{
@@ -795,7 +799,7 @@ height:100%;
   flex-direction:row;
   line-height:10px;
 margin-top:1%;
- margin-left:-61%;
+ margin-left:-56%;
 
   
  
@@ -861,7 +865,7 @@ color: #9B9B9B;
   .logoplay{
     z-index:999;
     cursor:pointer;
-    width:15%;
+    width:13%;
      margin-left:5%;
     margin-top:2%; 
   }
@@ -872,9 +876,9 @@ color: #9B9B9B;
     font-size:25px;
     font-weight:400;
     margin-left:13%;
-    margin-top:-20%;
+    margin-top:-18%;
     &:hover {
-      color: #2828fc;
+      color: #941AF9;
     }
  
     
@@ -916,7 +920,7 @@ color:#101010;
   .logoapp{
     z-index:999;
     cursor:pointer;
-    width:15%;
+    width:13%;
      margin-left:5%;
      margin-top:2%; 
   }
@@ -927,9 +931,9 @@ color:#101010;
     font-size:25px;
     font-weight:400;
     margin-left:13%;
-    margin-top:-20%;
+    margin-top:-19%;
     &:hover {
-      color: #2828fc;
+      color: #941AF9;
     }
  
     
@@ -1085,7 +1089,7 @@ outline:0;
 
   }
   &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
 }
 `;
@@ -1097,7 +1101,7 @@ display:flex;
 /* display:none; */
 position: static;
 z-index:10;
-
+margin-top:78px;
 right:0;
 margin-left:86%;
 

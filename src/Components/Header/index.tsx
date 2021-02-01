@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { FiFacebook } from "react-icons/fi";
 import { FiLinkedin } from "react-icons/fi";
 import { FiTwitter } from "react-icons/fi";
@@ -6,78 +6,98 @@ import { FiShoppingCart } from "react-icons/fi";
 import { FiBarChart } from "react-icons/fi";
 
 import {
- Nav,
- Menu,
- NavLink,
- Bars,
- NavMenu,
-NavBtn,
-NavBtnLink,
- 
-  } from "./styles";
+  HeaderContainer,
+  Nav,
+  NavLink,
+  Bars,
+  NavMenu,
+  NavBtnLink,
+  Dropdown,
+  DropdownContainer,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle,
+  NavItems,
+} from "./styles";
+// @ts-ignore
 import Logo from "../../assets/principal.png";
-
 const Header: React.FC = ({children}) => {
   const [isShow, setIsShow] = useState(false);
   return (
-    
-    <>
-    
-  <Nav>
-    <button className="btnimg">
-      <img src={Logo} className="logo"/>
-      </button>
-    <NavLink to="login">
-       </NavLink>
-   <button onClick={() => setIsShow(!isShow)}>
-    <Bars/>
-    </button>
-    <NavMenu  >
-      <NavLink to="/about" className="cool-link1">
-Site da Empresa/Produto
-      </NavLink>
-      <NavLink to="/about"className="cool-link" >
-Planos
-      </NavLink> 
-      <NavLink to="/about" className="cool-link2">
-Perguntas Frequentes
-      </NavLink>
-      <NavLink to="/about" className="cool-link3">
-Casos de Sucesso
-      </NavLink>
-      {/* <NavLink to="/about" className="cool-link4">
-Entrar
-      </NavLink> */}
-      <div>
-    {children}
-    </div>
-      {/* <NavBtnLink to="/singin">Entrar</NavBtnLink> */}
-    </NavMenu>
-    <NavBtn>
-      {/* <NavBtnLink to="/singin">  <a href="/novocadastro"> <FiShoppingCart  size={24}/></a></NavBtnLink> */}
-    </NavBtn>
-        </Nav>
-        {isShow && (
-        <Menu className="menu">
-         <ul>
-           <li>  <a href="/about" className="cool-link1">
-Planos
+    <HeaderContainer>
+      <Nav>
+        <NavItems>
+          <button className="btnimg" >
+            <a href="/login">
+            <img src={Logo} height={85} className="logo" />
+            </a>
+          </button>
 
-      </a></li>
-      <hr className="linha"/>
-      <li>    <a href="/about" className="cool-link1">
-Casos de Sucesso
-      </a>     <hr className="linha"/></li>
-      <li>    <a href="/about" className="cool-link1">
-      Perguntas Frequentes
-      </a>     <hr className="linha"/></li>
-      <li>      <a href="/about" className="cool-link3">
-      Site da Empresa/Produto
-      </a></li>
-         </ul>
-    </Menu>
-        )}
-        </>
+          <NavMenu>
+            <NavLink to="/about" className="cool-link1">
+              Site da Empresa/Produto
+            </NavLink>
+            <NavLink to="/about" className="cool-link">
+              Planos
+            </NavLink>
+            <NavLink to="/about" className="cool-link2">
+              Perguntas Frequentes
+            </NavLink>
+            <NavLink to="/about" className="cool-link3">
+              Casos de Sucesso
+            </NavLink>
+            <div>
+              {children}
+            </div>
+            {/* <NavLink to="/about" className="cool-link4">
+              Entrar
+            </NavLink> */}
+          </NavMenu>
+        </NavItems>
+
+        <NavItems>
+          <NavBtnLink to="/singin">
+            <a href="/novocadastro">
+              {/* <FiShoppingCart size={24} /> */}
+            </a>
+          </NavBtnLink>
+          <Dropdown>
+            <DropdownToggle onClick={() => setIsShow(!isShow)}>
+              <Bars />
+            </DropdownToggle>
+            {isShow && (
+              <DropdownContainer>
+                <DropdownMenu>
+                  <DropdownItem>
+                    <a href="/about" className="cool-DropdownItDropdownItemnk1">
+                      Planos
+                    </a>
+                    <hr className="linha" />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <a href="/about" className="cool-link1">
+                      Casos de Sucesso
+                    </a>
+                    <hr className="linha" />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <a href="/about" className="cool-link1">
+                      Perguntas Frequentes
+                    </a>
+                    <hr className="linha" />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <a href="/about" className="cool-link3">
+                      Site da Empresa/Produto
+                    </a>
+                  </DropdownItem>
+                </DropdownMenu>
+              </DropdownContainer>
+            )}
+          </Dropdown>
+        </NavItems>
+      </Nav>
+    </HeaderContainer>
   );
 };
 

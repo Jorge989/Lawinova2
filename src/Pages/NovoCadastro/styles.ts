@@ -35,7 +35,7 @@ export const Blue = styled.div`
   width: 70%;
   height: 480px;
 
-  margin-top: 22px;
+  margin-top: 100px;
 
   .formBox {
     display: flex;
@@ -136,7 +136,7 @@ margin-top:3px;
   }
     .btnazul {
       text-align: center;
-      margin-top: 11%;
+      margin-top: 24px;
     }
 
     .cadastre {
@@ -148,7 +148,7 @@ margin-top:3px;
         color: #101010;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color:  #941AF9;
         }
       }
     }
@@ -161,7 +161,7 @@ margin-top:3px;
         color: #232326;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color:  #941AF9;
         }
       }
     }
@@ -267,7 +267,7 @@ margin-top:3px;
           color: #101010;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color:  #941AF9;
           }
         }
       }
@@ -280,7 +280,7 @@ margin-top:3px;
           color: #232326;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color:  #941AF9;
           }
         }
       }
@@ -300,7 +300,7 @@ margin-top:3px;
     width: 90%;
     height: 560px;
 
-    margin-top: 5px;
+    margin-top: 90px;
 
     .formBox {
       display: flex;
@@ -370,6 +370,7 @@ margin-top:3px;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+  
       
     }
       button {
@@ -395,7 +396,12 @@ margin-top:3px;
 
       
       }
-      
+      .possuilogin{
+        a{
+   font-weight:600;
+        }
+
+  }
       .cadastre {
         width: 100%;
         margin-top: 16px;
@@ -407,7 +413,7 @@ margin-top:3px;
           color: #101010;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color: #941AF9;
           }
         }
       }
@@ -425,6 +431,7 @@ margin-top:3px;
 
    
   }
+  
       .esqueci {
         width: 100%;
         margin-top: 0px;
@@ -434,7 +441,7 @@ margin-top:3px;
           color: #232326;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color:  #941AF9;
           }
         }
       }
@@ -446,14 +453,14 @@ margin-top:3px;
 export const Entra = styled.div`
 display:flex;
 justify-content:center;
-
+margin-top:-0.5%;
  margin-left:250px;
 a{
   text-decoration:none;
   color:#000;
   font-size:20px;
   &:hover {
-          color: #007aff;
+          color:  #941AF9;
         }
 }
 `;
@@ -467,7 +474,7 @@ a{
   color:#000;
   font-size:20px;
   &:hover {
-          color: #007aff;
+          color:  #941AF9;
         }
 }
 `;

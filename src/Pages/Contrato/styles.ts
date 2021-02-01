@@ -39,7 +39,7 @@ export const Blue = styled.div`
   width: 70%;
   height: 480px;
 
-  margin-top: 5px;
+  margin-top: 90px;
 
 
   .formBox {
@@ -79,7 +79,7 @@ export const Blue = styled.div`
     flex-direction: column;
     align-items: center;
     height: 100%;
-  
+
     .input1 {
       display: flex;
       flex-direction: column;
@@ -126,8 +126,8 @@ margin-top:0;
     button {
       width: fit-content;
       padding: 0 16px;
-      width: 23.5%;
-      height: 51px;
+      width: 24%;
+      height: 55px;
       text-align: center;
   
     }
@@ -173,8 +173,10 @@ margin-left:-20%;
   width: 700px;
   height: 500px;
 
-  margin-top: 5px;
+.contrato{
 
+  width:100%;
+}
 
   .formBox {
     display: flex;
@@ -249,8 +251,8 @@ margin-top:0;
         justify-content:center;
         align-items:center;
         width:100%;
-        margin-top:1%;
-
+        margin-top:2%;
+      
     }
     .input{
         display:flex;
@@ -260,6 +262,7 @@ margin-top:0;
         overflow: scroll;
         height:100%;
         width:100%;
+        
     }
     button {
       width: fit-content;
@@ -301,6 +304,7 @@ margin-top:0;
       }
     }
   }
+  
   }
   
   @media screen and (max-width: 576px) {

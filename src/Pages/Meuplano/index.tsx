@@ -17,6 +17,9 @@ import {
   GoogleLogin,
   Googleicon,
   Facebokcion,
+  GradientCardContainer,
+  GradientText,
+  GradientCard,
 } from "./styles";
 import FacebookLogin from "react-facebook-login";
 
@@ -79,18 +82,6 @@ const Meuplano: React.FC = () => {
   console.log("User", parsedUser);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/plans",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Basic ${token64}`,
-          },
-        }
-      )
-      .then((response) => setPlanId(response.data.plans[0].id));
-
     api
       .get(`escritorios?nome=${parsedUser.nome}`, {
         headers: {
@@ -126,9 +117,10 @@ const Meuplano: React.FC = () => {
           },
         }
       )
-      .then((response) =>
-        setSubscriptionId(response.data.subscriptions[0]?.id)
-      );
+      .then((response) => {
+        setSubscriptionId(response.data.subscriptions[0]?.id);
+        setPlanId(response.data.subscriptions[0]?.plan.id);
+      });
   }, [customerId]);
 
   console.log("PlanId", planId);
@@ -261,7 +253,7 @@ const Meuplano: React.FC = () => {
     await api.put(
       `escritorio/${officeId}`,
       {
-        plano: "cancelado",
+        plano: "",
       },
       {
         headers: {
@@ -290,29 +282,37 @@ const Meuplano: React.FC = () => {
               <p>SMART</p>
               <div className="plans-container">
                 {PlansData.map((plan) => (
-                  <div
+                  <GradientCard
                     key={plan.id}
-                    className="plan"
-                    style={{
-                      borderColor:
-                        plano && plan.code === plano ? "blue" : "#cccc",
-                    }}
+                    code={plan.code}
+                    plano={plano}
                     onClick={() => setPlano(plan.code)}
                   >
-                    <ul>
-                      <li className="plan-name">{plan.name.toUpperCase()}</li>
-
-                      <div className="hr" />
-                      <div className="Valores">
-                        <h4 className="grana">R${plan.value}</h4>
-                        <h4 className="grana1">/Mês</h4>
-                      </div>
+                    <GradientCardContainer>
+                      <GradientText
+                        style={{ fontSize: 16 }}
+                        code={plan.code}
+                        plano={plano}
+                      >
+                        {plan.name}
+                      </GradientText>
+                      <GradientText code={plan.code} plano={plano}>
+                        R${plan.value}
+                      </GradientText>
 
                       {plan.offers.map((offer) => (
-                        <li key={offer.id}>{offer.name.toUpperCase()}</li>
+                        <li
+                          style={{
+                            color: plan.code !== plano ? "#000000" : "#ffffff",
+                          }}
+                          className="offer"
+                          key={offer.id}
+                        >
+                          {offer.name.toUpperCase()}
+                        </li>
                       ))}
-                    </ul>
-                  </div>
+                    </GradientCardContainer>
+                  </GradientCard>
                 ))}
               </div>
             </section>

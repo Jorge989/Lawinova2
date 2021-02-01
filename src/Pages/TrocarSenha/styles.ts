@@ -34,7 +34,7 @@ export const Blue = styled.div`
   width: 70%;
   height: 480px;
 
-  margin-top: 30px;
+  margin-top: 100px;
 
   .formBox {
     display: flex;

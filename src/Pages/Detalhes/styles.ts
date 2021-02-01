@@ -36,14 +36,14 @@ export const Blue = styled.div`
   width: 70%;
   height: 580px;
 
-  margin-top: 10px;
+  margin-top: 100px;
 
 .cartao{
 
   width:75px;
   height:65px;
   margin-top:190px;
-  margin-left:-25px;
+  margin-left:-5px;
 }
   .formBox {
  
@@ -218,7 +218,7 @@ margin-left:10px;
       flex-direction: column;
       justify-content: center;
       align-items: center;
- 
+
 
   
     }
@@ -255,7 +255,7 @@ margin-left:10px;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
+    
 label{
   display:flex;
   flex-direction:start;
@@ -279,7 +279,7 @@ label{
   
     }
     .input8 {
-      width: 45%;
+      width: 46%;
   
       margin-left:0px;
       display: flex;
@@ -287,17 +287,16 @@ label{
       justify-content: center;
       align-items: center;
 
-
   
     }
     .input9 {
-      width: 45%;
-      margin-right:10px;
+      width: 46%;
+      margin-right:14px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
+  
 
   
     }
@@ -329,13 +328,13 @@ label{
       flex-direction: column;
       justify-content: center;
       align-items: center;
-background-color:#007aff;
+background-color: #74469A;
 font-size:15px;
 font-weight:500;
 cursor:pointer;
 vertical-align: middle;
 &:hover {
-          background-color: #007aff;
+          background-color: #941AF9;
         }
     }
     .btnazul1 {
@@ -367,7 +366,7 @@ vertical-align: middle;
         color: #101010;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -380,7 +379,7 @@ vertical-align: middle;
         color: #232326;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -396,7 +395,7 @@ vertical-align: middle;
   width: 100%;
   height: 650px;
 
-  margin-top: 10px;
+  margin-top: 100px;
   .cartao{
 
 width:75px;
@@ -678,7 +677,7 @@ label{
       flex-direction: column;
       justify-content: center;
       align-items: center;
-background-color:#007aff;
+background-color: #74469A;
 font-size:15px;
 font-weight:500;
 cursor:pointer;
@@ -720,29 +719,12 @@ vertical-align: middle;
   height: 800px;
 
   margin-top: 10px;
-  .ccv{
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-  margin-top:-32%;
-  width:10%;
-  height:65px;
-
-margin-left:255px;
-}
-.ccv2{
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-  margin-left:50px;
-  width:100%;
-  height:100%;
-
-svg{
-  margin-left:50px;
-}
+  .cartao{
+display:none;
+width:75px;
+height:65px;
+margin-top:190px;
+margin-left:-5px;
 }
   .formBox {
     display: flex;
@@ -1020,7 +1002,7 @@ label{
       flex-direction: column;
       justify-content: center;
       align-items: center;
-background-color:#007aff;
+background-color: #74469A;
 font-size:15px;
 font-weight:500;
 cursor:pointer;

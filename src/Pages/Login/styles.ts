@@ -22,8 +22,8 @@ export const Container = styled.div`
     z-index: 999;
   }
 `;
-
 export const Blue = styled.div`
+
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -34,7 +34,7 @@ export const Blue = styled.div`
   width: 70%;
   height: 480px;
 
-  margin-top: 30px;
+  margin-top:100px;
 
   .formBox {
     display: flex;
@@ -71,6 +71,7 @@ export const Blue = styled.div`
       }
     }
   }
+  
   h2 {
     color: #141414;
     width: 100%;
@@ -129,10 +130,11 @@ export const Blue = styled.div`
         color: #101010;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color:#941AF9;
         }
       }
     }
+ 
     .esqueci {
       width: 100%;
       margin-top: 0px;
@@ -142,7 +144,7 @@ export const Blue = styled.div`
         color: #232326;
         text-decoration: none;
         &:hover {
-          color: #007aff;
+          color: #941AF9;
         }
       }
     }
@@ -251,7 +253,7 @@ export const Blue = styled.div`
           color: #101010;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color: #941AF9;
           }
         }
       }
@@ -264,7 +266,7 @@ export const Blue = styled.div`
           color: #232326;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color:  #941AF9;
           }
         }
       }
@@ -284,7 +286,7 @@ export const Blue = styled.div`
     width: 100%;
     height: 560px;
 
-    margin-top: 10px;
+    margin-top: 90px;
 
     .formBox {
       display: flex;
@@ -387,7 +389,7 @@ export const Blue = styled.div`
           color: #101010;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color:  #941AF9;
           }
         }
       }
@@ -400,7 +402,7 @@ export const Blue = styled.div`
           color: #232326;
           text-decoration: none;
           &:hover {
-            color: #007aff;
+            color:  #941AF9;
           }
         }
       }

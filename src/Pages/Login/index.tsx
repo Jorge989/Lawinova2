@@ -129,18 +129,7 @@ const Login: React.FC = () => {
   return (
     <div>
       <Header>
-      <Entra>
-          <button >
-          <a href={`/testecadastro/plano=plano2`}>Teste-grátis</a>
-          </button>
-          
-         
-
     
-         
-          
-          
-          </Entra>
 
       </Header>
 
