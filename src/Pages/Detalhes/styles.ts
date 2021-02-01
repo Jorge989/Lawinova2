@@ -34,7 +34,7 @@ export const Blue = styled.div`
   border-radius: 5px 10px 10px 5px;
 
   width: 70%;
-  height: 580px;
+  height: 540px;
 
   margin-top: 100px;
 
