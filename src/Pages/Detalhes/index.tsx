@@ -349,7 +349,7 @@ const Detalhes: React.FC = () => {
                   </div>
                   <div className="div4">
                     <div className="input8">
-                      <h2>Data de válidade</h2>
+                      <h2>Data de validade</h2>
                       <Input
                         className="input"
                         placeholder="00/0000"

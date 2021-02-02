@@ -34,16 +34,16 @@ const Header: React.FC = ({children}) => {
           </button>
 
           <NavMenu>
-            <NavLink to="/about" className="cool-link1">
+            <NavLink to="#" className="cool-link1">
               Site da Empresa/Produto
             </NavLink>
-            <NavLink to="/meuplano" className="cool-link">
+            <NavLink to="#" className="cool-link">
               Planos
             </NavLink>
-            <NavLink to="/about" className="cool-link2">
+            <NavLink to="#" className="cool-link2">
               Perguntas Frequentes
             </NavLink>
-            <NavLink to="/about" className="cool-link3">
+            <NavLink to="#" className="cool-link3">
               Casos de Sucesso
             </NavLink>
             <div>

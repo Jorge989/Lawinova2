@@ -389,18 +389,7 @@ const Testenovocadastro: React.FC = () => {
   return (
     <div>
       <Header2>
-      <Entra>
-          <button className="testeG">
-          <a href={`/login/`}className="testeG">Entrar</a>
-          </button>
-          
-         
-
     
-         
-          
-          
-          </Entra>
        </Header2>
       <Container>
         <Blue>
