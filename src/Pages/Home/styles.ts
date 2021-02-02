@@ -112,7 +112,7 @@ height:100%;
   flex-direction:row;
   line-height:10px;
 margin-top:-9%;
- margin-left:50.5%;
+ margin-left:56%;
 
   
  
@@ -174,13 +174,14 @@ color: #9B9B9B;
   width:22%;
   height:120%;
   margin-top:0%;
-
+ 
   .logoplay{
     z-index:999;
     cursor:pointer;
-    width:21%;
-     margin-left:5%;
-    margin-top:5%; 
+    width:16%;
+     margin-left:8%;
+    margin-top:5.5%; 
+   
   }
   .baixar{
     z-index:999;
@@ -188,8 +189,8 @@ color: #9B9B9B;
     cursor:pointer;
     font-size:17px;
     font-weight:400;
-    margin-left:16%;
-    margin-top:-29%;
+    margin-left:13%;
+    margin-top:-23.5%;
     &:hover {
       color: #941AF9;
     }
@@ -202,20 +203,20 @@ color: #9B9B9B;
  width:100%;
  font-size:18px;
 margin-top:-3%;
-margin-left:11%;
+margin-left:7%;
 font-family:Roboto;
 }
 >a{
   text-decoration:none;
   z-index:999;
 margin-top:1%;
-  border-radius:5px;
+  border-radius:25px;
   width:80%;
 height:70%;
   margin-left:0%;
   background-color:#FFFFFF;
-color:#101010;
-  border: 1px solid #141111;
+color:#941AF9;
+  border: 1px solid #941AF9;
   cursor:pointer;
 }}
 
@@ -233,9 +234,10 @@ color:#101010;
   .logoapp{
     z-index:999;
     cursor:pointer;
-    width:21%;
-     margin-left:5%;
+    width:16%;
+     margin-left:7%;
     margin-top:4%; 
+
   }
   .baixara{
     z-index:999;
@@ -243,8 +245,8 @@ color:#101010;
     cursor:pointer;
     font-size:17px;
     font-weight:400;
-    margin-left:16%;
-    margin-top:-28%;
+    margin-left:13%;
+    margin-top:-23%;
     &:hover {
       color: #941AF9;
     }
@@ -256,20 +258,20 @@ color:#101010;
     width:100%;
  font-size:18px;
 margin-top:-3%;
-margin-left:9%;
+margin-left:6.5%;
 font-family:Roboto;
 }
 >a{
   text-decoration:none;
   z-index:999;
 margin-top:1%;
-  border-radius:5px;
+  border-radius:25px;
   width:80%;
 height:70%;
   margin-left:0%;
   background-color:#FFFFFF;
-  color:#101010;
-  border: 1px solid #141111;
+  color:#941AF9;
+  border: 1px solid #941AF9;
   cursor:pointer;
 }}
     .date{

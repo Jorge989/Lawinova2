@@ -297,7 +297,7 @@ margin-top:3px;
 
     border-radius: 5px 10px 10px 5px;
 
-    width: 90%;
+    width: 100%;
     height: 560px;
 
     margin-top: 90px;

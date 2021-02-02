@@ -145,7 +145,7 @@ export const PasswordButtonContainer = styled.button`
 
   & > * {
     cursor: pointer;
-    margin-left:45%;
+    margin-left:15%;
     margin-top:10%;
   }
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
-import CCV from '../../assets/ccvcard.png';
-import { FiEyeOff } from 'react-icons/fi';
+import CVVImage from "../../assets/cv.svg";
+import { FiEyeOff } from "react-icons/fi";
 import Header2 from "../../Components/Header";
 import axios from "axios";
 import { useHistory, useLocation } from "react-router-dom";
@@ -17,8 +17,23 @@ import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useToast } from "../../hooks/toast";
-import DetailedPlans from "../../data/DetailedPlans"
+import DetailedPlans from "../../data/DetailedPlans";
 import { useAuth } from "../../hooks/auth";
+
+const CVVIcon: React.FC = (props) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 4,
+      }}
+    >
+      <img src={CVVImage} width="24" height="24" />
+    </div>
+  );
+};
 
 interface ChosenPlanOptions {
   id: string;
@@ -288,15 +303,14 @@ const Detalhes: React.FC = () => {
       ...paymentData,
       [id]: value,
     });
-  }; 
-   const eye = <FiEyeOff />;
+  };
+  const eye = <FiEyeOff />;
   const [passwordShown, setPasswordShown] = useState(false);
-  const [inputType, setInputType] = useState('password');
+  const [inputType, setInputType] = useState("password");
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown === true ? false : true);
-    setInputType(inputType === 'password' ? 'text' : 'password');
+    setInputType(inputType === "password" ? "text" : "password");
   };
-
 
   return (
     <div>
@@ -338,13 +352,11 @@ const Detalhes: React.FC = () => {
                       <h2>Data de válidade</h2>
                       <Input
                         className="input"
-                       
                         placeholder="00/0000"
                         maxLength={7}
                         name="cardExpiration"
                         id="cardExpiration"
                         value={paymentData.cardExpiration}
-               
                         type={inputType}
                         onChange={handlePayment}
                       />
@@ -359,18 +371,18 @@ const Detalhes: React.FC = () => {
                         maxLength={3}
                         name="cardCVV"
                         id="cardCVV"
+                        icon={CVVIcon}
+                        iconPosition="right"
                         value={paymentData.cardCVV}
                         onChange={handlePayment}
                       />
                     </div>
                   </div>
                 </div>
-<div>
-  <img src={CCV} className="cartao"></img>
- 
-  
-</div>
-   
+                {/* <div>
+                  <img src={CCV} className="cartao"></img>
+                </div> */}
+
                 <div className="resumo">
                   <div className="dentro">
                     <h2 className="resumopedido">Resumo do pedido</h2>

@@ -15,6 +15,7 @@ import { FiEyeOff } from "react-icons/fi";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: React.ComponentType<IconBaseProps>;
+  iconPosition?: "left" | "right";
   type?: string;
   preffix?: boolean;
 }
@@ -41,6 +42,7 @@ const Input: React.FC<InputProps> = ({
   name,
   preffix = false,
   icon: Icon,
+  iconPosition = "left",
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -68,7 +70,7 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused}>
-      {Icon && <Icon size={18} />}
+      {Icon && iconPosition === "left" && <Icon size={18} />}
       {preffix && <span style={{ marginRight: 4, fontSize: 14 }}>+55</span>}
       <input
         onFocus={handleInputFocus}
@@ -78,6 +80,7 @@ const Input: React.FC<InputProps> = ({
         {...rest}
         type={currentType}
       />
+      {Icon && iconPosition === "right" && <Icon size={18} />}
       {rest.type === "password" && (
         <PasswordToggle
           visible={currentType === "text"}
