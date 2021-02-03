@@ -121,10 +121,21 @@ export const Blue = styled.div`
   border-radius: 5px 10px 10px 5px;
 
   width: 100%;
-  height: 550px;
+  height: 570px;
 
-  margin-top: -13px;
 
+  margin-top: -40px;
+  .formBox {
+    display: flex;
+    padding: 17px;
+  
+    justify-content: center;
+    flex-direction: column;
+    width: 39%;
+    background-color: #ffffff;
+    border-radius: 0px 5px 5px 0px;
+
+  }
   form {
     width: 100%;
 
@@ -136,27 +147,27 @@ export const Blue = styled.div`
     .pricing-container {
       padding-bottom: 5em;
       text-align: center;
+      
     }
-    .button {
-      display: flex;
-      justify-content: center;
-
+    button {
+      width: fit-content;
+      padding: 0 16px;
+      width: 44%;
+      height: 40px;
       text-align: center;
-      width: 16%;
-      height: 75px;
+    
+    }
+    .btnazul {
       text-align: center;
-      margin-top: -5%;
-      button {
-        height: 55%;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-      }
+      margin-top: -11.5%;
+     
+    
     }
     .pricing-container h1 {
       font-size: 31px;
       font-weight: 400;
       margin-top: 0px;
+
     }
     .pricing-container p {
       font-size: 20px;
@@ -172,6 +183,7 @@ export const Blue = styled.div`
       margin-left: auto;
       margin-right: auto;
       margin-top: -40px;
+
     }
 
     .plan {
@@ -183,6 +195,7 @@ export const Blue = styled.div`
       border-radius: 3px;
       border: 2px solid #c4c4c4;
       margin-top: 70px; */
+
       .Valores {
         margin-top: 5px;
 
@@ -209,6 +222,7 @@ export const Blue = styled.div`
 
     .plan ul {
       padding: 0;
+
     }
 
     .plan li {
@@ -219,6 +233,7 @@ export const Blue = styled.div`
       line-height: 30px;
       background-color: #ffffff;
       color: #333;
+ 
     }
 
     .plan .price {
@@ -235,6 +250,7 @@ export const Blue = styled.div`
       margin-left: auto;
       margin-right: auto;
       margin-bottom: -20px;
+
     }
 
     .plan .plan-name {

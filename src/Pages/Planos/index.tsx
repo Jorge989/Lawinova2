@@ -237,7 +237,7 @@ const Planos: React.FC = () => {
       <Header2 />
       <Container>
         <Blue>
-          
+        <div className='formBox'>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <section className="pricing-container">
               <h1>Planos e Preços</h1>
@@ -279,12 +279,13 @@ const Planos: React.FC = () => {
               </div>
             </section>
 
-            <div className="button">
+          
+           
               <Button className="btnazul" type="submit" isLoading={loading}>
                 Confirmar
               </Button>
-            </div>
           </Form>
+          </div>
         </Blue>
       </Container>
     </div>

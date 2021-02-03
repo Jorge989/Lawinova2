@@ -23,6 +23,9 @@ import { useHistory } from "react-router-dom";
 interface ReturnDate {
   time: string;
 }
+interface teste {
+  modal: string | null
+  }
 const Home: React.FC = () => {
   const [isShow, setIsShow] = useState(false);
   const [isShow1, setIsShow1] = useState(false);
@@ -100,6 +103,19 @@ const Home: React.FC = () => {
     }
   }, [daysRemaining]);
 
+  let [modal, setModal] = useState(false);
+  function Modal() {
+    if (modal == false) {
+      document.querySelector(".modal-overlay")?.classList.add("active");
+      setModal(true);
+    }
+
+    if (modal === true) {
+      document.querySelector(".modal-overlay")?.classList.remove("active");
+      setModal(false);
+    }
+  }
+
   return (
     <div>
       <Header>
@@ -147,7 +163,6 @@ Trocar Senha
                     dias para o fim do Teste Grátis
                   </h2>
                 )}
-              <h3 className="bemvindo">Bem-Vindo</h3>
               <div className="hora">
                 <div className="input1">
                   <h3 className="date">Data:</h3>
@@ -158,6 +173,7 @@ Trocar Senha
                   <h3>{time}</h3>
                 </div>
               </div>
+              <h3 className="bemvindo">Bem-Vindo</h3>
 
               <div className="topo">
                 <p className="subtopo">
@@ -172,7 +188,7 @@ Trocar Senha
                       {/* <button className="playstore"> */}
                       <img className="logoplay" src={Playstore}></img>
 
-                      <h3 className="baixar">Baixar no</h3>
+                      {/* <h3 className="baixar">Baixar no</h3> */}
                       <h3 className="google">Google Play</h3>
                       {/* </button> */}
                     </a>
@@ -183,7 +199,7 @@ Trocar Senha
                       href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
                     >
                       <img className="logoapp" src={Appstore}></img>
-                      <h3 className="baixara">Baixar no</h3>
+                      {/* <h3 className="baixara">Baixar no</h3> */}
                       <h3 className="googlea">App Store</h3>
                     </a>
                   </div>
@@ -194,22 +210,38 @@ Trocar Senha
                     <BsFillQuestionOctagonFill
                       size={25}
                       style={{
-                        color: "#4040FF",
+                        color: "#941AF9",
                         width: "22px",
                         marginLeft: "0px",
                         marginTop: "0px",
                       }}
                     />
+               
+ 
+     
                     <h4 className="faqtext">(Manual do aplicativo)</h4>
                   </a>
                 </button>
-                <div className="perguntaserespostas">
+            
+              </div>
+              
+            </div>
+            
+          </div>
+          <a href="#" className="button new" onClick={Modal}>
+            + Perguntas frequentes
+          </a>
+                    <div className="modal-overlay">
+                      
+        <div className="modal">
+          
+        <div className="perguntaserespostas">
                   <button onClick={() => setIsShow(!isShow)}>
                     {isShow ? (
                       <FiMinus
                         size={30}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "20px",
@@ -222,7 +254,7 @@ Trocar Senha
                       <FiPlus
                         size={30}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-214.5px",
@@ -261,7 +293,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -273,7 +305,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -308,7 +340,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -320,7 +352,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -355,7 +387,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -367,7 +399,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -402,7 +434,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -414,7 +446,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -452,7 +484,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -464,7 +496,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -474,10 +506,17 @@ Trocar Senha
                       />
                     )}
                   </button>
+                  <div className="input-group-actions">
+                  <a href="#" className="button cancel" onClick={Modal}>
+                    Cancelar
+                  </a>
+               </div>
                 </div>
-              </div>
-            </div>
-          </div>
+                
+        </div>
+        
+        </div>
+ 
         </Blue>
       </Container>
     </div>

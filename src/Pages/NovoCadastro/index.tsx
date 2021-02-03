@@ -23,7 +23,6 @@ import {
   GoogleLogin,
   Googleicon,
   Facebokcion,
-  Entra,
 } from "./styles";
 import api from "../../services/api";
 import * as Yup from "yup";
@@ -140,11 +139,7 @@ const NovoCadastro: React.FC = () => {
         const schema = Yup.object().shape({
           nome: Yup.string().required("Nome obrigatório"),
           email: Yup.string().required("E-mail obrigatório"),
-          telefone: Yup.string().trim().matches(/^.*(?=.{8,}).*$/)
-          .min( 8,"No minimo 8 dígitos"),
 
-
-          
           senha: Yup.string()
             .trim()
             .matches(
@@ -212,6 +207,19 @@ const NovoCadastro: React.FC = () => {
         console.log(responseOffice.data);
 
         console.log(data.nome + "nome aqui");
+
+        if (plano === "promo") {
+          return history.push("/contrato", {
+            plano,
+            token: response.data.token,
+            officeId: responseOffice.data.id_escritorio,
+            userId: response.data.usuario.id_usuario,
+            username: response.data.usuario.nome,
+            userEmail: data.email,
+            userPhone: "55" + data.telefone,
+            userPassword: data.senha,
+          });
+        }
         history.push("/planos", {
           plano: plano,
           token: response.data.token,
@@ -424,10 +432,7 @@ const NovoCadastro: React.FC = () => {
 
   return (
     <div>
-      <Header2>
-     
-
-      </Header2>
+      <Header2 />
       <Container>
         <Blue>
           <div className="formBox">
@@ -493,40 +498,13 @@ const NovoCadastro: React.FC = () => {
                 </Button>
               </div>
               <div className="politica">
-                <h4>Ao continuar, você concorda com a&nbsp;</h4>
+                <h4>Ao continuar, voçê concorda com a&nbsp;</h4>
 
                 <h4 className="policticablue"> Política de Privacidade</h4>
               </div>
-              <div className="redessociais">
-                {/* <GoogleLogin
-                  clientId="211368015593-fucd3no6bv208m9iuf809l9f72ulmejr.apps.googleusercontent.com"
-                  render={(renderProps) => (
-                    <button
-                      className="btngoogle"
-                      onClick={renderProps.onClick}
-                      disabled={renderProps.disabled}
-                    >
-                      <Googleicon />
-                    </button>
-                  )}
-                  buttonText="Login"
-                  onSuccess={responseGoogle}
-                  onFailure={responseGoogle}
-                  cookiePolicy={"single_host_origin"}
-                />
-                <FacebookLogin
-                  appId="2846445278933444"
-                  autoLoad={false}
-                  fields="name,email,picture"
-                  onClick={componetClicked}
-                  callback={responseFacebook}
-                  icon={<Facebokcion />}
-                  textButton=""
-                  cssClass="facebook"
-                /> */}
-              </div>
+              
               <button className="possuilogin">
-                <a href={`/login/`}>Já possui login?</a>
+                <a href="login">Já possui login?</a>
               </button>
             </Form>
           </div>

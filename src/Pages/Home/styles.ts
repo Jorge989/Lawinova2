@@ -26,19 +26,22 @@ export const Container = styled.div`
 
 export const Blue = styled.div`
   display: flex;
+  align-items:center;
   justify-content: center;
   flex-direction: column;
   background-color: #fff;
 
   border-radius: 5px 10px 10px 5px;
 
-  width: 78%;
+  width: 100%;
   height: 400px;
-background-color:red;
+
   margin-top: 100px;
+  
+
   .perguntaserespostas{
-  margin-top:1%;
-  margin-left:12%;
+  margin-top:-60%;
+  margin-left:0%;
   width:100%;
 max-height:20px;
 
@@ -48,35 +51,92 @@ max-height:20px;
     line-height:20px;
     font-size:17px;
     font-weight:400;
-    color:#6A6A6A;
+    color:#941AF9;
+
   }
 }
 
 .Menu h1{
-  font-size:16px;
 
 
 
 }
   .topo{
-  display:flex;
+    display:flex;
+  align-items:center;
+  justify-content:center;
 width:100%;
 height:100%;
   flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  margin-top:5%;
+
+  margin-top:-1%;
 
   
 }
+.input-group-actions{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:10px;
+}
+a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: #941AF9;
+  text-decoration: none;
+}
+.input-group-actions .button,
+.input-group-actions .button{
+  margin-top:10px;
+  width: 100%;
+}
+.modal-overlay{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width: 40%;
+  height: 80%;
+  background-color: #f0f2f5;
+  border: 1px solid #941AF9;
+  position: fixed;
+  top:0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+}
 
+.modal-overlay.active{
+  opacity: 1;
+  visibility: visible;
+margin-top:100px;
+border-radius:5px;
+
+}
+.button.new a{
+  display: inline-block;
+  margin-bottom: .8rem;
+
+}
+
+.modal{
+  background-color: #f0f2f5;
+  padding: 2.4rem;
+  position: relative;
+max-width: 500px;
+width: 90%;
+}
 .bemvindo{
   margin-top:1%;
   font-size:35px;
 }
 .subtopo{
+margin-top:1%;
   font-size:22px;
-  width:100%;
+  width:80%;
+
 
   }
 .dias{
@@ -109,10 +169,12 @@ height:100%;
   
 .hora{
   display:flex;
-  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+
   line-height:10px;
-margin-top:-9%;
- margin-left:56%;
+margin-top:-3%;
+ margin-left:45%;
 
   
  
@@ -145,7 +207,7 @@ color: #9B9B9B;
 
       color: #9B9B9B;
       margin-right:-70%;
- 
+
  h3{
    font-size:22px;
  }
@@ -171,25 +233,25 @@ color: #9B9B9B;
   justify-content:center;
   align-items:center;
  
-  width:22%;
-  height:120%;
+  width:17%;
+  height:100%;
   margin-top:0%;
  
   .logoplay{
-    z-index:999;
+    /* z-index:999; */
     cursor:pointer;
-    width:16%;
+    width:14%;
      margin-left:8%;
-    margin-top:5.5%; 
+    margin-top:0%; 
    
   }
   .baixar{
-    z-index:999;
+    /* z-index:2; */
     width:85%;
     cursor:pointer;
     font-size:17px;
     font-weight:400;
-    margin-left:13%;
+    margin-left:10%;
     margin-top:-23.5%;
     &:hover {
       color: #941AF9;
@@ -199,16 +261,18 @@ color: #9B9B9B;
   }
   
   .google{
- 
+display:flex;
+justify-content:center;
+align-items:center;
  width:100%;
  font-size:18px;
-margin-top:-3%;
-margin-left:7%;
+margin-top:0%;
+margin-left:-9%;
 font-family:Roboto;
 }
 >a{
   text-decoration:none;
-  z-index:999;
+  /* z-index:999; */
 margin-top:1%;
   border-radius:25px;
   width:80%;
@@ -227,26 +291,26 @@ color:#941AF9;
   justify-content:center;
   align-items:center;
  
-  width:22%;
-  height:120%;
+  width:17%;
+  height:100%;
   margin-top:0%;
 
   .logoapp{
-    z-index:999;
+    /* z-index:999; */
     cursor:pointer;
-    width:16%;
-     margin-left:7%;
-    margin-top:4%; 
+    width:14%;
+     margin-left:10%;
+    margin-top:0%; 
 
   }
   .baixara{
-    z-index:999;
+    /* z-index:999; */
     width:85%;
     cursor:pointer;
     font-size:17px;
     font-weight:400;
     margin-left:13%;
-    margin-top:-23%;
+    margin-top:-22%;
     &:hover {
       color: #941AF9;
     }
@@ -257,13 +321,13 @@ color:#941AF9;
  
     width:100%;
  font-size:18px;
-margin-top:-3%;
-margin-left:6.5%;
+margin-top:0%;
+margin-left:-9%;
 font-family:Roboto;
 }
 >a{
   text-decoration:none;
-  z-index:999;
+  /* z-index:999; */
 margin-top:1%;
   border-radius:25px;
   width:80%;
@@ -309,9 +373,12 @@ height:70%;
   text-decoration:none;
       font-size:15px;
       font-weight:500;
-      color:#2B2B2B;
+     
+      color: #941AF9;
     }
-  }
+ 
+    }
+  
   h2 {
     color: #141414;
     width: 100%;

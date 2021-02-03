@@ -431,13 +431,12 @@ const Dados: React.FC = () => {
               <div className="radio">
                 <div>
                   <Radio
-                 
                     value="fisica"
                     checked={gender === "fisica"}
                     color="primary"
                     onChange={handleGender}
                   />
-                  <span>Pessoa Física</span>
+                  <span>Pessoa fisíca</span>
                 </div>
                 <div>
                   <Radio
@@ -446,7 +445,7 @@ const Dados: React.FC = () => {
                     color="primary"
                     onChange={handleGender}
                   />
-                  <span>Pessoa Jurídica</span>
+                  <span>Pessoa juridíca</span>
                 </div>
               </div>
               <div className="div1">
@@ -595,28 +594,30 @@ const Dados: React.FC = () => {
                 </div>
               </div>
               <div className="btnblue">
-                <Button
-                  className="btnazul1"
-                  isLoading={loading}
-                  type="button"
-                  onClick={() => {
-                    history.push("/planos", {
-                      contractAccepted,
-                      customerId,
-                      phoneId,
-                      officeId,
-                      userId,
-                      userEmail,
-                      userPassword,
-                      userPhone,
-                      username,
-                      plano,
-                      token,
-                    });
-                  }}
-                >
-                  Voltar
-                </Button>
+                {plano !== "promo" && (
+                  <Button
+                    className="btnazul1"
+                    isLoading={loading}
+                    type="button"
+                    onClick={() => {
+                      history.push("/planos", {
+                        contractAccepted,
+                        customerId,
+                        phoneId,
+                        officeId,
+                        userId,
+                        userEmail,
+                        userPassword,
+                        userPhone,
+                        username,
+                        plano,
+                        token,
+                      });
+                    }}
+                  >
+                    Escolher plano
+                  </Button>
+                )}
                 <Button className="btnazul" isLoading={loading} type="submit">
                   Dados de Pagamento
                 </Button>
