@@ -57,7 +57,7 @@ const Contrato: React.FC = () => {
     username: string;
     userEmail: string;
     userPhone: string;
-    userPassword: string;
+    userPassword?: string;
     plano: string;
     token: string;
   }>();
@@ -128,8 +128,9 @@ const Contrato: React.FC = () => {
                   </h2>
                 </div>
                 <p className="contrato">
-                  Ao clicar em "Concordar e Continuar", você confirma que leu o nosso Contrato de
-                  <br />de Assinatura na integra e concorda com ele.
+                  Ao clicar em "Concordar e Continuar", voçê confirma que leu o
+                  nosso Contrato de
+                  <br /> de Assinatura na integra e concorda com ele.
                 </p>
                 <Button
                   className="btnazul"

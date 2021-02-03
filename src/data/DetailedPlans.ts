@@ -13,7 +13,7 @@ const DetailedPlans = [
     id: "1",
     name: "office",
     code: "plano2",
-    value: 75,
+    value: 100,
     offers: [
       { id: "0", name: "3 advogado" },
       { id: "1", name: "200 processos" },
@@ -23,7 +23,7 @@ const DetailedPlans = [
     id: "2",
     name: "office plus",
     code: "plano3",
-    value: 100,
+    value: 150,
     offers: [
       { id: "0", name: "6 advogado" },
       { id: "1", name: "1000 processos" },

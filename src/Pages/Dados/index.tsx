@@ -97,7 +97,7 @@ const Dados: React.FC = () => {
     userId: number;
     userPhone: string;
     userEmail: string;
-    userPassword: string;
+    userPassword?: string;
     username: string;
   }>();
 
@@ -594,30 +594,29 @@ const Dados: React.FC = () => {
                 </div>
               </div>
               <div className="btnblue">
-                {plano !== "promo" && (
-                  <Button
-                    className="btnazul1"
-                    isLoading={loading}
-                    type="button"
-                    onClick={() => {
-                      history.push("/planos", {
-                        contractAccepted,
-                        customerId,
-                        phoneId,
-                        officeId,
-                        userId,
-                        userEmail,
-                        userPassword,
-                        userPhone,
-                        username,
-                        plano,
-                        token,
-                      });
-                    }}
-                  >
-                    Escolher plano
-                  </Button>
-                )}
+                <Button
+                  className="btnazul1"
+                  isLoading={loading}
+                  type="button"
+                  disabled={plano === "promo"}
+                  onClick={() => {
+                    history.push("/planos", {
+                      contractAccepted,
+                      customerId,
+                      phoneId,
+                      officeId,
+                      userId,
+                      userEmail,
+                      userPassword,
+                      userPhone,
+                      username,
+                      plano,
+                      token,
+                    });
+                  }}
+                >
+                  Escolher plano
+                </Button>
                 <Button className="btnazul" isLoading={loading} type="submit">
                   Dados de Pagamento
                 </Button>

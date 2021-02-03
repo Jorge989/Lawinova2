@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
-import CVVImage from "../../assets/cv.svg";
+import CVVImage from "../../assets/ccv.svg";
 import { FiEyeOff } from "react-icons/fi";
 import Header2 from "../../Components/Header";
 import axios from "axios";
@@ -54,7 +54,7 @@ interface LocationProps {
   token: string;
   userId: number;
   userPhone: string;
-  userPassword: string;
+  userPassword?: string;
   userEmail: string;
   username: string;
 }
@@ -245,7 +245,11 @@ const Detalhes: React.FC = () => {
         }
       );
 
-      await signIn({ email: userEmail, senha: userPassword });
+      if (userPassword) {
+        await signIn({ email: userEmail, senha: userPassword });
+      }
+
+      history.push("/home");
 
       addToast({
         type: "sucess",
@@ -349,7 +353,7 @@ const Detalhes: React.FC = () => {
                   </div>
                   <div className="div4">
                     <div className="input8">
-                      <h2>Data de validade</h2>
+                      <h2>Data de válidade</h2>
                       <Input
                         className="input"
                         placeholder="00/0000"

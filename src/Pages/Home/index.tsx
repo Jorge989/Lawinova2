@@ -6,12 +6,12 @@ import { FiPlus } from "react-icons/fi";
 import { useAuth } from "../../hooks/auth";
 import { FiMinus } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
-import { FaUser} from "react-icons/fa";
+
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-import { Container, Sair, Blue,Menu } from "./styles";
+import { Container, Sair, Blue } from "./styles";
 
 import Person from "../../assets/person.svg";
 import Appstore from "../../assets/Appstore.svg";
@@ -23,9 +23,6 @@ import { useHistory } from "react-router-dom";
 interface ReturnDate {
   time: string;
 }
-interface teste {
-  modal: string | null
-  }
 const Home: React.FC = () => {
   const [isShow, setIsShow] = useState(false);
   const [isShow1, setIsShow1] = useState(false);
@@ -34,13 +31,17 @@ const Home: React.FC = () => {
   const [isShow4, setIsShow4] = useState(false);
   const [isShow5, setIsShow5] = useState(false);
   const [isTrial, setIsTrial] = useState(false);
-  const [isShow6, setIsShow6] = useState(false);
+  const [officeData, setOfficeData] = useState<{
+    id_escritorio: number;
+    telefone: number;
+  }>();
   const [endDate, setEndDate] = useState("");
   const [date, setDate] = useState(new Date().toLocaleDateString());
   const [time, setTime] = useState(new Date().toLocaleTimeString());
   const { signOut, user } = useAuth();
   const { addToast } = useToast();
   const history = useHistory();
+  const token = localStorage.getItem("@ActionLaw: token");
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -67,8 +68,9 @@ const Home: React.FC = () => {
   const plans = ["plano1", "plano2", "plano3"];
 
   useEffect(() => {
-    api.get(`escritorios?nome=${user.nome}`).then((response) => {
+    api.get(`escritorios?nome=${user?.nome}`).then((response) => {
       console.log("PLANO: ", response.data[0].plano);
+      setOfficeData(response.data[0]);
       setIsTrial(!plans.some((plan) => plan === response.data[0].plano));
       setEndDate(convertISOToDate(response.data[0].data_final_trial));
     });
@@ -76,7 +78,10 @@ const Home: React.FC = () => {
 
   const convertISOToDate = (date: string) => date.split("T")[0];
 
-  const today = convertISOToDate(new Date(new Date().getTime()).toISOString());
+  const today = convertISOToDate(
+    // new Date(new Date().getTime() + 86_400_000 * 7).toISOString()
+    new Date(new Date().getTime()).toISOString()
+  );
 
   // console.log("Datas:", today, endDate);
 
@@ -92,29 +97,28 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (daysRemaining === 0 && isTrial) {
+      const data = {
+        plano: "plano1",
+        token,
+        officeId: officeData?.id_escritorio,
+        userId: user?.id_usuario,
+        username: user?.nome,
+        userEmail: user?.email,
+        userPhone: officeData?.telefone,
+      };
+
+      console.log("Data", data);
+      history.replace("/planos", data);
+
       addToast({
         type: "info",
         title: "Seu tempo de teste acabou",
-        description: "você será redirecionado para a tela de login",
+        description: "você será redirecionado para a tela de planos",
       });
-
-      signOut();
-      history.push(`/login/`);
+      // signOut();
+      // history.push("/login");
     }
   }, [daysRemaining]);
-
-  let [modal, setModal] = useState(false);
-  function Modal() {
-    if (modal == false) {
-      document.querySelector(".modal-overlay")?.classList.add("active");
-      setModal(true);
-    }
-
-    if (modal === true) {
-      document.querySelector(".modal-overlay")?.classList.remove("active");
-      setModal(false);
-    }
-  }
 
   return (
     <div>
@@ -124,31 +128,9 @@ const Home: React.FC = () => {
             Sair
           </button>
 
-          <button onClick={() => setIsShow6(!isShow6)}>
-          <FaUser className="logo" />
-
-          </button>
+          <button onClick={() => setIsShow(!isShow)}></button>
         </Sair>
-      </Header> {isShow6 && (
-        <Menu className="menu">
-         <ul>
-           <li>  <a href="/meuplano" className="cool-link1">
-Planos
-
-      </a></li>
-      <hr className="linha"/>
-      <li>    <a href="/trocarsenha" className="cool-link1">
-Trocar Senha
-      </a>     <hr className="linha"/></li>
-      <li>    <a href="/about" className="cool-link1">
-      Perguntas Frequentes
-      </a>     <hr className="linha"/></li>
-      <li>      <a href="/faq2" className="cool-link3">
-      Site da Empresa/Produto
-      </a></li>
-         </ul>
-    </Menu>
-        )}
+      </Header>
 
       <Container>
         <Blue>
@@ -163,6 +145,7 @@ Trocar Senha
                     dias para o fim do Teste Grátis
                   </h2>
                 )}
+              <h3 className="bemvindo">Bem-Vindo</h3>
               <div className="hora">
                 <div className="input1">
                   <h3 className="date">Data:</h3>
@@ -173,11 +156,11 @@ Trocar Senha
                   <h3>{time}</h3>
                 </div>
               </div>
-              <h3 className="bemvindo">Bem-Vindo</h3>
 
               <div className="topo">
                 <p className="subtopo">
-                Faça o download do aplicativo para dispositivos móveis e comece a configurar o perfil do seu escritório
+                  Para começar a configurar o app, selecione o Painel no menu
+                  Para ver as próximas etapas.
                 </p>
                 <div className="all">
                   <div className="btn1">
@@ -188,7 +171,7 @@ Trocar Senha
                       {/* <button className="playstore"> */}
                       <img className="logoplay" src={Playstore}></img>
 
-                      {/* <h3 className="baixar">Baixar no</h3> */}
+                      <h3 className="baixar">Baixar no</h3>
                       <h3 className="google">Google Play</h3>
                       {/* </button> */}
                     </a>
@@ -199,7 +182,7 @@ Trocar Senha
                       href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
                     >
                       <img className="logoapp" src={Appstore}></img>
-                      {/* <h3 className="baixara">Baixar no</h3> */}
+                      <h3 className="baixara">Baixar no</h3>
                       <h3 className="googlea">App Store</h3>
                     </a>
                   </div>
@@ -210,38 +193,22 @@ Trocar Senha
                     <BsFillQuestionOctagonFill
                       size={25}
                       style={{
-                        color: "#941AF9",
+                        color: "#4040FF",
                         width: "22px",
                         marginLeft: "0px",
                         marginTop: "0px",
                       }}
                     />
-               
- 
-     
                     <h4 className="faqtext">(Manual do aplicativo)</h4>
                   </a>
                 </button>
-            
-              </div>
-              
-            </div>
-            
-          </div>
-          <a href="#" className="button new" onClick={Modal}>
-            + Perguntas frequentes
-          </a>
-                    <div className="modal-overlay">
-                      
-        <div className="modal">
-          
-        <div className="perguntaserespostas">
+                <div className="perguntaserespostas">
                   <button onClick={() => setIsShow(!isShow)}>
                     {isShow ? (
                       <FiMinus
                         size={30}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "20px",
@@ -254,7 +221,7 @@ Trocar Senha
                       <FiPlus
                         size={30}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-214.5px",
@@ -293,7 +260,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -305,7 +272,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -340,7 +307,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -352,7 +319,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -387,7 +354,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -399,7 +366,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -434,7 +401,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -446,7 +413,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -468,7 +435,6 @@ Trocar Senha
                         utilizado desde o século XVI, quando um impressor
                         desconhecido pegou uma bandeja de tipos e os embaralhou
                         para fazer um livro de modelos de tipos. Lorem Ipsum
-                        
                         sobreviveu não só a cinco séculos, como também ao salto
                         para a editoração eletrônica, permanecendo
                         essencialmente inalterado. Se popularizou na década de
@@ -484,7 +450,7 @@ Trocar Senha
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -496,7 +462,7 @@ Trocar Senha
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#941AF9",
+                          color: "#444444",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-37px",
@@ -506,17 +472,10 @@ Trocar Senha
                       />
                     )}
                   </button>
-                  <div className="input-group-actions">
-                  <a href="#" className="button cancel" onClick={Modal}>
-                    Cancelar
-                  </a>
-               </div>
                 </div>
-                
-        </div>
-        
-        </div>
- 
+              </div>
+            </div>
+          </div>
         </Blue>
       </Container>
     </div>

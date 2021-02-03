@@ -502,9 +502,11 @@ const NovoCadastro: React.FC = () => {
 
                 <h4 className="policticablue"> Política de Privacidade</h4>
               </div>
+            
               
+            
               <button className="possuilogin">
-                <a href="login">Já possui login?</a>
+                <a href={`/login/`}>Já possui login?</a>
               </button>
             </Form>
           </div>
