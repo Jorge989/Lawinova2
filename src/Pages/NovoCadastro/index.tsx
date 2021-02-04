@@ -156,7 +156,7 @@ const NovoCadastro: React.FC = () => {
         const response = await api.post<{
           token: string;
           usuario: UserResponse;
-        }>("usuarios", data);
+        }>("usuarios", { ...data, perfil: "autonomo" });
 
         console.log(response.data);
         console.log(name + "nome aqui");
@@ -182,11 +182,10 @@ const NovoCadastro: React.FC = () => {
           email: data.email,
           telefone: "55" + data.telefone,
           // qtde_processos: qtd,
-          quantidade_advogados: 0,
-          tipo_escritorio: "escritorio",
+          qtde_processos: 50,
+          quantidade_advogados: 1,
+          tipo_escritorio: "autonomo",
         };
-
-        // await signIn({ email: data.email, senha: data.senha });
 
         console.log("sendOfficeData", sendOfficeData);
 
@@ -481,7 +480,7 @@ const NovoCadastro: React.FC = () => {
                   icon={FiLock}
                   value={senha}
                   type={inputType}
-                  placeholder="Senha"
+                  placeholder="Dica: 8 digitos + 1 caractere especial"
                   onChange={(e) => setSenha(e.target.value)}
                 />
 
@@ -498,13 +497,11 @@ const NovoCadastro: React.FC = () => {
                 </Button>
               </div>
               <div className="politica">
-                <h4>Ao continuar, voçê concorda com a&nbsp;</h4>
+                <h4>Ao continuar, você concorda com a&nbsp;</h4>
 
                 <h4 className="policticablue"> Política de Privacidade</h4>
               </div>
-            
-              
-            
+
               <button className="possuilogin">
                 <a href={`/login/`}>Já possui login?</a>
               </button>

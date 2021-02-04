@@ -17,7 +17,7 @@ import Header from "../../Components/Header";
 import Button from "../../Components/Button";
 import { FormHandles } from "@unform/core";
 import Input from "../../Components/Input";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FiMail } from "react-icons/fi";
 import { FiLock } from "react-icons/fi";
 import { Form } from "@unform/web";
@@ -39,6 +39,7 @@ const Login: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn, setAuthData } = useAuth();
   const { addToast } = useToast();
+  const history = useHistory();
 
   const handleSubmit = useCallback(
     async (data: SigInFormData): Promise<void> => {
@@ -64,6 +65,8 @@ const Login: React.FC = () => {
           email: data.email,
           senha: data.senha,
         });
+
+        history.push("/home");
       } catch (err) {
         setLoading(false);
         if (err instanceof Yup.ValidationError) {
@@ -166,9 +169,6 @@ const Login: React.FC = () => {
                   Entrar
                 </Button>
               </div>
-
-      
-     
 
               <button className="cadastre">
                 <a href={`/novocadastro/plano=plano1`}>Cadastre-se</a>

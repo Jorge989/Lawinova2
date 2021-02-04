@@ -12,7 +12,7 @@ import api from "../../services/api";
 import * as Yup from "yup";
 import utf8 from "utf8";
 import { encode as btoa } from "base-64";
-
+import { FiUser } from "react-icons/fi";
 import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
@@ -112,6 +112,30 @@ const Detalhes: React.FC = () => {
   const chosenPlan: ChosenPlanOptions | undefined = DetailedPlans.find(
     (plan) => plan.code === plano
   );
+
+  const planData: {
+    [key: string]: {
+      quantidade_advogados: number;
+      qtde_processos: number;
+      tipo_escritorio: string;
+    };
+  } = {
+    plano1: {
+      quantidade_advogados: 1,
+      qtde_processos: 50,
+      tipo_escritorio: "autonomo",
+    },
+    plano2: {
+      quantidade_advogados: 3,
+      qtde_processos: 200,
+      tipo_escritorio: "escritorio",
+    },
+    plano3: {
+      quantidade_advogados: 6,
+      qtde_processos: 1000,
+      tipo_escritorio: "escritorio",
+    },
+  };
 
   const privateApi = "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:";
   const publicApi = "39zh9E2rTCZAZ_Vu1-qbIbty-7KUciSaw0Ssd7s5bhg";
@@ -244,6 +268,34 @@ const Detalhes: React.FC = () => {
           },
         }
       );
+      // planData
+      await api.put(
+        `usuarios/${userId}`,
+        {
+          perfil: planData[plano].tipo_escritorio,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      await api.put(
+        `escritorio/${officeId}`,
+        {
+          tipo_escritorio: planData[plano].tipo_escritorio,
+          quantidade_advogados: planData[plano].quantidade_advogados,
+          qtde_processos: planData[plano].qtde_processos,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (userPassword) {
         await signIn({ email: userEmail, senha: userPassword });
@@ -361,7 +413,7 @@ const Detalhes: React.FC = () => {
                         name="cardExpiration"
                         id="cardExpiration"
                         value={paymentData.cardExpiration}
-                        type={inputType}
+                        type="text"
                         onChange={handlePayment}
                       />
                     </div>

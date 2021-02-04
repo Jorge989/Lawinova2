@@ -29,7 +29,7 @@ interface AuthState {
 }
 
 export interface AuthContextData {
-  user: User | null;
+  user: User;
   loading: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
@@ -41,16 +41,14 @@ export const AuthContext = createContext<AuthContextData>(
 );
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<AuthState | null>(null);
+  const [data, setData] = useState<AuthState>({} as AuthState);
   const [loading, setLoading] = useState(true);
 
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
-    console.log("Aqui em auth", location);
     async function loadStorageData() {
-      console.log("Aqui dentro de loadStorageData");
       // loading
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -58,7 +56,6 @@ export const AuthProvider: React.FC = ({ children }) => {
       const localStorageUser = localStorage.getItem("@ActionLaw: user");
 
       if (localStorageUser && localStorageToken) {
-        console.log("Aqui dentro do if", localStorageUser, localStorageToken);
         const parsedUser = JSON.parse(localStorageUser) as User;
 
         setData({
@@ -66,15 +63,15 @@ export const AuthProvider: React.FC = ({ children }) => {
           user: parsedUser,
         });
 
+        console.log("Aqui dentro");
         history.push(location.pathname);
       }
-
       setLoading(false);
     }
     loadStorageData();
   }, []);
 
-  const signIn = async ({ email, senha }: SignInCredentials) => {
+  const signIn = useCallback(async ({ email, senha }: SignInCredentials) => {
     const response = await api.post("autenticar", {
       email,
       senha,
@@ -83,18 +80,14 @@ export const AuthProvider: React.FC = ({ children }) => {
     const { token, usuario: user } = response.data;
     localStorage.setItem("@ActionLaw: token", token);
     localStorage.setItem("@ActionLaw: user", JSON.stringify(user));
-    console.log("Aqui signIn", { token, user });
     setData({ token, user });
+  }, []);
 
-    history.push("/home");
-  };
-
-  const signOut = () =>
-    useCallback(() => {
-      localStorage.removeItem("@ActionLaw: token");
-      localStorage.removeItem("@ActionLaw: user");
-      setData(null);
-    }, []);
+  const signOut = useCallback(() => {
+    localStorage.removeItem("@ActionLaw: token");
+    localStorage.removeItem("@ActionLaw: user");
+    setData({} as AuthState);
+  }, []);
 
   const setAuthData = useCallback(({ user, token }: AuthState) => {
     localStorage.setItem("@ActionLaw: token", token);
@@ -105,7 +98,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        user: data ? data.user : null,
+        user: data.user,
         loading,
         signIn,
         signOut,

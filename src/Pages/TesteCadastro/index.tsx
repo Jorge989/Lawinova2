@@ -41,6 +41,7 @@ import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useToast } from "../../hooks/toast";
+import { useAuth } from "../../hooks/auth";
 interface SigInFormData {
   email: string;
   senha: string;
@@ -141,6 +142,7 @@ const Testenovocadastro: React.FC = () => {
 
   const history = useHistory();
   const formRef = useRef<FormHandles>(null);
+  const { signIn } = useAuth();
   const { addToast } = useToast();
 
   const handleSubmit = useCallback(
@@ -212,6 +214,11 @@ const Testenovocadastro: React.FC = () => {
           },
         });
 
+        await signIn({
+          email: data.email,
+          senha: data.senha,
+        });
+
         history.push("/home");
         addToast({
           type: "sucess",
@@ -241,7 +248,7 @@ const Testenovocadastro: React.FC = () => {
         }
       }
     },
-    [addToast, gender, tipoPerfil, qtdAdvogados, planos]
+    [addToast, signIn, gender, tipoPerfil, qtdAdvogados, planos]
   );
 
   var reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/;
@@ -415,7 +422,7 @@ const Testenovocadastro: React.FC = () => {
               </div>
               <div className="input1">
                 <h2>Nome</h2>
-              
+
                 <Input
                   className="input"
                   name="nome"
@@ -426,7 +433,7 @@ const Testenovocadastro: React.FC = () => {
                   onChange={(e) => setName(e.target.value)}
                 />
                 <h2>Telefone</h2>
-         
+
                 <Input
                   className="input"
                   name="telefone"
@@ -439,7 +446,7 @@ const Testenovocadastro: React.FC = () => {
                   onChange={(e) => setTelefone(e.target.value)}
                 />
                 <h2>Email</h2>
-       
+
                 <Input
                   className="input"
                   name="email"
@@ -451,7 +458,7 @@ const Testenovocadastro: React.FC = () => {
                 />
 
                 <h2>Senha</h2>
-    
+
                 <Input
                   className="input"
                   name="senha"
@@ -463,7 +470,7 @@ const Testenovocadastro: React.FC = () => {
                 <div className="div4">
                   <div className="input9">
                     <h2>Advogado</h2>
-        
+
                     <select
                       onChange={handleEscritorio}
                       className="inputsel1"
@@ -483,9 +490,9 @@ const Testenovocadastro: React.FC = () => {
                   </div>
 
                   <div className="input9">
-                  {tipoPerfil !== "autonomo" && (
-                    <h2 className="qtd">Qtd.Advogados</h2>
-                  )}
+                    {tipoPerfil !== "autonomo" && (
+                      <h2 className="qtd">Qtd.Advogados</h2>
+                    )}
                     {tipoPerfil !== "autonomo" && (
                       <select
                         onChange={handlePlano}
@@ -503,7 +510,6 @@ const Testenovocadastro: React.FC = () => {
                 </div>
 
                 <div className="div5">
-  
                   <h2>Quantidade estimada de processos</h2>
                   <Input
                     onChange={(e) => setQtdprocessos(e.target.value)}
@@ -522,7 +528,7 @@ const Testenovocadastro: React.FC = () => {
 
                 <h4 className="policticablue"> Política de Privacidade</h4>
               </div>
-          
+
               <button className="possuilogin">
                 <a href="login">Já possui login?</a>
               </button>

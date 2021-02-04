@@ -239,7 +239,7 @@ const Dados: React.FC = () => {
         await api.put(
           `escritorio/${officeId}`,
           {
-            tipo_documento: documentType.toUpperCase(),
+            tipo_documento: documentType.toLowerCase(),
             documento: documentNumber,
           },
           {
@@ -287,7 +287,7 @@ const Dados: React.FC = () => {
       await api.put(
         `escritorio/${officeId}`,
         {
-          tipo_documento: documentType.toUpperCase(),
+          tipo_documento: documentType.toLowerCase(),
           documento: documentNumber,
         },
         {
@@ -615,7 +615,7 @@ const Dados: React.FC = () => {
                     });
                   }}
                 >
-                  Escolher plano
+                 Voltar
                 </Button>
                 <Button className="btnazul" isLoading={loading} type="submit">
                   Dados de Pagamento

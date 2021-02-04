@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./Pages/Login";
 import NovoCadastro from "./Pages/NovoCadastro";
 import TesteCadastro from "./Pages/TesteCadastro";
-import Cadastroinfo from "./Pages/Cadastroinfo";
+
 import TrocarSenha from "./Pages/TrocarSenha";
 import Homepage from "./Pages/Home";
 import Planos from "./Pages/Planos";
@@ -17,7 +17,7 @@ import Faq from "./Pages/Faq";
 import Esquecisenha from "./Pages/EsqueciSenha";
 import Recuperarsenha from "./Pages/RecuperarSenha";
 import Faq2 from "./Pages/Faq2";
-import PrivateRoute from "./Route";
+import PrivateRoute from "./PrivateRoute";
 
 const Routes: React.FC = () => {
   return (
@@ -37,7 +37,7 @@ const Routes: React.FC = () => {
           exact
           component={TesteCadastro}
         />
-        <Route path="/cadastroinfo" exact component={Cadastroinfo} />
+
         <Route path="/faq" exact component={Faq} />
         <Route path="/faq2" exact component={Faq2} />
         <Route path="/esquecisenha" exact component={Esquecisenha} />

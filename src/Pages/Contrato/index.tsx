@@ -1,40 +1,15 @@
 //2846445278933444
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { FiArrowLeft } from "react-icons/fi";
-
+import React, { useState, useCallback, useRef } from "react";
 import Header from "../../Components/Header";
 
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
-import {
-  Container,
-  Lockicon1,
-  Blue,
-  Draw,
-  GoogleLogin,
-  Googleicon,
-  Facebokcion,
-} from "./styles";
+import { Container, Blue } from "./styles";
 
-import Input from "../../Components/Input";
 import Button from "../../Components/Button";
-
 import { Form } from "@unform/web";
-import getValidationErrors from "../../utils/getValidationErros";
-import * as Yup from "yup";
 import { FormHandles } from "@unform/core";
 
-import { useAuth } from "../../hooks/auth";
-import { useToast } from "../../hooks/toast";
-import api from "../../services/api";
-// async function handleSignIn(){
-//   console.log('Logar');
-// }
-
-interface SigInFormData {
-  email: string;
-  senha: string;
-}
 const Contrato: React.FC = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
@@ -62,24 +37,21 @@ const Contrato: React.FC = () => {
     token: string;
   }>();
 
-  const handleSubmit = useCallback(
-    async (data: SigInFormData): Promise<void> => {
-      setLoading(true);
+  const handleSubmit = useCallback(async (): Promise<void> => {
+    setLoading(true);
 
-      history.push("/dados", {
-        contractAccepted: true,
-        plano,
-        officeId,
-        userId,
-        userEmail,
-        userPhone,
-        userPassword,
-        username,
-        token,
-      });
-    },
-    []
-  );
+    history.push("/dados", {
+      contractAccepted: true,
+      plano,
+      officeId,
+      userId,
+      userEmail,
+      userPhone,
+      userPassword,
+      username,
+      token,
+    });
+  }, []);
 
   return (
     <div>
@@ -128,7 +100,7 @@ const Contrato: React.FC = () => {
                   </h2>
                 </div>
                 <p className="contrato">
-                  Ao clicar em "Concordar e Continuar", voçê confirma que leu o
+                  Ao clicar em "Concordar e Continuar", você confirma que leu o
                   nosso Contrato de
                   <br /> de Assinatura na integra e concorda com ele.
                 </p>

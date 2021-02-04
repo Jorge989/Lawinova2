@@ -11,11 +11,13 @@ import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-import { Container, Sair, Blue } from "./styles";
+import { Container, Sair, Blue, DropdownContainer,
+  DropdownMenu,
+  DropdownItem, } from "./styles";
 
 import Person from "../../assets/person.svg";
-import Appstore from "../../assets/Appstore.svg";
-import Playstore from "../../assets/Playstore.svg";
+import Appstore from "../../assets/aple1.svg";
+import Playstore from "../../assets/play1.svg";
 import api from "../../services/api";
 import { useToast } from "../../hooks/toast";
 import { useHistory } from "react-router-dom";
@@ -30,6 +32,7 @@ const Home: React.FC = () => {
   const [isShow3, setIsShow3] = useState(false);
   const [isShow4, setIsShow4] = useState(false);
   const [isShow5, setIsShow5] = useState(false);
+  const [isShow6, setIsShow6] = useState(false);
   const [isTrial, setIsTrial] = useState(false);
   const [officeData, setOfficeData] = useState<{
     id_escritorio: number;
@@ -79,7 +82,7 @@ const Home: React.FC = () => {
   const convertISOToDate = (date: string) => date.split("T")[0];
 
   const today = convertISOToDate(
-    // new Date(new Date().getTime() + 86_400_000 * 7).toISOString()
+    // new Date(new Date().getTime() + 86_400_000 * 14).toISOString()
     new Date(new Date().getTime()).toISOString()
   );
 
@@ -128,7 +131,38 @@ const Home: React.FC = () => {
             Sair
           </button>
 
-          <button onClick={() => setIsShow(!isShow)}></button>
+          <button onClick={() => setIsShow6(!isShow6)}>
+           <FiUser size={24}  className="logo"/> 
+          </button>
+          {isShow6 && (
+              <DropdownContainer>
+                <DropdownMenu>
+                  <DropdownItem>
+                    <a href="/about" className="cool-DropdownItDropdownItemnk1">
+                      Planos
+                    </a>
+                    <hr className="linha" />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <a href="/about" className="cool-link1">
+                      Casos de Sucesso
+                    </a>
+                    <hr className="linha" />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <a href="/about" className="cool-link1">
+                      Perguntas Frequentes
+                    </a>
+                    <hr className="linha" />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <a href="/about" className="cool-link3">
+                      Site da Empresa/Produto
+                    </a>
+                  </DropdownItem>
+                </DropdownMenu>
+              </DropdownContainer>
+            )}
         </Sair>
       </Header>
 
@@ -145,7 +179,6 @@ const Home: React.FC = () => {
                     dias para o fim do Teste Grátis
                   </h2>
                 )}
-              <h3 className="bemvindo">Bem-Vindo</h3>
               <div className="hora">
                 <div className="input1">
                   <h3 className="date">Data:</h3>
@@ -158,6 +191,7 @@ const Home: React.FC = () => {
               </div>
 
               <div className="topo">
+              <h3 className="bemvindo">Bem-Vindo</h3>
                 <p className="subtopo">
                   Para começar a configurar o app, selecione o Painel no menu
                   Para ver as próximas etapas.
@@ -171,7 +205,7 @@ const Home: React.FC = () => {
                       {/* <button className="playstore"> */}
                       <img className="logoplay" src={Playstore}></img>
 
-                      <h3 className="baixar">Baixar no</h3>
+                     
                       <h3 className="google">Google Play</h3>
                       {/* </button> */}
                     </a>
@@ -182,7 +216,7 @@ const Home: React.FC = () => {
                       href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
                     >
                       <img className="logoapp" src={Appstore}></img>
-                      <h3 className="baixara">Baixar no</h3>
+
                       <h3 className="googlea">App Store</h3>
                     </a>
                   </div>
@@ -193,7 +227,7 @@ const Home: React.FC = () => {
                     <BsFillQuestionOctagonFill
                       size={25}
                       style={{
-                        color: "#4040FF",
+                        color: "#941AF9",
                         width: "22px",
                         marginLeft: "0px",
                         marginTop: "0px",
@@ -208,7 +242,7 @@ const Home: React.FC = () => {
                       <FiMinus
                         size={30}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "20px",
@@ -221,7 +255,7 @@ const Home: React.FC = () => {
                       <FiPlus
                         size={30}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
                           marginLeft: "-214.5px",
@@ -260,11 +294,11 @@ const Home: React.FC = () => {
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-118px",
+                          marginLeft: "-358px",
+                          marginTop: "-250px",
                           cursor: "pointer",
                         }}
                       />
@@ -272,11 +306,11 @@ const Home: React.FC = () => {
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-38px",
+                          marginLeft: "-350px",
+                          marginTop: "-25px",
                           cursor: "pointer",
                         }}
                       />
@@ -307,11 +341,12 @@ const Home: React.FC = () => {
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-118px",
+                          marginLeft: "-358px",
+                          marginTop: "-250px",
+
                           cursor: "pointer",
                         }}
                       />
@@ -319,11 +354,11 @@ const Home: React.FC = () => {
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-38px",
+                          marginLeft: "-350px",
+                          marginTop: "-25px",
                           cursor: "pointer",
                         }}
                       />
@@ -348,17 +383,18 @@ const Home: React.FC = () => {
                         eletrônica como Aldus PageMaker.
                       </h1>
                     </div>
+                    
                   )}
                   <button onClick={() => setIsShow3(!isShow3)}>
                     {isShow3 ? (
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-118px",
+                          marginLeft: "-358px",
+                          marginTop: "-250px",
                           cursor: "pointer",
                         }}
                       />
@@ -366,11 +402,11 @@ const Home: React.FC = () => {
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-38px",
+                          marginLeft: "-350px",
+                          marginTop: "-25px",
                           cursor: "pointer",
                         }}
                       />
@@ -401,11 +437,11 @@ const Home: React.FC = () => {
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-118px",
+                          marginLeft: "-358px",
+                          marginTop: "-250px",
                           cursor: "pointer",
                         }}
                       />
@@ -413,11 +449,11 @@ const Home: React.FC = () => {
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-38px",
+                          marginLeft: "-350px",
+                          marginTop: "-25px",
                           cursor: "pointer",
                         }}
                       />
@@ -450,11 +486,11 @@ const Home: React.FC = () => {
                       <FiMinus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-118px",
+                          marginLeft: "-358px",
+                          marginTop: "-250px",
                           cursor: "pointer",
                         }}
                       />
@@ -462,11 +498,11 @@ const Home: React.FC = () => {
                       <FiPlus
                         size={24}
                         style={{
-                          color: "#444444",
+                          color: "#941AF9",
                           width: "30px",
                           position: "absolute",
-                          marginLeft: "-37px",
-                          marginTop: "-38px",
+                          marginLeft: "-350px",
+                          marginTop: "-25px",
                           cursor: "pointer",
                         }}
                       />
