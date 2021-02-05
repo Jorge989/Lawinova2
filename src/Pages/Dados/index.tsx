@@ -431,6 +431,7 @@ const Dados: React.FC = () => {
               <div className="radio">
                 <div>
                   <Radio
+                  className="radiocor"
                     value="fisica"
                     checked={gender === "fisica"}
                     color="primary"
@@ -440,6 +441,7 @@ const Dados: React.FC = () => {
                 </div>
                 <div>
                   <Radio
+                    className="radiocor"
                     value="juridica"
                     checked={gender === "juridica"}
                     color="primary"
@@ -615,7 +617,7 @@ const Dados: React.FC = () => {
                     });
                   }}
                 >
-                   Voltar
+                  Voltar
                 </Button>
                 <Button className="btnazul" isLoading={loading} type="submit">
                   Dados de Pagamento

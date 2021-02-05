@@ -40,9 +40,9 @@ export const Blue = styled.div`
 
 .cartao{
 
-  width:75px;
-  height:65px;
-  margin-top:190px;
+  width:70px;
+  height:60px;
+  margin-top:193px;
   margin-left:-5px;
 }
   .formBox {
@@ -55,7 +55,7 @@ export const Blue = styled.div`
     width: 90%;
     margin-top: 10px;
     border-radius: 0px 5px 5px 0px;
- 
+
 
   
   h2 {
@@ -94,7 +94,9 @@ export const Blue = styled.div`
     }
     .envolta{
       display:flex;
+      justify-content:center;
       flex-direction:row;
+      margin-left:30%;
       justify-content:space-between;
      
       width:100%;
@@ -310,7 +312,7 @@ label{
       height:500px;
      
       margin-top:0%;
-      margin-right:5%;
+      margin-right:3%;
 
     }
     button {
@@ -333,6 +335,7 @@ font-size:15px;
 font-weight:500;
 cursor:pointer;
 vertical-align: middle;
+
 &:hover {
           background-color: #941AF9;
         }

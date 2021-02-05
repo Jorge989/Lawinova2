@@ -37,7 +37,12 @@ export const Blue = styled.div`
   height: 650px;
 
   margin-top: 100px;
-
+  .radiocor{
+    color:#941AF9;
+svg{
+  color:#941AF9;
+}
+  }
 .radio{
   display:flex;
   justify-content:center;

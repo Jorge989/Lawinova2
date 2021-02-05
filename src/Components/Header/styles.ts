@@ -125,7 +125,7 @@ export const DropdownContainer = styled.div`
   max-width: 320px;
 
   z-index: 9999;
-  background: #1d1d1d;
+  background: #74469A;
   border: 0;
   outline: 0;
   font: 500 16px Roboto;
@@ -165,7 +165,8 @@ export const DropdownItem = styled.button`
   color: #ffffff;
 
   &:hover {
-    background: #4a5163;
+    margin-left:0%;
+    background: #941AF9;
     cursor: pointer;
   }
 
@@ -181,5 +182,6 @@ export const DropdownItem = styled.button`
     text-decoration: none;
     font-size: 20px;
     line-height: 35px;
+        margin-left: 15px;
   }
 `;

@@ -4,6 +4,7 @@ import { Form } from "@unform/web";
 import creditCardType from "credit-card-type";
 import { FormHandles } from "@unform/core";
 import CVVImage from "../../assets/ccv.svg";
+import CVVImage2 from "../../assets/ccvcard.png";
 import { FiEyeOff } from "react-icons/fi";
 import Header2 from "../../Components/Header";
 import axios from "axios";
@@ -21,20 +22,20 @@ import { useToast } from "../../hooks/toast";
 import DetailedPlans from "../../data/DetailedPlans";
 import { useAuth } from "../../hooks/auth";
 
-const CVVIcon: React.FC = (props) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginRight: 4,
-      }}
-    >
-      <img src={CVVImage} width="24" height="24" />
-    </div>
-  );
-};
+// const CVVIcon: React.FC = (props) => {
+//   // return (
+//   //   <div
+//   //     style={{
+//   //       display: "flex",
+//   //       justifyContent: "center",
+//   //       alignItems: "center",
+//   //       marginRight: 4,
+//   //     }}
+//   //   >
+//   //     <img src={CVVImage} width="24" height="24" />
+//   //   </div>
+//   // );
+// };
 
 interface ChosenPlanOptions {
   id: string;
@@ -459,7 +460,7 @@ const Detalhes: React.FC = () => {
                         maxLength={4}
                         name="cardCVV"
                         id="cardCVV"
-                        icon={CVVIcon}
+                        // icon={CVVIcon}
                         iconPosition="right"
                         value={paymentData.cardCVV}
                         onChange={handlePayment}
@@ -467,9 +468,9 @@ const Detalhes: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                {/* <div>
-                  <img src={CCV} className="cartao"></img>
-                </div> */}
+                 <div>
+                  <img src={CVVImage2} className="cartao"></img>
+                </div> 
 
                 <div className="resumo">
                   <div className="dentro">

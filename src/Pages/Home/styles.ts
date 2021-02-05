@@ -78,9 +78,10 @@ export const DropdownItem = styled.button`
   color: #ffffff;
   font-weight:400;
 
+
   &:hover {
  
-
+    margin-left:0%;
     background: #941AF9;
     cursor: pointer;
   }
