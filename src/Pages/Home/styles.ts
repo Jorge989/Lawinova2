@@ -452,7 +452,7 @@ display:flex;
 
   margin-top: 10px;
   .perguntaserespostas {
-    margin-top: 1%;
+    margin-top: 3%;
     margin-left: 12%;
     width: 100%;
     max-height: 20px;

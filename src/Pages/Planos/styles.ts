@@ -17,7 +17,7 @@ export const Container = styled.div`
   margin: 0 auto;
   width: 100%;
   z-index: 999;
- 
+
 
   
 `;
@@ -84,7 +84,9 @@ export const GradientCard = styled.div<GradientConfig>`
     color: #ffffff;
   }
   }
-
+ 
+  
+  
 `;
 
 export const GradientCardContainer = styled.ul`
@@ -128,7 +130,7 @@ export const Blue = styled.div`
   width: 100%;
   height: 550px;
 
-  margin-top: -18px;
+  margin-top: 100px;
   
   .formBox {
     display: flex;
@@ -288,8 +290,8 @@ export const Blue = styled.div`
   width: 100%;
   height: 650px;
 
-  margin-top: -18px;
-  background-color:red;
+  margin-top: 0px;
+
   .formBox {
     display: flex;
 
@@ -440,17 +442,18 @@ background-color:yellow;
     }}}
 
     @media screen and (max-width: 576px) {
+     
       justify-content: center;
-  flex-direction: column;
+  flex-direction: column!important;
   background-color: #fff;
 
   border-radius: 5px 10px 10px 5px;
 
   width: 100%;
-  height: 650px;
+  height: 1000px;
+  background-color:blue;
 
-  margin-top: -18px;
-  background-color:red;
+  
   .formBox {
     display: flex;
 
@@ -460,7 +463,9 @@ background-color:yellow;
     width: 80%;
     background-color: #ffffff;
     border-radius: 0px 5px 5px 0px;
-background-color:yellow;
+    
+
+    
   form {
     width: 100%;
 

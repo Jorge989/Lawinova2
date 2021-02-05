@@ -233,7 +233,7 @@ const Planos: React.FC = () => {
   <i onClick={togglePasswordVisiblity}>{eye}</i>;
 
   return (
-    <div className="ehad" style={{ marginTop: 120 }}>
+    <div>
       <Header2 />
       <Container>
         <Blue>

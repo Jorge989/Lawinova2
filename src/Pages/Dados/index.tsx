@@ -615,7 +615,7 @@ const Dados: React.FC = () => {
                     });
                   }}
                 >
-                 Voltar
+                   Voltar
                 </Button>
                 <Button className="btnazul" isLoading={loading} type="submit">
                   Dados de Pagamento
