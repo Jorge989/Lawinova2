@@ -399,6 +399,7 @@ vertical-align: middle;
   height: 650px;
 
   margin-top: 100px;
+
   .cartao{
 
 width:75px;
@@ -454,9 +455,10 @@ margin-left:5px;
       display:flex;
       flex-direction:row;
       justify-content:space-between;
-     
+     margin-right:37%;
       width:100%;
       height:100%;
+
     }
     .resumo{
       display:flex;
@@ -721,7 +723,7 @@ vertical-align: middle;
   width: 100%;
   height: 800px;
 
-  margin-top: 10px;
+  margin-top: 65px;
   .cartao{
 display:none;
 width:75px;
@@ -777,9 +779,10 @@ margin-left:-5px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
-     
+     margin-right:30%;
       width:100%;
       height:100%;
+   
     }
     .resumo{
       margin-top:-5%;
