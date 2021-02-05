@@ -77,6 +77,12 @@ border: 1px solid #C4C4C4;
 
   margin-right:5.3%;
 }
+.radiocor{
+    color:#941AF9;
+svg{
+  color:#941AF9;
+}
+  }
 .inputsel1{
   width: 99%;
       margin-right:90px;

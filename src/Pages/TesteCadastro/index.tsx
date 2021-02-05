@@ -391,6 +391,8 @@ const Testenovocadastro: React.FC = () => {
   }
   console.log(dataFormatadaInicio + "esse");
   console.log(dataFormatadaFim + "esse");
+
+  
   return (
     <div>
       <Header2 />
@@ -403,7 +405,7 @@ const Testenovocadastro: React.FC = () => {
               <div className="radio">
                 <div>
                   <span className="pessoafisica">Pessoa fisíca</span>
-                  <Radio
+                  <Radio className="radiocor"
                     value="cpf"
                     checked={gender === "cpf"}
                     color="primary"
@@ -412,7 +414,7 @@ const Testenovocadastro: React.FC = () => {
                 </div>
                 <div>
                   <span className="pessoajuridica">Pessoa juridíca</span>
-                  <Radio
+                  <Radio className="radiocor"
                     value="cnpj"
                     checked={gender === "cnpj"}
                     color="primary"
