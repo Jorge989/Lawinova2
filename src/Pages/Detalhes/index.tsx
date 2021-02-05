@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import { FaCreditCard } from "react-icons/fa";
 import { Form } from "@unform/web";
 import creditCardType from "credit-card-type";
 import { FormHandles } from "@unform/core";
-import CVVImage from "../../assets/ccv.svg";
+
 import CVVImage2 from "../../assets/ccvcard.png";
 import { FiEyeOff } from "react-icons/fi";
 import Header2 from "../../Components/Header";
@@ -460,7 +460,7 @@ const Detalhes: React.FC = () => {
                         maxLength={4}
                         name="cardCVV"
                         id="cardCVV"
-                        // icon={CVVIcon}
+                        //  icon={FaCreditCard}
                         iconPosition="right"
                         value={paymentData.cardCVV}
                         onChange={handlePayment}

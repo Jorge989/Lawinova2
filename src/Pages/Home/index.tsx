@@ -201,6 +201,7 @@ const Home: React.FC = () => {
                     <a
                       className="playstore"
                       href="https://play.google.com/store/apps/details?id=com.actionsys.inventario"
+                      target="_blank"
                     >
                       {/* <button className="playstore"> */}
                       <img className="logoplay" src={Playstore}></img>
@@ -214,6 +215,7 @@ const Home: React.FC = () => {
                     <a
                       className="appstore"
                       href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
+                      target="_blank"
                     >
                       <img className="logoapp" src={Appstore}></img>
 

@@ -136,7 +136,7 @@ display:flex;
       color: #232323;
       cursor: pointer;
       outline:0;
-    
+     
     }
   .faqsub {
 
@@ -148,7 +148,7 @@ display:flex;
 
     font-size: 16px;
     outline:0;
-    cursor: pointer;
+
   
 
   .topo {

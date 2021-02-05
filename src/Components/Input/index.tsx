@@ -11,7 +11,7 @@ import { useField } from "@unform/core";
 import { Container, Error, PasswordButtonContainer } from "./styles";
 import { FiEye } from "react-icons/fi";
 import { FiEyeOff } from "react-icons/fi";
-
+import CCV from '../../assets/ccv.svg'
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: React.ComponentType<IconBaseProps>;

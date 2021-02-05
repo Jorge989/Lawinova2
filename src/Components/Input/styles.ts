@@ -137,6 +137,8 @@ export const Error = styled(Tooltip)`
     }
   }
 `;
+export const CCvContainer = styled.button`
+`
 export const PasswordButtonContainer = styled.button`
   color: #6C6F80;
   outline :0;
