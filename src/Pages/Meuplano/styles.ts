@@ -369,7 +369,7 @@ export const Blue = styled.div`
         width: 80%;
         height: 500px;
 
-        margin-top: 0%;
+        margin-top: -10%;
         margin-right: 5%;
       }
       button {
@@ -381,13 +381,13 @@ export const Blue = styled.div`
       }
       .btnazul {
         width: 30%;
-        height: 9%;
+        height: 28%;
         margin-right: 105px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #007aff;
+        background-color: #74469A;
         cursor: pointer;
       }
       .btnazul1 {
@@ -419,7 +419,7 @@ export const Blue = styled.div`
       width: 100%;
       max-width: 100px;
 
-      height: 1750px;
+      height: 1600px;
 
       .plan .plan-name {
         text-transform: uppercase;
@@ -456,7 +456,7 @@ export const Blue = styled.div`
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #007aff;
+        background-color: #74469A;
         cursor: pointer;
       }
       .btnazul1 {

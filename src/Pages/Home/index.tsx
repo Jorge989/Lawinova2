@@ -138,13 +138,13 @@ const Home: React.FC = () => {
               <DropdownContainer>
                 <DropdownMenu>
                   <DropdownItem>
-                    <a href="/about" className="cool-DropdownItDropdownItemnk1">
+                    <a href="/trocarsenha" className="cool-DropdownItDropdownItemnk1">
                       Trocar Senha
                     </a>
                     <hr className="linha" />
                   </DropdownItem>
                   <DropdownItem>
-                    <a href="/about" className="cool-link1">
+                    <a href="/meuplano" className="cool-link1">
                       Meu Plano
                     </a>
                     <hr className="linha" />
