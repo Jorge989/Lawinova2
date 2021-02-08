@@ -200,7 +200,7 @@ display:flex;
       display: flex;
       flex-direction: row;
       line-height: 10px;
-      margin-top: -7%;
+      margin-top: -4%;
       margin-left: 63%;
     }
 

@@ -127,9 +127,9 @@ const Home: React.FC = () => {
     <div>
       <Header>
         <Sair>
-          <button onClick={signOut} className="sair">
+          {/* <button onClick={signOut} className="sair">
             Sair
-          </button>
+          </button> */}
 
           <button onClick={() => setIsShow6(!isShow6)}>
            <FiUser size={24}  className="logo"/> 
@@ -139,27 +139,23 @@ const Home: React.FC = () => {
                 <DropdownMenu>
                   <DropdownItem>
                     <a href="/about" className="cool-DropdownItDropdownItemnk1">
-                      Planos
+                      Trocar Senha
                     </a>
                     <hr className="linha" />
                   </DropdownItem>
                   <DropdownItem>
                     <a href="/about" className="cool-link1">
-                      Casos de Sucesso
+                      Meu Plano
                     </a>
                     <hr className="linha" />
                   </DropdownItem>
                   <DropdownItem>
-                    <a href="/about" className="cool-link1">
-                      Perguntas Frequentes
+                    <a href="/about" onClick={signOut} className="cool-link1">
+                      Sair
                     </a>
                     <hr className="linha" />
                   </DropdownItem>
-                  <DropdownItem>
-                    <a href="/about" className="cool-link3">
-                      Site da Empresa/Produto
-                    </a>
-                  </DropdownItem>
+                
                 </DropdownMenu>
               </DropdownContainer>
             )}

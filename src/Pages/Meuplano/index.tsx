@@ -41,7 +41,7 @@ import { FiEyeOff } from "react-icons/fi";
 import { useAuth } from "../../hooks/auth";
 import { useToast } from "../../hooks/toast";
 import api from "../../services/api";
-import PlansData from "../../data/PlansData";
+import { getFormattedPlansData } from "../../data/PlansData";
 // async function handleSignIn(){
 //   console.log('Logar');
 // }
@@ -51,7 +51,7 @@ interface SigInFormData {
   senha: string;
 }
 
-const Meuplano: React.FC = () => {
+const MeuPlano: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [planId, setPlanId] = useState(0);
   const [customerId, setCustomerId] = useState(0);
@@ -174,7 +174,10 @@ const Meuplano: React.FC = () => {
           metadata: {};
         }[];
       }>(
-        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/products?query=name=${plano}`,
+        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/products?query=name=${plano.replace(
+          "promo",
+          "plano"
+        )}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -281,7 +284,7 @@ const Meuplano: React.FC = () => {
               <h1>Meu Plano</h1>
               <p>SMART</p>
               <div className="plans-container">
-                {PlansData.map((plan) => (
+                {getFormattedPlansData(true).map((plan) => (
                   <GradientCard
                     key={plan.id}
                     code={plan.code}
@@ -337,4 +340,4 @@ const Meuplano: React.FC = () => {
   );
 };
 
-export default Meuplano;
+export default MeuPlano;

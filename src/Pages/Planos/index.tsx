@@ -1,44 +1,31 @@
 //2846445278933444
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { FiArrowLeft } from "react-icons/fi";
-// import Logo from "../../assets/logolaw.svg";
+import React, { useState, useRef, useEffect } from "react";
 import Header2 from "../../Components/Header";
-import {
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-} from "react-google-login";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import {
   Container,
-  Lockicon1,
-  Blue,
-  Draw,
-  GoogleLogin,
-  Googleicon,
-  Facebokcion,
-  GradientCard,
-  GradientCardContainer,
   GradientText,
+  FormContainer,
+  Main,
+  PricingContainer,
+  PricingContainerTitle,
+  PlansContainer,
+  Plan,
+  Offer,
+  OffersContainer,
+  Layout,
+  ConfirmButton,
 } from "./styles";
-import FacebookLogin from "react-facebook-login";
-
-import Input from "../../Components/Input";
-import Button from "../../Components/Button";
-import { FiMail } from "react-icons/fi";
-import { FiLock } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 import { Form } from "@unform/web";
 import getValidationErrors from "../../utils/getValidationErros";
 import * as Yup from "yup";
 import { FormHandles } from "@unform/core";
-import { FiEye } from "react-icons/fi";
-import { FiEyeOff } from "react-icons/fi";
-import { useAuth } from "../../hooks/auth";
 import { useToast } from "../../hooks/toast";
 import api from "../../services/api";
 import { AxiosError } from "axios";
-import PlansData from "../../data/PlansData";
+import { getFormattedPlansData } from "../../data/PlansData";
 
 interface SigInFormData {
   email: string;
@@ -47,8 +34,8 @@ interface SigInFormData {
 
 const Planos: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [planos, setPlanos] = useState("");
   const formRef = useRef<FormHandles>(null);
-  const { signIn, setAuthData } = useAuth();
   const history = useHistory();
   const { addToast } = useToast();
 
@@ -65,6 +52,7 @@ const Planos: React.FC = () => {
       customerId,
       phoneId,
       userPassword,
+      isPromo,
     },
   } = useLocation<{
     officeId: number;
@@ -78,11 +66,8 @@ const Planos: React.FC = () => {
     contractAccepted?: boolean;
     customerId?: number;
     phoneId?: number;
+    isPromo: boolean;
   }>();
-
-  const [planos, setPlanos] = useState("");
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [inputType, setInputType] = useState("password");
 
   useEffect(() => {
     setPlanos(plano);
@@ -92,6 +77,7 @@ const Planos: React.FC = () => {
   console.log("Planos TOKEN:", token);
   console.log("officeId", officeId);
   console.log("contractAccepted", contractAccepted);
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -139,6 +125,7 @@ const Planos: React.FC = () => {
             plano: planos,
             token,
             userPassword,
+            isPromo,
           },
         });
       }
@@ -157,6 +144,7 @@ const Planos: React.FC = () => {
           customerId,
           phoneId,
           userPassword,
+          isPromo,
         },
       });
 
@@ -189,68 +177,24 @@ const Planos: React.FC = () => {
     }
   };
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [url, setUrl] = useState("");
-
-  const responseGoogle = async (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): Promise<void> => {
-    if (!("profileObj" in response)) return;
-    setName(response.profileObj.name);
-    setEmail(response.profileObj.email);
-    setUrl(response.profileObj.imageUrl);
-    const { data } = await api.post("/autenticar", {
-      email: response.profileObj.email,
-    });
-    setAuthData({ user: data.usuario, token: data.token });
-
-    console.log(data);
-  };
-
-  const responseGoogleFailed = (response: GoogleLoginResponse): void => {
-    console.log(response);
-  };
-
-  const responseFacebook = async (response: any) => {
-    console.log(response);
-    const { data } = await api.post("/autenticar", {
-      email: response.officeId + "@facebook.com",
-    });
-    setAuthData({ user: data.usuario, token: data.token });
-  };
-
-  const componetClicked = (data: any) => {
-    console.warn(data);
-  };
-
-  const eye = <FiEyeOff />;
-  const togglePasswordVisiblity = () => {
-    setPasswordShown(passwordShown === true ? false : true);
-    setInputType(inputType === "password" ? "text" : "password");
-  };
-
-  <i onClick={togglePasswordVisiblity}>{eye}</i>;
-
   return (
-    <div>
+    <>
       <Header2 />
-      <Container>
-        <Blue>
-        <div className="formBox">
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <section className="pricing-container">
-              <h1>Planos e Preços</h1>
-              {/* <p>Selecione o plano perfeito para voçê</p> */}
-              <div className="plans-container">
-                {PlansData.map((plan) => (
-                  <GradientCard
-                    key={plan.id}
-                    code={plan.code}
-                    plano={planos}
-                    onClick={() => setPlanos(plan.code)}
-                  >
-                    <GradientCardContainer>
+      <Layout>
+        <Container>
+          <Main>
+            <FormContainer ref={formRef} onSubmit={handleSubmit}>
+              <PricingContainer>
+                <PricingContainerTitle>Planos e Preços</PricingContainerTitle>
+
+                <PlansContainer>
+                  {getFormattedPlansData(isPromo).map((plan) => (
+                    <Plan
+                      key={plan.id}
+                      code={plan.code}
+                      plano={planos}
+                      onClick={() => setPlanos(plan.code)}
+                    >
                       <GradientText
                         style={{ fontSize: 16 }}
                         code={plan.code}
@@ -262,33 +206,31 @@ const Planos: React.FC = () => {
                         R${plan.value}
                       </GradientText>
 
-                      {plan.offers.map((offer) => (
-                        <li
-                          style={{
-                            color: plan.code !== planos ? "#000000" : "#ffffff",
-                          }}
-                          className="offer"
-                          key={offer.id}
-                        >
-                          {offer.name.toUpperCase()}
-                        </li>
-                      ))}
-                    </GradientCardContainer>
-                  </GradientCard>
-                ))}
-              </div>
-            </section>
-
-            <div className="button">
-              <Button className="btnazul" type="submit" isLoading={loading}>
+                      <OffersContainer>
+                        {plan.offers.map((offer) => (
+                          <Offer
+                            style={{
+                              color:
+                                plan.code !== planos ? "#000000" : "#ffffff",
+                            }}
+                            key={offer.id}
+                          >
+                            {offer.name}
+                          </Offer>
+                        ))}
+                      </OffersContainer>
+                    </Plan>
+                  ))}
+                </PlansContainer>
+              </PricingContainer>
+              <ConfirmButton type="submit" isLoading={loading}>
                 Confirmar
-              </Button>
-            </div>
-          </Form>
-          </div>
-        </Blue>
-      </Container>
-    </div>
+              </ConfirmButton>
+            </FormContainer>
+          </Main>
+        </Container>
+      </Layout>
+    </>
   );
 };
 

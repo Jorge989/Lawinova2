@@ -157,6 +157,7 @@ const Testenovocadastro: React.FC = () => {
       console.log("tipoPerfil", tipoPerfil);
       console.log("qtdavogados", qtdAdvogados);
       console.log("Plano", planos);
+      console.log("Telefone", data.telefone.replace(/[ ]|[()-]/g, ""));
       setLoading(true);
       try {
         formRef.current?.setErrors({});
@@ -179,6 +180,15 @@ const Testenovocadastro: React.FC = () => {
           abortEarly: false,
         });
 
+        const perfil = qtdAdvogados === "1" ? "autonomo" : tipoPerfil;
+
+        console.log("Aqui", {
+          email: data.email,
+          nome: data.nome,
+          senha: data.senha,
+          perfil,
+        });
+
         const response = await api.post<{
           token: string;
           usuario: UserResponse;
@@ -186,7 +196,7 @@ const Testenovocadastro: React.FC = () => {
           email: data.email,
           nome: data.nome,
           senha: data.senha,
-          perfil: tipoPerfil,
+          perfil,
         });
 
         const sendOfficeData = {
@@ -199,7 +209,7 @@ const Testenovocadastro: React.FC = () => {
           tipo_pag: "cartao_credito",
           nick_name: data.nome,
           email: data.email,
-          telefone: "55" + data.telefone,
+          telefone: "55" + data.telefone.replace(/[ ]|[()-]/g, ""),
           qtde_processos: data.processos,
           quantidade_advogados: qtdAdvogados,
           tipo_escritorio: tipoPerfil,
@@ -251,88 +261,6 @@ const Testenovocadastro: React.FC = () => {
     [addToast, signIn, gender, tipoPerfil, qtdAdvogados, planos]
   );
 
-  var reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/;
-  var regemail = /^\w+([-+.']\w+)@\w+([-.]\w+).\w+([-.]\w+)*$/;
-  const eye = <FiEyeOff />;
-
-  // useEffect(() => {
-  //   api.get("escritorios/listar").then((response) => {
-  //     console.log(response.data);
-  //   });
-  // }, []);
-
-  const responseGoogle = (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): void => {
-    if (!("profileObj" in response)) return;
-    setName(response.profileObj.name);
-    setEmail(response.profileObj.email);
-    setUrl(response.profileObj.imageUrl);
-    handleLogin(response);
-  };
-
-  async function handleLogin(
-    data: GoogleLoginResponse | GoogleLoginResponseOffline
-  ) {
-    if (!("profileObj" in data)) return;
-    const dadosCadastro = {
-      email: data.profileObj.email,
-      nome: data.profileObj.name,
-      tipo_conta: "google",
-      senha: data.googleId + "!@#$J",
-      perfil: data.profileObj.imageUrl,
-    };
-
-    const response = await api.post("usuarios", dadosCadastro);
-
-    const { profileObj } = data;
-
-    const { email: email_, familyName: nome_ } = data.profileObj;
-
-    history.push("/cadastroinfo", {
-      loginDTO: {
-        ...data,
-        email: email_,
-        nome: nome_,
-      },
-      userData: response.data,
-    });
-
-    addToast({
-      type: "sucess",
-      title: "Cadastro realizado com sucesso",
-    });
-  }
-
-  const responseFacebook = async (response: any) => {
-    const dadosCadastro = {
-      email: response.userID + "@facebook.com",
-      nome: response.name,
-      tipo_conta: "facebook",
-      senha: response.userID + "!@#$J",
-      perfil: response.picture?.data.url,
-    };
-
-    const apiresponse = await api.post("usuarios", dadosCadastro);
-
-    history.push("/cadastroinfo", {
-      loginDTO: {
-        email: response.userID + "@facebook.com",
-        nome: response.name,
-      },
-      userData: apiresponse.data,
-    });
-
-    addToast({
-      type: "sucess",
-      title: "Cadastro realizado com sucesso",
-    });
-  };
-
-  const componetClicked = (data: any) => {
-    console.warn(data);
-  };
-
   function handlePlano({ target }: React.ChangeEvent<HTMLSelectElement>) {
     switch (target.value) {
       case "1":
@@ -353,25 +281,26 @@ const Testenovocadastro: React.FC = () => {
           setTipoPlanos("trial1"),
           setQtdAdvogados("1")
         );
-      case "escritorio":
-        return (
-          setTipoPerfl("escritorio"), setTipoPlanos(""), setQtdAdvogados("")
-        );
+      case "admin": {
+        return setTipoPerfl("admin"), setTipoPlanos(""), setQtdAdvogados("");
+      }
       default:
         setTipoPlanos(""), setTipoPerfl("");
     }
   }
+
   const handleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);
   };
+
   const endDate = new Date(
     new Date().getTime() + 1_209_600_000
   ).toLocaleString();
   const startDate = new Date(new Date()).toLocaleString();
   const dataFormatadaInicio = converteData(startDate, "/", "-");
   const dataFormatadaFim = converteData(endDate, "/", "-");
-  console.log("startDate", startDate);
-  console.log("endDate", endDate);
+  // console.log("startDate", startDate);
+  // console.log("endDate", endDate);
 
   function converteData(
     data: String,
@@ -379,7 +308,7 @@ const Testenovocadastro: React.FC = () => {
     divisorPraColocar: String
   ) {
     const temp = data.split(`${divisorPraSeparar}`);
-    console.log("data", temp);
+    // console.log("data", temp);
     const ano = temp[2].split(" ");
     const dataBanco =
       ano[0] +
@@ -389,10 +318,8 @@ const Testenovocadastro: React.FC = () => {
       temp[0];
     return dataBanco;
   }
-  console.log(dataFormatadaInicio + "esse");
-  console.log(dataFormatadaFim + "esse");
-
-  
+  // console.log(dataFormatadaInicio + "esse");
+  // console.log(dataFormatadaFim + "esse");
   return (
     <div>
       <Header2 />
@@ -405,7 +332,7 @@ const Testenovocadastro: React.FC = () => {
               <div className="radio">
                 <div>
                   <span className="pessoafisica">Pessoa fisíca</span>
-                  <Radio className="radiocor"
+                  <Radio
                     value="cpf"
                     checked={gender === "cpf"}
                     color="primary"
@@ -414,7 +341,7 @@ const Testenovocadastro: React.FC = () => {
                 </div>
                 <div>
                   <span className="pessoajuridica">Pessoa juridíca</span>
-                  <Radio className="radiocor"
+                  <Radio
                     value="cnpj"
                     checked={gender === "cnpj"}
                     color="primary"
@@ -442,7 +369,16 @@ const Testenovocadastro: React.FC = () => {
                   icon={FiPhoneCall}
                   type="text"
                   value={tel}
-                  maxLength={11}
+                  maxLength={15}
+                  onKeyUp={(e) => {
+                    const value = e.currentTarget.value
+                      .replace(/\D/g, "")
+                      .replace(/(\d{2})(\d)/, "($1) $2")
+                      // .replace(/(\d{5})(\d)/, "$1-$2");
+
+                    e.currentTarget.value = value;
+                    return e;
+                  }}
                   preffix
                   placeholder="(xx) xxxxx-xxxx"
                   onChange={(e) => setTelefone(e.target.value)}
@@ -485,7 +421,7 @@ const Testenovocadastro: React.FC = () => {
                       <option id="autonomo" value="autonomo">
                         Autonomo
                       </option>
-                      <option id="escritorio" value="escritorio">
+                      <option id="admin" value="admin">
                         Escritorio
                       </option>
                     </select>

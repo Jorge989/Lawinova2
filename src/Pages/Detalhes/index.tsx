@@ -19,8 +19,9 @@ import getValidationErrors from "../../utils/getValidationErros";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useToast } from "../../hooks/toast";
-import DetailedPlans from "../../data/DetailedPlans";
+import { getFormattedDetailedPlans } from "../../data/DetailedPlans";
 import { useAuth } from "../../hooks/auth";
+import { getPlanData } from "../../data";
 
 // const CVVIcon: React.FC = (props) => {
 //   // return (
@@ -59,6 +60,7 @@ interface LocationProps {
   userPassword?: string;
   userEmail: string;
   username: string;
+  isPromo: boolean;
 }
 
 const Detalhes: React.FC = () => {
@@ -76,6 +78,7 @@ const Detalhes: React.FC = () => {
       userPhone,
       userPassword,
       username,
+      isPromo,
     },
   } = useLocation<LocationProps>();
 
@@ -91,7 +94,8 @@ const Detalhes: React.FC = () => {
     userId,
     userPhone,
     userPassword,
-    username
+    username,
+    isPromo
   );
 
   console.log("CustomerId", customerId);
@@ -111,33 +115,9 @@ const Detalhes: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
 
-  const chosenPlan: ChosenPlanOptions | undefined = DetailedPlans.find(
-    (plan) => plan.code === plano
-  );
-
-  const planData: {
-    [key: string]: {
-      quantidade_advogados: number;
-      qtde_processos: number;
-      tipo_escritorio: string;
-    };
-  } = {
-    plano1: {
-      quantidade_advogados: 1,
-      qtde_processos: 50,
-      tipo_escritorio: "autonomo",
-    },
-    plano2: {
-      quantidade_advogados: 3,
-      qtde_processos: 200,
-      tipo_escritorio: "escritorio",
-    },
-    plano3: {
-      quantidade_advogados: 6,
-      qtde_processos: 1000,
-      tipo_escritorio: "escritorio",
-    },
-  };
+  const chosenPlan: ChosenPlanOptions | undefined = getFormattedDetailedPlans(
+    isPromo
+  ).find((plan) => plan.code === plano.replace("promo", "plano"));
 
   const privateApi = "tey-UhF26q2TMv6cTF43fcMsGwJEy4cdSZFKh-nPQaQ:";
   const publicApi = "39zh9E2rTCZAZ_Vu1-qbIbty-7KUciSaw0Ssd7s5bhg";
@@ -161,7 +141,10 @@ const Detalhes: React.FC = () => {
 
     axios
       .get(
-        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/products?query=name=${plano}`,
+        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/products?query=name=${plano.replace(
+          "promo",
+          "plano"
+        )}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -182,9 +165,9 @@ const Detalhes: React.FC = () => {
       const schema = Yup.object().shape({
         cardNumber: Yup.string().required("O número do cartão é obrigatório"),
         holderName: Yup.string().required("O Nome do cartão é obrigatório"),
-        cardExpiration: Yup.string().required(
-          "A data de expiração é obrigatório"
-        ),
+        cardExpiration: Yup.string()
+          .required("A data de expiração é obrigatório")
+          .length(7, "Precisar ser uma data no formato 00/0000"),
         cardCVV: Yup.string()
           .required("O cvv do cartão é obrigatório")
           .min(3, "O tamanho do cvv precisa ser de 3 ou 4 dígitos")
@@ -283,7 +266,7 @@ const Detalhes: React.FC = () => {
       await api.put(
         `usuarios/${userId}`,
         {
-          perfil: planData[plano].tipo_escritorio,
+          perfil: getPlanData(plano, isPromo).tipo_escritorio,
         },
         {
           headers: {
@@ -296,9 +279,10 @@ const Detalhes: React.FC = () => {
       await api.put(
         `escritorio/${officeId}`,
         {
-          tipo_escritorio: planData[plano].tipo_escritorio,
-          quantidade_advogados: planData[plano].quantidade_advogados,
-          qtde_processos: planData[plano].qtde_processos,
+          tipo_escritorio: getPlanData(plano, isPromo).tipo_escritorio,
+          quantidade_advogados: getPlanData(plano, isPromo)
+            .quantidade_advogados,
+          qtde_processos: getPlanData(plano, isPromo).qtde_processos,
         },
         {
           headers: {
@@ -468,9 +452,9 @@ const Detalhes: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                 <div>
+                <div>
                   <img src={CVVImage2} className="cartao"></img>
-                </div> 
+                </div>
 
                 <div className="resumo">
                   <div className="dentro">

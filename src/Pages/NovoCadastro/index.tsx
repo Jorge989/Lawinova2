@@ -33,6 +33,7 @@ import { useParams } from "react-router-dom";
 import Button from "../../Components/Button";
 import { useToast } from "../../hooks/toast";
 import { useAuth } from "../../hooks/auth";
+import { getPlanData } from "../../data";
 interface SigInFormData {
   email: string;
   senha: string;
@@ -137,9 +138,11 @@ const NovoCadastro: React.FC = () => {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          nome: Yup.string().required("Nome obrigatório"),
-          email: Yup.string().required("E-mail obrigatório"),
-
+          nome: Yup.string().required("Nome é obrigatório"),
+          email: Yup.string().required("E-mail é obrigatório"),
+          telefone: Yup.string()
+            .required("Telefone é obrigatório")
+            .length(15, "Telefone tem que ter 11 dígitos"),
           senha: Yup.string()
             .trim()
             .matches(
@@ -153,41 +156,35 @@ const NovoCadastro: React.FC = () => {
           abortEarly: false,
         });
 
+        const isPromo = !!plano.match(/(promo[1-3])/);
+        const plansData = getPlanData(plano, isPromo);
+
+        console.log("PlansData", plansData);
         const response = await api.post<{
           token: string;
           usuario: UserResponse;
-        }>("usuarios", { ...data, perfil: "autonomo" });
+        }>("usuarios", { ...data, perfil: plansData.tipo_escritorio });
 
-        console.log(response.data);
-        console.log(name + "nome aqui");
-
-        const plans: { [key: string]: number } = {
-          individual: 1,
-          pro: 2,
-          premium: 3,
-        };
-
-        const numberOfLawyers = plans[plano];
-        console.log("numberOfLawyers", numberOfLawyers);
+        // console.log(response.data);
+        // console.log(name + "nome aqui");
 
         const sendOfficeData = {
           tipo_documento: gender,
           nome: data.nome,
-          documento: "CNPJ",
+          documento: "cnpj",
           plano: plano,
           data_inicio_plano: dataFormatadaInicio,
           data_final_trial: dataFormatadaFim,
           tipo_pag: "cartao_credito",
           nick_name: data.nome,
           email: data.email,
-          telefone: "55" + data.telefone,
-          // qtde_processos: qtd,
-          qtde_processos: 50,
-          quantidade_advogados: 1,
-          tipo_escritorio: "autonomo",
+          telefone: "55" + data.telefone.replace(/[ ]|[()-]/g, ""),
+          qtde_processos: plansData.qtde_processos,
+          quantidade_advogados: plansData.quantidade_advogados,
+          tipo_escritorio: plansData.tipo_escritorio,
         };
 
-        console.log("sendOfficeData", sendOfficeData);
+        // console.log("sendOfficeData", sendOfficeData);
 
         const responseOffice = await api.post<OfficeResponse>(
           "escritorios",
@@ -200,14 +197,12 @@ const NovoCadastro: React.FC = () => {
           }
         );
 
-        console.log("PLANO", plano);
-        console.log("TOKEN", response.data);
+        // console.log("PLANO", plano);
+        // console.log("TOKEN", response.data);
+        // console.log(responseOffice.data);
+        // console.log(data.nome + "nome aqui");
 
-        console.log(responseOffice.data);
-
-        console.log(data.nome + "nome aqui");
-
-        if (plano === "promo") {
+        if (isPromo) {
           return history.push("/contrato", {
             plano,
             token: response.data.token,
@@ -215,8 +210,9 @@ const NovoCadastro: React.FC = () => {
             userId: response.data.usuario.id_usuario,
             username: response.data.usuario.nome,
             userEmail: data.email,
-            userPhone: "55" + data.telefone,
+            userPhone: "55" + data.telefone.replace(/[ ]|[()-]/g, ""),
             userPassword: data.senha,
+            isPromo,
           });
         }
         history.push("/planos", {
@@ -226,32 +222,34 @@ const NovoCadastro: React.FC = () => {
           userId: response.data.usuario.id_usuario,
           username: response.data.usuario.nome,
           userEmail: data.email,
-          userPhone: "55" + data.telefone,
+          userPhone: "55" + data.telefone.replace(/[ ]|[()-]/g, ""),
           userPassword: data.senha,
+          isPromo,
         });
         addToast({
           type: "sucess",
           title: "Cadastro realizado com sucesso",
         });
-        // console.log(data.userData.token)
       } catch (err) {
         console.log("Error", err);
         setLoading(false);
+
         if (err instanceof Yup.ValidationError) {
-          console.log(err);
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
-
-          addToast({
-            type: "error",
-            title: "Erro na cadastro",
-            description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
-          });
+          err.inner.map((error) =>
+            addToast({
+              type: "error",
+              title: "Erro no cadastro",
+              description: `${error.message}`,
+            })
+          );
+          return;
         }
         if (err.response?.data) {
           addToast({
             type: "error",
-            title: "Erro na cadastro",
+            title: "Erro no cadastro",
             description: `Usuário já cadastrado.
             `,
           });
@@ -262,153 +260,14 @@ const NovoCadastro: React.FC = () => {
     [addToast]
   );
 
-  var reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/;
-  var regemail = /^\w+([-+.']\w+)@\w+([-.]\w+).\w+([-.]\w+)*$/;
-  const eye = <FiEyeOff />;
-
-  const togglePasswordVisiblity = () => {
-    setPasswordShown(passwordShown === true ? false : true);
-    setInputType(inputType === "password" ? "text" : "password");
-  };
-
-  <i onClick={togglePasswordVisiblity}>{eye}</i>;
-
-  useEffect(() => {
-    api.get("escritorios/listar").then((response) => {
-      console.log(response.data);
-    });
-  }, []);
-
-  const responseGoogle = (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): void => {
-    if (!("profileObj" in response)) return;
-    setName(response.profileObj.name);
-    setEmail(response.profileObj.email);
-    setUrl(response.profileObj.imageUrl);
-    handleLogin(response);
-  };
-
-  async function handleLogin(
-    data: GoogleLoginResponse | GoogleLoginResponseOffline
-  ) {
-    if (!("profileObj" in data)) return;
-    const dadosCadastro = {
-      email: data.profileObj.email,
-      nome: data.profileObj.name,
-      tipo_conta: "google",
-      senha: data.googleId + "!@#$J",
-      perfil: data.profileObj.imageUrl,
-    };
-
-    const response = await api.post<{
-      token: string;
-      usuario: UserResponse;
-    }>("usuarios", dadosCadastro);
-
-    const { profileObj } = data;
-
-    const { email: email_, familyName: nome_ } = data.profileObj;
-
-    // const sendOfficeData = {
-    //   tipo_documento: gender,
-    //   nome: dadosCadastro.nome,
-    //   documento: "CNPJ",
-    //   plano: plano,
-    //   data_inicio_plano: dataFormatadaInicio,
-    //   data_final_trial: dataFormatadaFim,
-    //   tipo_pag: "cartao_credito",
-    //   nick_name: dadosCadastro.nome,
-    //   email: dadosCadastro.email,
-    //   telefone: dadosCadastro.telefone,
-    //   // qtde_processos: qtd,
-    //   quantidade_advogados: 0,
-    //   tipo_escritorio: "escritorio",
-    // };
-
-    // await signIn({ email: data.email, senha: data.senha });
-
-    // console.log("sendOfficeData", sendOfficeData);
-
-    // const responseOffice = await api.post<OfficeResponse>(
-    //   "escritorios",
-    //   sendOfficeData,
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${response.data.token}`,
-    //     },
-    //   }
-    // );
-
-    // history.push("/planos", {
-    //   plano: plano,
-    //   token: response.data.token,
-    //   officeId: responseOffice.data.id_escritorio,
-    //   userId: response.data.usuario.id_usuario,
-    //   username: response.data.usuario.nome,
-    //   userEmail: dadosCadastro.email,
-    //   userPhone: dadosCadastro.telefone,
-    //   userPassword: dadosCadastro.senha,
-    // });
-
-    // history.push("/planos", {
-    //   loginDTO: {
-    //     ...data,
-    //     email: email_,
-    //     nome: nome_,
-    //   },
-    //   userData: response.data,
-    // });
-
-    addToast({
-      type: "sucess",
-      title: "Cadastro realizado com sucesso",
-    });
-  }
-
-  const responseFacebook = async (response: any) => {
-    console.log("Response Facebook: ", response);
-
-    const dadosCadastro = {
-      email: response.userID + "@facebook.com",
-      nome: response.name,
-      tipo_conta: "facebook",
-      senha: response.userID + "!@#$J",
-      perfil: response.picture?.data.url,
-    };
-
-    const apiresponse = await api.post("usuarios", dadosCadastro);
-
-    history.push("/planos", {
-      loginDTO: {
-        email: response.userID + "@facebook.com",
-        nome: response.name,
-      },
-      userData: apiresponse.data,
-    });
-
-    addToast({
-      type: "sucess",
-      title: "Cadastro realizado com sucesso",
-    });
-  };
-
-  const componetClicked = (data: any) => {
-    console.warn(data);
-  };
-  const handleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGender(e.target.value);
-  };
-
   const endDate = new Date(
     new Date().getTime() + 1_209_600_000
   ).toLocaleString();
   const startDate = new Date(new Date()).toLocaleString();
   const dataFormatadaInicio = converteData(startDate, "/", "-");
   const dataFormatadaFim = converteData(endDate, "/", "-");
-  console.log(startDate);
-  console.log(endDate);
+  // console.log(startDate);
+  // console.log(endDate);
 
   function converteData(
     data: String,
@@ -416,7 +275,7 @@ const NovoCadastro: React.FC = () => {
     divisorPraColocar: String
   ) {
     const temp = data.split(`${divisorPraSeparar}`);
-    console.log("data", temp);
+    // console.log("data", temp);
     const ano = temp[2].split(" ");
     const dataBanco =
       ano[0] +
@@ -426,8 +285,8 @@ const NovoCadastro: React.FC = () => {
       temp[0];
     return dataBanco;
   }
-  console.log(dataFormatadaInicio + "esse");
-  console.log(dataFormatadaFim + "esse");
+  // console.log(dataFormatadaInicio + "esse");
+  // console.log(dataFormatadaFim + "esse");
 
   return (
     <div>
@@ -457,7 +316,16 @@ const NovoCadastro: React.FC = () => {
                   icon={FiPhoneCall}
                   type="text"
                   value={tel}
-                  maxLength={11}
+                  maxLength={15}
+                  onKeyUp={(e) => {
+                    const value = e.currentTarget.value
+                      .replace(/\D/g, "")
+                      .replace(/(\d{2})(\d)/, "($1) $2")
+                      .replace(/(\d{5})(\d)/, "$1-$2");
+
+                    e.currentTarget.value = value;
+                    return e;
+                  }}
                   preffix
                   placeholder="(xx) xxxxx-xxxx"
                   onChange={(e) => setTelefone(e.target.value)}
@@ -480,37 +348,26 @@ const NovoCadastro: React.FC = () => {
                   icon={FiLock}
                   value={senha}
                   type={inputType}
-                  placeholder="Dica: 8 digitos + 1 caractere especial"
+                  placeholder="Senha"
                   onChange={(e) => setSenha(e.target.value)}
                 />
 
-                <Button
-                  className="btnazul"
-                  isLoading={loading}
-                  type="submit"
-                  onClick={() => {
-                    handleSubmit;
-                    handleLogin;
-                  }}
-                >
+                <Button className="btnazul" isLoading={loading} type="submit">
                   Cadastrar
                 </Button>
               </div>
               <div className="politica">
-                <h4>Ao continuar, voçê concorda com a&nbsp;</h4>
+                <h4>Ao continuar, você concorda com a&nbsp;</h4>
 
                 <h4 className="policticablue"> Política de Privacidade</h4>
               </div>
 
-              <button className="possuilogin">
-                <a href={`/login/`}>Já possui login?</a>
+              <button type="button" className="possuilogin">
+                <a href="login">Já possui login?</a>
               </button>
             </Form>
           </div>
         </Blue>
-        {/* <button onClick={togglePasswordVisiblity} type="button" className="eye">
-        {passwordShown ? <FiEye size={21} /> : <FiEyeOff size={21} />}
-      </button> */}
       </Container>
     </div>
   );

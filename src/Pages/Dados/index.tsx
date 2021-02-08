@@ -86,6 +86,7 @@ const Dados: React.FC = () => {
       token,
       customerId,
       phoneId,
+      isPromo,
     },
   } = useLocation<{
     customerId?: number;
@@ -99,6 +100,7 @@ const Dados: React.FC = () => {
     userEmail: string;
     userPassword?: string;
     username: string;
+    isPromo: boolean;
   }>();
 
   console.log(
@@ -113,7 +115,8 @@ const Dados: React.FC = () => {
     plano,
     token,
     customerId,
-    phoneId
+    phoneId,
+    isPromo
   );
 
   const [loading, setLoading] = useState(false);
@@ -166,11 +169,14 @@ const Dados: React.FC = () => {
       formRef.current?.setErrors({});
 
       const documentType = gender === "fisica" ? "cpf" : "cnpj";
-
+      const lengthDocumentNumber = documentType === "cpf" ? 11 : 14;
       const schema = Yup.object().shape({
-        [documentType]: Yup.string().required(
-          `${documentType.toUpperCase()} é obrigatório`
-        ),
+        [documentType]: Yup.string()
+          .required(`${documentType.toUpperCase()} é obrigatório`)
+          .length(
+            lengthDocumentNumber,
+            `O Tamanho do ${documentType} tem que ser ${lengthDocumentNumber}`
+          ),
         cep: Yup.string().required("CEP é obrigatório"),
         logradouro: Yup.string().required("Logradouro é obrigatório"),
         bairro: Yup.string().required("Bairro é obrigatório"),
@@ -181,7 +187,7 @@ const Dados: React.FC = () => {
 
       await schema.validate(
         {
-          [documentType]: documentNumber,
+          [documentType]: documentNumber.replace(/[/.-]/g, ""),
           cep: address.cep,
           logradouro: address.logradouro,
           bairro: address.bairro,
@@ -236,11 +242,24 @@ const Dados: React.FC = () => {
 
       if (!customerId) {
         console.log("Não tem customerId");
+
+        const responseVindi = await axios.post<VindiCustomerResponse>(
+          "https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers",
+          vindiData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Basic ${token64}`,
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        );
+
         await api.put(
           `escritorio/${officeId}`,
           {
             tipo_documento: documentType.toLowerCase(),
-            documento: documentNumber,
+            documento: documentNumber.replace(/[/.-]/g, ""),
           },
           {
             headers: {
@@ -257,18 +276,6 @@ const Dados: React.FC = () => {
           },
         });
 
-        const responseVindi = await axios.post<VindiCustomerResponse>(
-          "https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/customers",
-          vindiData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Basic ${token64}`,
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
-        );
-
         return history.push("/detalhes", {
           plano,
           customerId: responseVindi.data.customer.id,
@@ -281,29 +288,9 @@ const Dados: React.FC = () => {
           userPhone,
           username,
           token,
+          isPromo,
         });
       }
-
-      await api.put(
-        `escritorio/${officeId}`,
-        {
-          tipo_documento: documentType.toLowerCase(),
-          documento: documentNumber,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      await api.put(`enderecos/${officeId}/${userId}`, addressData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
       const updatedVindiData = {
         ...vindiData,
@@ -328,6 +315,27 @@ const Dados: React.FC = () => {
         }
       );
 
+      await api.put(
+        `escritorio/${officeId}`,
+        {
+          tipo_documento: documentType.toLowerCase(),
+          documento: documentNumber.replace(/[/.-]/g, ""),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      await api.put(`enderecos/${officeId}/${userId}`, addressData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       history.push("/detalhes", {
         plano,
         customerId,
@@ -340,6 +348,7 @@ const Dados: React.FC = () => {
         userPhone,
         username,
         token,
+        isPromo,
       });
 
       addToast({
@@ -375,12 +384,6 @@ const Dados: React.FC = () => {
         );
       }
     }
-
-    addToast({
-      type: "error",
-      title: "Erro no cadastro de cliente",
-      description: `Ocorreu um erro ao fazer cadastro, tente novamente.`,
-    });
   };
 
   function handleSelectedUF(event: ChangeEvent<HTMLSelectElement>) {
@@ -394,6 +397,7 @@ const Dados: React.FC = () => {
   }
 
   const handleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDocumentNumber("");
     setGender(e.target.value);
   };
 
@@ -431,7 +435,6 @@ const Dados: React.FC = () => {
               <div className="radio">
                 <div>
                   <Radio
-                  className="radiocor"
                     value="fisica"
                     checked={gender === "fisica"}
                     color="primary"
@@ -441,7 +444,6 @@ const Dados: React.FC = () => {
                 </div>
                 <div>
                   <Radio
-                    className="radiocor"
                     value="juridica"
                     checked={gender === "juridica"}
                     color="primary"
@@ -471,6 +473,17 @@ const Dados: React.FC = () => {
                         type="text"
                         placeholder="CPF"
                         className="input"
+                        maxLength={14}
+                        onKeyUp={(e) => {
+                          const value = e.currentTarget.value
+                            .replace(/\D/g, "")
+                            .replace(/(\d{3})(\d)/, "$1.$2")
+                            .replace(/(\d{3})(\d)/, "$1.$2")
+                            .replace(/(\d{3})(\d)/, "$1-$2");
+
+                          e.currentTarget.value = value;
+                          return e;
+                        }}
                         value={documentNumber}
                         onChange={(e) => setDocumentNumber(e.target.value)}
                       />
@@ -483,6 +496,18 @@ const Dados: React.FC = () => {
                         type="text"
                         placeholder="CNPJ"
                         className="input"
+                        maxLength={18}
+                        onKeyUp={(e) => {
+                          const value = e.currentTarget.value
+                            .replace(/\D/g, "")
+                            .replace(/(\d{2})(\d)/, "$1.$2")
+                            .replace(/(\d{3})(\d)/, "$1.$2")
+                            .replace(/(\d{3})(\d)/, "$1/$2")
+                            .replace(/(\d{4})(\d)/, "$1-$2");
+
+                          e.currentTarget.value = value;
+                          return e;
+                        }}
                         value={documentNumber}
                         onChange={(e) => setDocumentNumber(e.target.value)}
                       />
@@ -600,7 +625,7 @@ const Dados: React.FC = () => {
                   className="btnazul1"
                   isLoading={loading}
                   type="button"
-                  disabled={plano === "promo"}
+                  disabled={isPromo}
                   onClick={() => {
                     history.push("/planos", {
                       contractAccepted,
@@ -614,10 +639,11 @@ const Dados: React.FC = () => {
                       username,
                       plano,
                       token,
+                      isPromo,
                     });
                   }}
                 >
-                  Voltar
+               Voltar
                 </Button>
                 <Button className="btnazul" isLoading={loading} type="submit">
                   Dados de Pagamento
