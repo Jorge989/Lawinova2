@@ -141,7 +141,7 @@ const Home: React.FC = () => {
                     <a href="/trocarsenha" className="cool-DropdownItDropdownItemnk1">
                       Trocar Senha
                     </a>
-                    <hr className="linha" />
+                    <hr className="linha"/>
                   </DropdownItem>
                   <DropdownItem>
                     <a href="/meuplano" className="cool-link1">

@@ -348,7 +348,7 @@ const NovoCadastro: React.FC = () => {
                   icon={FiLock}
                   value={senha}
                   type={inputType}
-                  placeholder="Senha"
+                  placeholder="Dica: 8 digitos + 1 caractere especial"
                   onChange={(e) => setSenha(e.target.value)}
                 />
 

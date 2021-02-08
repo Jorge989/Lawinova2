@@ -440,7 +440,7 @@ const Dados: React.FC = () => {
                     color="primary"
                     onChange={handleGender}
                   />
-                  <span>Pessoa fisíca</span>
+                  <span>Pessoa Física</span>
                 </div>
                 <div>
                   <Radio
@@ -449,7 +449,7 @@ const Dados: React.FC = () => {
                     color="primary"
                     onChange={handleGender}
                   />
-                  <span>Pessoa juridíca</span>
+                  <span>Pessoa Jurídica</span>
                 </div>
               </div>
               <div className="div1">

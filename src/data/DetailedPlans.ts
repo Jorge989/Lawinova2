@@ -6,7 +6,7 @@ export const getFormattedDetailedPlans = (isPromo: boolean) => {
       code: "plano1",
       value: 50,
       offers: [
-        { id: "0", name: "1 advogado" },
+        { id: "0", name: "1 advogados" },
         { id: "1", name: `${isPromo ? 75 : 50} processos` },
       ],
     },
@@ -16,7 +16,7 @@ export const getFormattedDetailedPlans = (isPromo: boolean) => {
       code: "plano2",
       value: 100,
       offers: [
-        { id: "0", name: "3 advogado" },
+        { id: "0", name: "3 advogados" },
         { id: "1", name: `${isPromo ? 100 : 75} processos` },
       ],
     },
@@ -26,7 +26,7 @@ export const getFormattedDetailedPlans = (isPromo: boolean) => {
       code: "plano3",
       value: 150,
       offers: [
-        { id: "0", name: "6 advogado" },
+        { id: "0", name: "6 advogados" },
         { id: "1", name: `${isPromo ? 150 : 100} processos` },
       ],
     },
