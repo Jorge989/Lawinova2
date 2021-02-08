@@ -36,11 +36,11 @@ export const Blue = styled.div`
 
   border-radius: 5px 10px 10px 5px;
 
-  width: 70%;
+  width: 100%;
   height: 500px;
 
-  margin-top: 90px;
-background-color:red;
+  margin-top:100px;
+
 
   .formBox {
     display: flex;
@@ -49,7 +49,7 @@ background-color:red;
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    height:560px;
+    height:540px;
     background-color: #ffffff;
     border-radius: 0px 5px 5px 0px;
 
@@ -87,8 +87,9 @@ background-color:red;
       align-items: center;
         margin-top:2%;
         width:65%;
-      height:100%;
+      height:400px;
 border-radius:2px;
+
       overflow: auto;
       border: 1px solid #c4c4c4;
       & + div {
@@ -124,16 +125,19 @@ margin-top:0;
     }
   
     button {
+      display:flex;
       width: fit-content;
       padding: 0 16px;
-      width: 24%;
-      height: 55px;
+      width: 220px;
+      height: 50px;
       text-align: center;
+      align-items:center;
+      justify-content:center;
   
     }
     .btnazul {
       text-align: center;
-      margin-top: 2%;
+      /* margin-top: 2%; */
     }
 
     .cadastre {
@@ -165,17 +169,20 @@ margin-top:0;
     @media screen and (max-width: 900px) {
     display: flex;
   justify-content: center;
+  align-items:center;
   flex-direction: column;
   background-color: #fff;
-margin-left:-20%;
+
   border-radius: 5px 10px 10px 5px;
 
-  width: 700px;
-  height: 500px;
+  width: 730px;
+  height: 550px;
+
 
 .contrato{
 
   width:100%;
+;
 }
 
   .formBox {
@@ -188,7 +195,7 @@ margin-left:-20%;
     height:600px;
     background-color: #ffffff;
     border-radius: 0px 5px 5px 0px;
-
+    background-color:purple;
 
   h2 {
     color: #141414;
@@ -226,6 +233,7 @@ margin-left:-20%;
       height:100%;
 border-radius:2px;
       overflow: auto;
+      
    
     }
     .texto{
@@ -262,6 +270,7 @@ margin-top:0;
         overflow: scroll;
         height:100%;
         width:100%;
+    
         
     }
     button {
@@ -302,7 +311,9 @@ margin-top:0;
           color: #007aff;
         }
       }
+      
     }
+    
   }
   
   }
@@ -311,11 +322,12 @@ margin-top:0;
 
 display:flex;
 justify-content:center;
+align-items:center;
 width:370px;
-margin-left:-30%;
-height:100%;
+margin-left:-4.7%;
+height:540px;
 
-    
+
 
    
     .texto{
@@ -346,7 +358,7 @@ margin-top:0;
         justify-content:center;
         align-items:center;
         width:85%;
-        margin-top:1%;
+        margin-top:3%;
       
 
     }
@@ -357,11 +369,12 @@ margin-top:0;
       width: 90%;
       height: 64px;
       text-align: center;
-  
+;
     }
     .btnazul {
       text-align: center;
-      margin-top: 2%;
+    
+      margin-top:15px
     }
 
    

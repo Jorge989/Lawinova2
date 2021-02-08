@@ -20,14 +20,15 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   max-width: 1050px;
-  max-height: 800px;
-  height: 660px;
+  max-height: 700px;
+  height: 560px;
+
 `;
 
 export const Main = styled.main`
   width: 100%;
   
-  margin-bottom: 48px;
+  margin-bottom: 29px;
 
   @media (min-width: 900px) {
     margin-bottom: 0;
@@ -39,16 +40,19 @@ export const FormContainer = styled(Form)`
   flex-direction: column;
   align-items: center;
   width: 100%;
+
 `;
 
 export const PricingContainer = styled.section`
 
   text-align: center;
   width: 100%;
+
+
 `;
 
 export const PricingContainerTitle = styled.h1`
-
+margin-top:-10px;
   font-size: 32px;
   font-weight: 400;
 `;
@@ -56,9 +60,11 @@ export const PricingContainerTitle = styled.h1`
 export const PlansContainer = styled.div`
   margin-top: -12px;
   width: 100%;
+
   display: grid;
   grid-template-columns: 1fr;
   gap: 32px;
+
 
   @media (min-width: 576px) {
     grid-template-columns: 1fr 1fr;
@@ -72,7 +78,7 @@ export const PlansContainer = styled.div`
 `;
 
 export const Plan = styled.div<GradientConfig>`
-  height: 450px;
+  height: 425px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -80,7 +86,7 @@ export const Plan = styled.div<GradientConfig>`
   margin: 32px 16px;
   border-radius: 8px;
   padding: 16px 0;
-
+cursor: pointer;
   background: ${(props) =>
     props.code !== props.plano
       ? "#F6F6F6"
@@ -109,7 +115,8 @@ export const GradientText = styled.h4<GradientConfig>`
     #2e1f43 100%
   )`
       : "#ffffff"};
-  font-size: 30px;
+       margin-top: -5px;
+  font-size: 29px;
   line-height: 34px;
   font-weight: 500;
   -webkit-background-clip: text;
@@ -118,14 +125,15 @@ export const GradientText = styled.h4<GradientConfig>`
 
 export const OffersContainer = styled.ul`
   margin: 0 16px;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 export const Offer = styled.li`
+ 
   text-transform: uppercase;
   list-style: none;
   font-size: 15px;
-  line-height: 32px;
+  line-height: 31px;
   font-weight: 500;
   color: #ffffff;
 `;

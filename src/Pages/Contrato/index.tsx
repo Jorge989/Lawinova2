@@ -63,7 +63,7 @@ const Contrato: React.FC = () => {
       <Container>
         <Blue>
           <div className="formBox">
-            <h3>Contrato de Assinatura</h3>
+            <h3 className="h3">Contrato de Assinatura</h3>
             <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="box">
                 <div className="input1">

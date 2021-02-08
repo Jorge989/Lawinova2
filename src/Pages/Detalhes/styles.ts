@@ -44,6 +44,7 @@ export const Blue = styled.div`
   height:60px;
   margin-top:193px;
   margin-left:-5px;
+  
 }
   .formBox {
  
@@ -96,7 +97,7 @@ export const Blue = styled.div`
       display:flex;
       justify-content:center;
       flex-direction:row;
-      margin-left:30%;
+      margin-left:30.5%;
       justify-content:space-between;
      
       width:100%;
