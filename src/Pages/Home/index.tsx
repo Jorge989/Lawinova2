@@ -11,13 +11,42 @@ import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-import { Container, Sair, Blue, DropdownContainer,
+import {
+  Container,
+  // Sair,
+  // Blue,
+  DropdownContainer,
   DropdownMenu,
-  DropdownItem, } from "./styles";
+  DropdownItem,
+  Layout,
+  Main,
+  MainHeader,
+  Content,
+  Title,
+  TextContainer,
+  Subtitle,
+  DateContainer,
+  DateText,
+  RemainingDaysText,
+  ButtonsContainer,
+  AppStoreButton,
+  GoogleStoreButton,
+  StoreButtonsContainer,
+  StoreLogo,
+  FaqButton,
+  QAContainer,
+  QuestionContainer,
+  QuestionButton,
+  Question,
+  AnswerContainer,
+  Answer,
+  QuestionContent,
+  Sair,
+} from "./styles";
 
 import Person from "../../assets/person.svg";
-import Appstore from "../../assets/aple1.svg";
-import Playstore from "../../assets/play1.svg";
+import Appstore from "../../assets/Appstore.svg";
+import Playstore from "../../assets/Playstore.svg";
 import api from "../../services/api";
 import { useToast } from "../../hooks/toast";
 import { useHistory } from "react-router-dom";
@@ -25,14 +54,78 @@ import { useHistory } from "react-router-dom";
 interface ReturnDate {
   time: string;
 }
+
+const qaData = [
+  {
+    id: "0",
+    question: "O escritório atua em outras áreas, além da tributária?",
+    answer: `Lorem Ipsum é simplesmente uma simulação de texto da
+  indústria tipográfica e de impressos, e vem sendo
+  utilizado desde o século XVI, quando um impressor
+  desconhecido pegou uma bandeja de tipos e os embaralhou
+  para fazer um livro de modelos de tipos. Lorem Ipsum
+  sobreviveu não só a cinco séculos, como também ao salto
+  para a editoração eletrônica, permanecendo
+  essencialmente inalterado. Se popularizou na década de
+  60, quando a Letraset lançou decalques contendo
+  passagens de Lorem Ipsum, e mais recentemente quando
+  passou a ser integrado a softwares de editoração
+  eletrônica como Aldus PageMaker.`,
+  },
+  {
+    id: "1",
+    question: "O que devo fazer para contratar um advogado?",
+    answer: `Lorem Ipsum é simplesmente uma simulação de texto da
+  indústria tipográfica e de impressos, e vem sendo
+  utilizado desde o século XVI, quando um impressor
+  desconhecido pegou uma bandeja de tipos e os embaralhou
+  para fazer um livro de modelos de tipos. Lorem Ipsum
+  sobreviveu não só a cinco séculos, como também ao salto
+  para a editoração eletrônica, permanecendo
+  essencialmente inalterado. Se popularizou na década de
+  60, quando a Letraset lançou decalques contendo
+  passagens de Lorem Ipsum, e mais recentemente quando
+  passou a ser integrado a softwares de editoração
+  eletrônica como Aldus PageMaker.`,
+  },
+  {
+    id: "2",
+    question: "Como é a cobrança de honorários?",
+    answer: `Lorem Ipsum é simplesmente uma simulação de texto da
+  indústria tipográfica e de impressos, e vem sendo
+  utilizado desde o século XVI, quando um impressor
+  desconhecido pegou uma bandeja de tipos e os embaralhou
+  para fazer um livro de modelos de tipos. Lorem Ipsum
+  sobreviveu não só a cinco séculos, como também ao salto
+  para a editoração eletrônica, permanecendo
+  essencialmente inalterado. Se popularizou na década de
+  60, quando a Letraset lançou decalques contendo
+  passagens de Lorem Ipsum, e mais recentemente quando
+  passou a ser integrado a softwares de editoração
+  eletrônica como Aldus PageMaker.`,
+  },
+  {
+    id: "3",
+    question: "Como faço para contatar o escritório?",
+    answer: `Lorem Ipsum é simplesmente uma simulação de texto da
+  indústria tipográfica e de impressos, e vem sendo
+  utilizado desde o século XVI, quando um impressor
+  desconhecido pegou uma bandeja de tipos e os embaralhou
+  para fazer um livro de modelos de tipos. Lorem Ipsum
+  sobreviveu não só a cinco séculos, como também ao salto
+  para a editoração eletrônica, permanecendo
+  essencialmente inalterado. Se popularizou na década de
+  60, quando a Letraset lançou decalques contendo
+  passagens de Lorem Ipsum, e mais recentemente quando
+  passou a ser integrado a softwares de editoração
+  eletrônica como Aldus PageMaker.`,
+  },
+];
+
 const Home: React.FC = () => {
   const [isShow, setIsShow] = useState(false);
-  const [isShow1, setIsShow1] = useState(false);
-  const [isShow2, setIsShow2] = useState(false);
-  const [isShow3, setIsShow3] = useState(false);
-  const [isShow4, setIsShow4] = useState(false);
-  const [isShow5, setIsShow5] = useState(false);
-  const [isShow6, setIsShow6] = useState(false);
+  const [isShowMenu, setIsShowMenu] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
   const [isTrial, setIsTrial] = useState(false);
   const [officeData, setOfficeData] = useState<{
     id_escritorio: number;
@@ -68,7 +161,7 @@ const Home: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const plans = ["plano1", "plano2", "plano3"];
+  const plans = ["plano1", "plano2", "plano3", "promo1", "promo2", "promo3"];
 
   useEffect(() => {
     api.get(`escritorios?nome=${user?.nome}`).then((response) => {
@@ -82,24 +175,29 @@ const Home: React.FC = () => {
   const convertISOToDate = (date: string) => date.split("T")[0];
 
   const today = convertISOToDate(
-    // new Date(new Date().getTime() + 86_400_000 * 14).toISOString()
+    // new Date(new Date().getTime() + 86_400_000 * 15).toISOString()
+    // new Date(new Date().getTime() + 3_600_000 * 74).toISOString()
     new Date(new Date().getTime()).toISOString()
   );
 
   // console.log("Datas:", today, endDate);
-
+  // console.log("Datas", new Date(endDate).getTime()+3_600_000*3, new Date(today).getTime());
   const daysRemaining =
-    new Date(endDate).getTime() === new Date(today).getTime() ||
-    new Date(endDate).getTime() < new Date(today).getTime()
+    new Date(endDate).getTime() + 3_600_000 * 3 === new Date(today).getTime() ||
+    new Date(endDate).getTime() + 3_600_000 * 3 < new Date(today).getTime()
       ? 0
-      : new Date(new Date(endDate).getTime() - new Date(today).getTime())
+      : new Date(
+          new Date(endDate).getTime() +
+            3_600_000 * 3 -
+            new Date(today).getTime()
+        )
           .toLocaleDateString()
           .split("/")[0];
 
   // console.log("daysRemaining", daysRemaining);
 
   useEffect(() => {
-    if (daysRemaining === 0 && isTrial) {
+    if (daysRemaining  === 0 && isTrial) {
       const data = {
         plano: "plano1",
         token,
@@ -124,395 +222,127 @@ const Home: React.FC = () => {
   }, [daysRemaining]);
 
   return (
-    <div>
+    <Layout>
       <Header>
         <Sair>
-          {/* <button onClick={signOut} className="sair">
-            Sair
-          </button> */}
-
-          <button onClick={() => setIsShow6(!isShow6)}>
-           <FiUser size={24}  className="logo"/> 
+          <button onClick={() => setIsShowMenu(!isShowMenu)}>
+            <FiUser size={24} className="logo2" />
           </button>
-          {isShow6 && (
-              <DropdownContainer>
-                <DropdownMenu>
-                  <DropdownItem>
-                    <a href="/trocarsenha" className="cool-DropdownItDropdownItemnk1">
-                      Trocar Senha
-                    </a>
-                    <hr className="linha"/>
-                  </DropdownItem>
-                  <DropdownItem>
-                    <a href="/meuplano" className="cool-link1">
-                      Meu Plano
-                    </a>
-                    <hr className="linha" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <a href="/login" onClick={signOut} className="cool-link1">
-                      Sair
-                    </a>
-                    <hr className="linha" />
-                  </DropdownItem>
-                
-                </DropdownMenu>
-              </DropdownContainer>
-            )}
+          {isShowMenu && (
+            <DropdownContainer>
+              <DropdownMenu>
+                <DropdownItem>
+                  <a href="/trocarsenha" className="cool-DropdownItDropdownItemnk1">
+                    Trocar Senha
+                  </a>
+                  <hr className="linha" />
+                </DropdownItem>
+                <DropdownItem>
+                  <a href="/meuplano" className="cool-link1">
+                    Meu Plano
+                  </a>
+                  <hr className="linha" />
+                </DropdownItem>
+                <DropdownItem>
+                  <a href="/login" onClick={signOut} className="cool-link1">
+                    Sair
+                  </a>
+                  <hr className="linha" />
+                </DropdownItem>
+              </DropdownMenu>
+            </DropdownContainer>
+          )}
         </Sair>
       </Header>
-
       <Container>
-        <Blue>
-          <div className="formBox">
-            <div className="ajustetudo">
-              {Number(daysRemaining) <= 14 &&
-                daysRemaining !== 0 &&
-                isTrial &&
-                new Date(endDate).getTime() > new Date(today).getTime() && (
-                  <h2 className="dias">
-                    {daysRemaining === "Invalid Date" ? "--" : daysRemaining}{" "}
-                    dias para o fim do Teste Grátis
-                  </h2>
-                )}
-              <div className="hora">
-                <div className="input1">
-                  <h3 className="date">Data:</h3>
-                  <h3>{date}</h3>
-                </div>
-                <div className="input2">
-                  <h3 className="date">Hora:</h3>
-                  <h3>{time}</h3>
-                </div>
-              </div>
+        <Main>
+          <MainHeader>
+            {Number(daysRemaining) <= 14 &&
+              daysRemaining !== 0 &&
+              isTrial &&
+              new Date(endDate).getTime() + 3_600_000 * 3 >
+                new Date(today).getTime() && (
+                <RemainingDaysText>
+                  {daysRemaining} dias para o fim do Teste Grátis
+                </RemainingDaysText>
+              )}
 
-              <div className="topo">
-              <h3 className="bemvindo">Bem-Vindo</h3>
-                <p className="subtopo">
-                  Para começar a configurar o app, selecione o Painel no menu
-                  Para ver as próximas etapas.
-                </p>
-                <div className="all">
-                  <div className="btn1">
-                    <a
-                      className="playstore"
-                      href="https://play.google.com/store/apps/details?id=com.actionsys.inventario"
-                      target="_blank"
-                    >
-                      {/* <button className="playstore"> */}
-                      <img className="logoplay" src={Playstore}></img>
+            <DateContainer>
+              <DateText>Data: {date}</DateText>
+              <DateText>Hora: {time}</DateText>
+            </DateContainer>
+          </MainHeader>
 
-                     
-                      <h3 className="google">Google Play</h3>
-                      {/* </button> */}
-                    </a>
-                  </div>
-                  <div className="btn2">
-                    <a
-                      className="appstore"
-                      href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
-                      target="_blank"
-                    >
-                      <img className="logoapp" src={Appstore}></img>
+          <Content>
+            <TextContainer>
+              <Title>Bem-Vindo</Title>
+              <Subtitle>
+                Para começar a configurar o app, selecione o Painel no menu Para
+                ver as próximas etapas.
+              </Subtitle>
+            </TextContainer>
+            <ButtonsContainer>
+              <StoreButtonsContainer>
+                <GoogleStoreButton
+                  href="https://play.google.com/store/apps/details?id=com.actionsys.inventario"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <StoreLogo src={Playstore} />
+                  Google Play
+                </GoogleStoreButton>
+                <AppStoreButton
+                  href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <StoreLogo src={Appstore} />
+                  App Store
+                </AppStoreButton>
+              </StoreButtonsContainer>
 
-                      <h3 className="googlea">App Store</h3>
-                    </a>
-                  </div>
-                </div>
-                <button className="faq">
-                  <a href="/faq2" className="faqlink">
-                    {/* {" "} */}
-                    <BsFillQuestionOctagonFill
-                      size={25}
-                      style={{
-                        color: "#941AF9",
-                        width: "22px",
-                        marginLeft: "0px",
-                        marginTop: "0px",
-                      }}
-                    />
-                    <h4 className="faqtext">(Manual do aplicativo)</h4>
-                  </a>
-                </button>
-                <div className="perguntaserespostas">
-                  <button onClick={() => setIsShow(!isShow)}>
-                    {isShow ? (
-                      <FiMinus
-                        size={30}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "20px",
-                          marginTop: "1px",
-                          cursor: "pointer",
-                          display: "none",
-                        }}
-                      />
-                    ) : (
-                      <FiPlus
-                        size={30}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-214.5px",
-                          marginTop: "-3px",
-                          cursor: "pointer",
-                          display: "none",
-                        }}
-                      />
-                    )}
-                  </button>
+              <FaqButton to="/faq2">
+                <BsFillQuestionOctagonFill
+                  size={24}
+                  color="#941AF9"
+                  style={{
+                    marginRight: 12,
+                  }}
+                />
+                (Manual do aplicativo)
+              </FaqButton>
+            </ButtonsContainer>
+            <QAContainer>
+              {qaData.map((qa) => (
+                <QuestionContainer key={qa.id}>
+                  <QuestionContent
+                    onClick={() => {
+                      setIsShow(selectedId === qa.id ? !isShow : true);
+                      setSelectedId(qa.id);
+                    }}
+                  >
+                    <QuestionButton>
+                      {isShow && selectedId === qa.id ? (
+                        <FiMinus size={28} color="#941AF9" />
+                      ) : (
+                        <FiPlus size={28} color="#941AF9" />
+                      )}
+                    </QuestionButton>
 
-                  <h1>
-                    O escritório atua em outras áreas, além da tributária?
-                  </h1>
-
-                  {isShow1 && (
-                    <div className="Menu">
-                      <h1>
-                        Lorem Ipsum é simplesmente uma simulação de texto da
-                        indústria tipográfica e de impressos, e vem sendo
-                        utilizado desde o século XVI, quando um impressor
-                        desconhecido pegou uma bandeja de tipos e os embaralhou
-                        para fazer um livro de modelos de tipos. Lorem Ipsum
-                        sobreviveu não só a cinco séculos, como também ao salto
-                        para a editoração eletrônica, permanecendo
-                        essencialmente inalterado. Se popularizou na década de
-                        60, quando a Letraset lançou decalques contendo
-                        passagens de Lorem Ipsum, e mais recentemente quando
-                        passou a ser integrado a softwares de editoração
-                        eletrônica como Aldus PageMaker.
-                      </h1>
-                    </div>
+                    <Question>{qa.question}</Question>
+                  </QuestionContent>
+                  {isShow && selectedId === qa.id && (
+                    <AnswerContainer>
+                      <Answer>{qa.answer}</Answer>
+                    </AnswerContainer>
                   )}
-                  <button onClick={() => setIsShow1(!isShow1)}>
-                    {isShow1 ? (
-                      <FiMinus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-358px",
-                          marginTop: "-250px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    ) : (
-                      <FiPlus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-350px",
-                          marginTop: "-25px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    )}
-                  </button>
-                  <h1>O que devo fazer para contratar um advogado?</h1>
-
-                  {isShow2 && (
-                    <div className="Menu">
-                      <h1>
-                        Lorem Ipsum é simplesmente uma simulação de texto da
-                        indústria tipográfica e de impressos, e vem sendo
-                        utilizado desde o século XVI, quando um impressor
-                        desconhecido pegou uma bandeja de tipos e os embaralhou
-                        para fazer um livro de modelos de tipos. Lorem Ipsum
-                        sobreviveu não só a cinco séculos, como também ao salto
-                        para a editoração eletrônica, permanecendo
-                        essencialmente inalterado. Se popularizou na década de
-                        60, quando a Letraset lançou decalques contendo
-                        passagens de Lorem Ipsum, e mais recentemente quando
-                        passou a ser integrado a softwares de editoração
-                        eletrônica como Aldus PageMaker.
-                      </h1>
-                    </div>
-                  )}
-                  <button onClick={() => setIsShow2(!isShow2)}>
-                    {isShow2 ? (
-                      <FiMinus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-358px",
-                          marginTop: "-250px",
-
-                          cursor: "pointer",
-                        }}
-                      />
-                    ) : (
-                      <FiPlus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-350px",
-                          marginTop: "-25px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    )}
-                  </button>
-                  <h1>Como é a cobrança de honorários?</h1>
-
-                  {isShow3 && (
-                    <div className="Menu">
-                      <h1>
-                        Lorem Ipsum é simplesmente uma simulação de texto da
-                        indústria tipográfica e de impressos, e vem sendo
-                        utilizado desde o século XVI, quando um impressor
-                        desconhecido pegou uma bandeja de tipos e os embaralhou
-                        para fazer um livro de modelos de tipos. Lorem Ipsum
-                        sobreviveu não só a cinco séculos, como também ao salto
-                        para a editoração eletrônica, permanecendo
-                        essencialmente inalterado. Se popularizou na década de
-                        60, quando a Letraset lançou decalques contendo
-                        passagens de Lorem Ipsum, e mais recentemente quando
-                        passou a ser integrado a softwares de editoração
-                        eletrônica como Aldus PageMaker.
-                      </h1>
-                    </div>
-                    
-                  )}
-                  <button onClick={() => setIsShow3(!isShow3)}>
-                    {isShow3 ? (
-                      <FiMinus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-358px",
-                          marginTop: "-250px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    ) : (
-                      <FiPlus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-350px",
-                          marginTop: "-25px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    )}
-                  </button>
-                  <h1>Como faço para contatar o escritório?</h1>
-
-                  {isShow5 && (
-                    <div className="Menu">
-                      <h1>
-                        Lorem Ipsum é simplesmente uma simulação de texto da
-                        indústria tipográfica e de impressos, e vem sendo
-                        utilizado desde o século XVI, quando um impressor
-                        desconhecido pegou uma bandeja de tipos e os embaralhou
-                        para fazer um livro de modelos de tipos. Lorem Ipsum
-                        sobreviveu não só a cinco séculos, como também ao salto
-                        para a editoração eletrônica, permanecendo
-                        essencialmente inalterado. Se popularizou na década de
-                        60, quando a Letraset lançou decalques contendo
-                        passagens de Lorem Ipsum, e mais recentemente quando
-                        passou a ser integrado a softwares de editoração
-                        eletrônica como Aldus PageMaker.
-                      </h1>
-                    </div>
-                  )}
-                  <button onClick={() => setIsShow5(!isShow5)}>
-                    {isShow5 ? (
-                      <FiMinus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-358px",
-                          marginTop: "-250px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    ) : (
-                      <FiPlus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-350px",
-                          marginTop: "-25px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    )}
-                  </button>
-                  <h1>
-                    O escritório atua em outras áreas, além da tributária?
-                  </h1>
-
-                  {isShow && (
-                    <div className="Menu">
-                      <h1>
-                        Lorem Ipsum é simplesmente uma simulação de texto da
-                        indústria tipográfica e de impressos, e vem sendo
-                        utilizado desde o século XVI, quando um impressor
-                        desconhecido pegou uma bandeja de tipos e os embaralhou
-                        para fazer um livro de modelos de tipos. Lorem Ipsum
-                        sobreviveu não só a cinco séculos, como também ao salto
-                        para a editoração eletrônica, permanecendo
-                        essencialmente inalterado. Se popularizou na década de
-                        60, quando a Letraset lançou decalques contendo
-                        passagens de Lorem Ipsum, e mais recentemente quando
-                        passou a ser integrado a softwares de editoração
-                        eletrônica como Aldus PageMaker.
-                      </h1>
-                    </div>
-                  )}
-                  <button onClick={() => setIsShow(!isShow)}>
-                    {isShow ? (
-                      <FiMinus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-358px",
-                          marginTop: "-250px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    ) : (
-                      <FiPlus
-                        size={24}
-                        style={{
-                          color: "#941AF9",
-                          width: "30px",
-                          position: "absolute",
-                          marginLeft: "-350px",
-                          marginTop: "-25px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    )}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Blue>
+                </QuestionContainer>
+              ))}
+            </QAContainer>
+          </Content>
+        </Main>
       </Container>
-    </div>
+    </Layout>
   );
 };
 
