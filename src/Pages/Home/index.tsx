@@ -45,8 +45,8 @@ import {
 } from "./styles";
 
 import Person from "../../assets/person.svg";
-import Appstore from "../../assets/Appstore.svg";
-import Playstore from "../../assets/Playstore.svg";
+import Appstore from "../../assets/esseApple.svg";
+import Playstore from "../../assets/esseGoogle.svg";
 import api from "../../services/api";
 import { useToast } from "../../hooks/toast";
 import { useHistory } from "react-router-dom";
@@ -277,26 +277,25 @@ const Home: React.FC = () => {
             <TextContainer>
               <Title>Bem-Vindo</Title>
               <Subtitle>
-                Para começar a configurar o app, selecione o Painel no menu Para
-                ver as próximas etapas.
+              Faça o download do app InovaJuris no seu celular e personalize seu escritório.
               </Subtitle>
             </TextContainer>
             <ButtonsContainer>
               <StoreButtonsContainer>
-                <GoogleStoreButton
+                <GoogleStoreButton className="play"
                   href="https://play.google.com/store/apps/details?id=com.actionsys.inventario"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <StoreLogo src={Playstore} />
+                  <StoreLogo src={Playstore}  className="playlog"/>
                   Google Play
                 </GoogleStoreButton>
-                <AppStoreButton
+                <AppStoreButton className="apple"
                   href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <StoreLogo src={Appstore} />
+                  <StoreLogo src={Appstore}  className="applelog"/>
                   App Store
                 </AppStoreButton>
               </StoreButtonsContainer>

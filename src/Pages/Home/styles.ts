@@ -6,8 +6,10 @@ export const Layout = styled.div`
   padding-bottom: 48px;
   display: flex;
   justify-content: center;
+
   .logo2{
     margin-left:200px;
+
   }
 `;
 
@@ -16,6 +18,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   max-width: 840px;
+
 `;
 
 export const DropdownContainer = styled.div`
@@ -30,6 +33,7 @@ export const DropdownContainer = styled.div`
   background: #74469a;
   border: 0;
   outline: 0;
+  
 
   font: 400 16px Roboto;
 
@@ -55,8 +59,9 @@ export const DropdownMenu = styled.div`
   padding: 0;
   margin: 0;
   width: 100%;
-
+ 
   font-weight: 400;
+
 `;
 
 export const DropdownItem = styled.button`
@@ -79,6 +84,8 @@ export const DropdownItem = styled.button`
 
   hr {
     width: 100%;
+ 
+    margin-left:5px;
     height: 1px;
     background-color: #fff;
   }
@@ -95,19 +102,22 @@ export const DropdownItem = styled.button`
 
 export const Main = styled.main`
   margin: 0 16px;
+
 `;
 export const MainHeader = styled.header`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
 `;
 export const RemainingDaysText = styled.h2`
   font-size: 22px;
   color: #fe2e2e;
   font-weight: 400;
+  margin-top:200px;
 `;
 export const DateContainer = styled.div`
-  margin-top: 16px;
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -140,17 +150,40 @@ export const ButtonsContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+ 
 `;
 
 export const StoreButtonsContainer = styled.div`
   display: flex;
+  align-items:center;
+  justify-content:space-between;
   flex-direction: column;
-  align-items: center;
+
   margin-bottom: 48px;
 
+  padding: 6px 50px;
+  .applelog{
+
+margin-top:0px;
+  width:30px;
+  height:30px;
+  margin-left: -8px;
+}
+.playlog{
+
+margin-top:1px;
+  width:28px;
+  height:28px;
+}
+.apple{
+  margin-right:1px;
+
+  padding:5px 32px;
+}
   @media (min-width: 900px) {
     width: 528px;
     flex-direction: row;
+    
     justify-content: space-between;
   }
 `;
@@ -160,10 +193,12 @@ const buttonStyle = css`
   justify-content: space-between;
   align-items: center;
   background-color: #ffffff;
-  width: 240px;
+  width: 195px;
+
   height: 48px;
-  font-size: 24px;
-  padding: 6px 24px;
+  font-size: 21px;
+  padding: 6px 21px;
+
   text-decoration: none;
   border: 1px solid #941af9;
   border-radius: 24px;
@@ -174,11 +209,15 @@ const buttonStyle = css`
   &:hover {
     background: #d9caee;
   }
+  
 `;
 
 export const GoogleStoreButton = styled.a`
   ${buttonStyle}
   margin-bottom: 16px;
+
+ 
+
   @media (min-width: 900px) {
     margin-bottom: 0;
   }
@@ -186,11 +225,14 @@ export const GoogleStoreButton = styled.a`
 
 export const AppStoreButton = styled.a`
   ${buttonStyle}
+
 `;
 
 export const StoreLogo = styled.img`
-  width: 36px;
-  height: 36px;
+  width: 31px;
+  height: 31px;
+
+
 `;
 
 export const FaqButton = styled(Link)`
@@ -202,7 +244,7 @@ export const FaqButton = styled(Link)`
   box-shadow: 0px 5px 5px #bbbbbb;
   border-radius: 4px;
   width: 240px;
-  height: 48px;
+  height: 45px;
   cursor: pointer;
 
   font-size: 16px;
