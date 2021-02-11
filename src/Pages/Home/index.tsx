@@ -1,6 +1,7 @@
 //2846445278933444
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { BsFillQuestionOctagonFill } from "react-icons/bs";
+// import DownLoadFile,{DownloadFileProps} from 'react-downloader-file';
 import Header from "../../Components/Header";
 import { FiPlus } from "react-icons/fi";
 import { useAuth } from "../../hooks/auth";
@@ -45,8 +46,8 @@ import {
 } from "./styles";
 
 import Person from "../../assets/person.svg";
-import Appstore from "../../assets/esseApple.svg";
-import Playstore from "../../assets/esseGoogle.svg";
+import Appstore from "../../assets/Appstore.svg";
+import Playstore from "../../assets/Playstore.svg";
 import api from "../../services/api";
 import { useToast } from "../../hooks/toast";
 import { useHistory } from "react-router-dom";
@@ -168,36 +169,30 @@ const Home: React.FC = () => {
       console.log("PLANO: ", response.data[0].plano);
       setOfficeData(response.data[0]);
       setIsTrial(!plans.some((plan) => plan === response.data[0].plano));
-      setEndDate(convertISOToDate(response.data[0].data_final_trial));
+      // setEndDate(convertISOToDate(response.data[0].data_final_trial));
+      setEndDate(response.data[0].data_final_trial);
     });
   }, []);
 
-  const convertISOToDate = (date: string) => date.split("T")[0];
+  const convertISOToFormattedDate = (date: string) =>
+    `${date.split("T")[0]}T00:00:00Z`;
 
-  const today = convertISOToDate(
-    // new Date(new Date().getTime() + 86_400_000 * 15).toISOString()
-    // new Date(new Date().getTime() + 3_600_000 * 74).toISOString()
-    new Date(new Date().getTime()).toISOString()
-  );
+  // muda sempre as 21:00:00
+  const today = new Date(
+    convertISOToFormattedDate(new Date(Date.now()).toISOString())
+  ).getTime();
+  console.log("Today", new Date(today).toLocaleDateString());
 
-  // console.log("Datas:", today, endDate);
-  // console.log("Datas", new Date(endDate).getTime()+3_600_000*3, new Date(today).getTime());
+  const formattedEndDate = new Date(endDate).getTime() + 3_600_000 * 3;
+  const difference = formattedEndDate - today;
+
   const daysRemaining =
-    new Date(endDate).getTime() + 3_600_000 * 3 === new Date(today).getTime() ||
-    new Date(endDate).getTime() + 3_600_000 * 3 < new Date(today).getTime()
-      ? 0
-      : new Date(
-          new Date(endDate).getTime() +
-            3_600_000 * 3 -
-            new Date(today).getTime()
-        )
-          .toLocaleDateString()
-          .split("/")[0];
+    difference < 0 ? 0 : Number((difference / 86_400_000).toFixed(0));
 
-  // console.log("daysRemaining", daysRemaining);
+  console.log("daysRemaining", daysRemaining);
 
   useEffect(() => {
-    if (daysRemaining  === 0 && isTrial) {
+    if (daysRemaining === 0 && isTrial) {
       const data = {
         plano: "plano1",
         token,
@@ -207,17 +202,13 @@ const Home: React.FC = () => {
         userEmail: user?.email,
         userPhone: officeData?.telefone,
       };
-
       console.log("Data", data);
       history.replace("/planos", data);
-
       addToast({
         type: "info",
         title: "Seu tempo de teste acabou",
         description: "você será redirecionado para a tela de planos",
       });
-      // signOut();
-      // history.push("/login");
     }
   }, [daysRemaining]);
 
@@ -232,7 +223,10 @@ const Home: React.FC = () => {
             <DropdownContainer>
               <DropdownMenu>
                 <DropdownItem>
-                  <a href="/trocarsenha" className="cool-DropdownItDropdownItemnk1">
+                  <a
+                    href="/trocarsenha"
+                    className="cool-DropdownItDropdownItemnk1"
+                  >
                     Trocar Senha
                   </a>
                   <hr className="linha" />
@@ -257,16 +251,11 @@ const Home: React.FC = () => {
       <Container>
         <Main>
           <MainHeader>
-            {Number(daysRemaining) <= 14 &&
-              daysRemaining !== 0 &&
-              isTrial &&
-              new Date(endDate).getTime() + 3_600_000 * 3 >
-                new Date(today).getTime() && (
-                <RemainingDaysText>
-                  {daysRemaining} dias para o fim do Teste Grátis
-                </RemainingDaysText>
-              )}
-
+            {daysRemaining !== 0 && isTrial && (
+              <RemainingDaysText>
+                {daysRemaining} dias para o fim do Teste Grátis
+              </RemainingDaysText>
+            )}
             <DateContainer>
               <DateText>Data: {date}</DateText>
               <DateText>Hora: {time}</DateText>
@@ -277,30 +266,38 @@ const Home: React.FC = () => {
             <TextContainer>
               <Title>Bem-Vindo</Title>
               <Subtitle>
-              Faça o download do app InovaJuris no seu celular e personalize seu escritório.
+                Faça o download do app InovaJuris no seu celular e personalize
+                seu escritório.
               </Subtitle>
             </TextContainer>
             <ButtonsContainer>
               <StoreButtonsContainer>
-                <GoogleStoreButton className="play"
+                <GoogleStoreButton
+                  className="play"
                   href="https://play.google.com/store/apps/details?id=com.actionsys.inventario"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <StoreLogo src={Playstore}  className="playlog"/>
+                  <StoreLogo src={Playstore} className="playlog" />
                   Google Play
                 </GoogleStoreButton>
-                <AppStoreButton className="apple"
+                <AppStoreButton
+                  className="apple"
                   href="https://play.google.com/store/apps/details?id=com.dts.freefireth"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <StoreLogo src={Appstore}  className="applelog"/>
+                  <StoreLogo src={Appstore} className="applelog" />
                   App Store
                 </AppStoreButton>
               </StoreButtonsContainer>
 
-              <FaqButton to="/faq2">
+              <FaqButton
+                href="https://inova.blob.core.windows.net/uploadinova/file-02613ae6-5720-466c-b697-ec26a67e2097.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+              >
                 <BsFillQuestionOctagonFill
                   size={24}
                   color="#941AF9"

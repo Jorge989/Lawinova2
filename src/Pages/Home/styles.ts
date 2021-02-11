@@ -114,7 +114,7 @@ export const RemainingDaysText = styled.h2`
   font-size: 22px;
   color: #fe2e2e;
   font-weight: 400;
-  margin-top:200px;
+  margin-top:-10px;
 `;
 export const DateContainer = styled.div`
   margin-top: 10px;
@@ -235,7 +235,7 @@ export const StoreLogo = styled.img`
 
 `;
 
-export const FaqButton = styled(Link)`
+export const FaqButton = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -244,7 +244,7 @@ export const FaqButton = styled(Link)`
   box-shadow: 0px 5px 5px #bbbbbb;
   border-radius: 4px;
   width: 240px;
-  height: 45px;
+  height: 48px;
   cursor: pointer;
 
   font-size: 16px;

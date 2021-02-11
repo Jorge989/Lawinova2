@@ -42,6 +42,7 @@ import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useToast } from "../../hooks/toast";
 import { useAuth } from "../../hooks/auth";
+import axios from "axios";
 interface SigInFormData {
   email: string;
   senha: string;
@@ -136,7 +137,7 @@ const Testenovocadastro: React.FC = () => {
   const [errorS, setErrorS] = useState([""]);
   const [passwordError, setPasswordError] = useState("");
   const [isShow, setIsShow] = useState(false);
-  const [passwordShown, setPasswordShown] = useState(false);
+  const [amountDays, setAmountDays] = useState<number>();
   const [inputType, setInputType] = useState("password");
   const [gender, setGender] = useState("cpf");
 
@@ -144,6 +145,25 @@ const Testenovocadastro: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const { addToast } = useToast();
+
+  useEffect(() => {
+    api
+      .get<
+        {
+          id_plano: string;
+          id_plano_externo: string;
+          descricao: string;
+          qtde_usuarios: number;
+          qtde_processos: number;
+          qtde_armazenamento: null;
+          qtde_dias: number;
+        }[]
+      >(`/planos/?id_plano=${plano}`)
+      .then((response) => {
+        setAmountDays(response.data[0].qtde_dias);
+      })
+      .catch((err) => console.log("Error", err));
+  }, []);
 
   const handleSubmit = useCallback(
     async (data: {
@@ -203,9 +223,9 @@ const Testenovocadastro: React.FC = () => {
           tipo_documento: gender,
           documento: "",
           nome: data.nome,
-          plano: planos,
-          data_inicio_plano: dataFormatadaInicio,
-          data_final_trial: dataFormatadaFim,
+          plano: plano === "beta" ? "beta" : planos,
+          data_inicio_plano: startDate,
+          data_final_trial: plano === "beta" ? endBetaDate : endTrialDate,
           tipo_pag: "cartao_credito",
           nick_name: data.nome,
           email: data.email,
@@ -293,12 +313,16 @@ const Testenovocadastro: React.FC = () => {
     setGender(e.target.value);
   };
 
-  const endDate = new Date(
-    new Date().getTime() + 1_209_600_000
-  ).toLocaleString();
-  const startDate = new Date(new Date()).toLocaleString();
-  const dataFormatadaInicio = converteData(startDate, "/", "-");
-  const dataFormatadaFim = converteData(endDate, "/", "-");
+  console.log("amountDays", amountDays);
+  const endBetaDate = amountDays
+    ? new Date(new Date().getTime() + 86_400_000 * amountDays).toISOString()
+    : new Date(new Date().getTime() + 31_536_000_000).toISOString();
+  const endTrialDate = amountDays
+    ? new Date(new Date().getTime() + 86_400_000 * amountDays).toISOString()
+    : new Date(new Date().getTime() + 1_209_600_000).toISOString();
+
+  const startDate = new Date(new Date()).toISOString();
+
   // console.log("startDate", startDate);
   // console.log("endDate", endDate);
 
@@ -331,7 +355,7 @@ const Testenovocadastro: React.FC = () => {
             <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="radio">
                 <div>
-                  <span className="pessoafisica">Pessoa Física</span>
+                  <span className="pessoafisica">Pessoa fisíca</span>
                   <Radio
                     value="cpf"
                     checked={gender === "cpf"}
@@ -340,7 +364,7 @@ const Testenovocadastro: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <span className="pessoajuridica">Pessoa Jurídica</span>
+                  <span className="pessoajuridica">Pessoa juridíca</span>
                   <Radio
                     value="cnpj"
                     checked={gender === "cnpj"}
@@ -374,7 +398,7 @@ const Testenovocadastro: React.FC = () => {
                     const value = e.currentTarget.value
                       .replace(/\D/g, "")
                       .replace(/(\d{2})(\d)/, "($1) $2")
-                      // .replace(/(\d{5})(\d)/, "$1-$2");
+                      .replace(/(\d{5})(\d)/, "$1-$2");
 
                     e.currentTarget.value = value;
                     return e;
