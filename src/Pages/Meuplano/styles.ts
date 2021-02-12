@@ -15,19 +15,19 @@ export const Layout = styled.div`
 `;
 
 export const Container = styled.div`
-   width: 100%;
+  width: 100%;
 
-display: flex;
-justify-content: center;
-max-width: 1050px;
-max-height: 700px;
-height: 560px;
+  display: flex;
+  justify-content: center;
+  max-width: 1050px;
+  max-height: 700px;
+  height: 560px;
 
 `;
 
 export const Main = styled.main`
   width: 100%;
-  
+
   margin-bottom: 29px;
 
   @media (min-width: 900px) {
@@ -39,24 +39,23 @@ export const FormContainer = styled(Form)`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  
+  height:100%;
+
 `;
 
 export const PricingContainer = styled.section`
   text-align: center;
   width: 100%;
-  
 `;
 
 export const PricingContainerTitle = styled.h1`
- margin-top:-10px;
+  margin-top: -10px;
   font-size: 32px;
   font-weight: 400;
-  
 `;
 
 export const PlansContainer = styled.div`
-   margin-top: -12px;
+  margin-top: -12px;
   width: 100%;
 
   display: grid;
@@ -75,7 +74,7 @@ export const PlansContainer = styled.div`
 `;
 
 export const Plan = styled.div<GradientConfig>`
-   height: 425px;
+  height: 425px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -83,7 +82,7 @@ export const Plan = styled.div<GradientConfig>`
   margin: 32px 16px;
   border-radius: 8px;
   padding: 16px 0;
-cursor: pointer;
+  cursor: pointer;
 
   background: ${(props) =>
     props.code !== props.plano
@@ -113,7 +112,7 @@ export const GradientText = styled.h4<GradientConfig>`
     #2e1f43 100%
   )`
       : "#ffffff"};
-        margin-top: -5px;
+  margin-top: -5px;
   font-size: 29px;
   line-height: 34px;
   font-weight: 500;
@@ -122,50 +121,74 @@ export const GradientText = styled.h4<GradientConfig>`
 `;
 
 export const OffersContainer = styled.ul`
-   margin: 0 16px;
+  margin: 0 16px;
   margin-top: 5px;
-  
 `;
 
 export const Offer = styled.li`
-   text-transform: uppercase;
+  text-transform: uppercase;
   list-style: none;
   font-size: 15px;
   line-height: 31px;
   font-weight: 500;
   color: #ffffff;
-  
 `;
 
 export const ButtonsContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content:center;
-  flex-direction: row!important;
-  justify-content: space-around;
-  width: 100%;
-  height:100px;
+  justify-content: center;
+  width: 80%;
+  gap:40px;
+  margin-bottom: 48px;
+  margin-top:-2%;
 
+  @media (min-width: 576px) {
+    flex-direction: row;
+    justify-content: center;
+  }
+  @media (max-width: 576px) {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+  gap:5px;
+  }
 `;
 
 export const ConfirmButton = styled(Button)`
+ height: 40px;
+  width: 150%;
+  font-size:15px;
+font-weight:500;
+  @media (min-width: 576px) {
+    max-width: 195px;
+    margin-right: 20px;
+  }
+  @media (max-width: 576px) {
+    max-width: 90%;
 
-  height: 40px;
-  width: 80%;
-  max-width: 180px;
-  
+    
+  }
 `;
 
 export const CancelPlanButton = styled(Button)`
-
-   height: 40px;
-  margin-top:-5px;
-  width: 80%;
-  max-width: 180px;
-  background-color: #eb4034;
-
+  height: 40px;
+  width: 195%;
+  color: #000;
+  background-color: #F8F8F8;
+  font-size:15px;
+font-weight:500;
   &:hover {
-    background-color: #eb2c1e!important
-    ;
+    background-color: #F3F3F3 !important;
+  }
+
+  @media (min-width: 576px) {
+    max-width: 195px;
+  }
+  @media (max-width: 576px) {
+    max-width: 90%;
+
+    
   }
 `;

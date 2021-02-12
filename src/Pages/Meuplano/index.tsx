@@ -277,7 +277,7 @@ const MeuPlano: React.FC = () => {
     await api.put(
       `escritorio/${officeId}`,
       {
-        plano: "",
+        status_plano: "desabilitado"
       },
       {
         headers: {
@@ -294,7 +294,13 @@ const MeuPlano: React.FC = () => {
 
     setLoading(false);
   };
-
+function HandleConfirm(){
+  if (window.confirm("Você tem certeza que deseja cancelar o plano? Isso fará com que você seus escritórios e seus clientes percam o acesso ao aplicativo móvel.")) {
+    handleCancelSubscription()
+  } 
+    
+  
+}
   return (
     <>
       <Header2 />
@@ -344,21 +350,22 @@ const MeuPlano: React.FC = () => {
                 </PlansContainer>
               </PricingContainer>
               <ButtonsContainer>
-                <ConfirmButton
+          
+              <CancelPlanButton
+                disabled={!planId && !productItemId}
+                onClick={HandleConfirm}
+                type="button"
+                isLoading={loading}
+              >
+                Cancelar Plano
+              </CancelPlanButton>
+              <ConfirmButton
                   disabled={!planId && !productItemId}
                   type="submit"
                   isLoading={loading}
                 >
                   Confirmar
                 </ConfirmButton>
-              <CancelPlanButton
-                disabled={!planId && !productItemId}
-                onClick={handleCancelSubscription}
-                type="button"
-                isLoading={loading}
-              >
-                Cancelar Plano
-              </CancelPlanButton>
               </ButtonsContainer>
             </FormContainer>
           </Main>

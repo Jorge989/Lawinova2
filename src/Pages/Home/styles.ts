@@ -61,6 +61,7 @@ export const ButtonsContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
 `;
 
 export const StoreButtonsContainer = styled.div`
@@ -68,7 +69,8 @@ export const StoreButtonsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 48px;
-
+padding-left: 40px;
+padding-right: 40px;
   @media (min-width: 900px) {
     width: 528px;
     flex-direction: row;
@@ -81,10 +83,12 @@ const buttonStyle = css`
   justify-content: space-between;
   align-items: center;
   background-color: #ffffff;
-  width: 240px;
+  width: 200px;
   height: 48px;
-  font-size: 24px;
-  padding: 6px 24px;
+  font-size: 20px;
+  padding: 6px 32px;
+  padding-top:1px;
+  
   text-decoration: none;
   border: 1px solid #941af9;
   border-radius: 24px;
@@ -100,6 +104,17 @@ const buttonStyle = css`
 export const GoogleStoreButton = styled.a`
   ${buttonStyle}
   margin-bottom: 16px;
+display:flex;
+align-items:center;
+
+
+  .playlog{
+    display:flex;
+    width:18%;
+  
+
+padding-top:2px;
+  }
   @media (min-width: 900px) {
     margin-bottom: 0;
   }
@@ -107,11 +122,31 @@ export const GoogleStoreButton = styled.a`
 
 export const AppStoreButton = styled.a`
   ${buttonStyle}
+  padding: 0px 38px;
+  padding-bottom:5px;
+
+.applelog{
+  display:flex;
+
+  margin-left:-4px;
+}
+
+
+
 `;
 
 export const StoreLogo = styled.img`
-  width: 36px;
-  height: 36px;
+display:flex;
+align-items:center;
+  width: 30px;
+  height: 30px;
+  .apple{
+    width:14%;
+  
+    margin-right:25px;
+padding-top:2px;
+  }
+  
 `;
 
 export const FaqButton = styled.a`
@@ -123,7 +158,7 @@ export const FaqButton = styled.a`
   box-shadow: 0px 5px 5px #bbbbbb;
   border-radius: 4px;
   width: 240px;
-  height: 48px;
+  height: 40px;
   cursor: pointer;
 
   font-size: 16px;
@@ -194,10 +229,12 @@ export const DropdownToggle = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
+  font-size: 28px;
   border: 0;
   outline: 0;
   background: transparent;
+
+ 
   cursor: pointer;
 
   &:hover {
@@ -210,7 +247,7 @@ export const DropdownContainer = styled.div`
   right: 0;
   top: 76px;
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
 
   z-index: 9999;
   background: #74469a;
@@ -218,7 +255,7 @@ export const DropdownContainer = styled.div`
   outline: 0;
   font: 500 16px Roboto;
   color: #f1f1f1;
-  padding: 8px;
+  padding: 0px;
   display: flex;
   align-items: center;
   animation: drop 0.5s ease;
@@ -239,14 +276,15 @@ export const DropdownMenu = styled.div`
   padding: 0;
   margin: 0;
   width: 100%;
+
 `;
 
 export const DropdownItem = styled.button`
-  width: 100%;
+  width: 99%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-left: 32px;
+  margin-left: 2px;
   background: transparent;
   border: 0;
   outline: 0;
@@ -267,7 +305,7 @@ export const DropdownItem = styled.button`
     color: #fff;
     font-weight: 500;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 35px;
   }
 `;

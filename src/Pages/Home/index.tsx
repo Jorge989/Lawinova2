@@ -46,8 +46,8 @@ import {
 } from "./styles";
 
 import Person from "../../assets/person.svg";
-import Appstore from "../../assets/Appstore.svg";
-import Playstore from "../../assets/Playstore.svg";
+import Appstore from "../../assets/aple1.svg";
+import Playstore from "../../assets/play1.svg";
 import api from "../../services/api";
 import { useToast } from "../../hooks/toast";
 import { useHistory } from "react-router-dom";
