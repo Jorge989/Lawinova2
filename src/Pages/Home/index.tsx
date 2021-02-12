@@ -142,7 +142,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://embed.tawk.to/5fc6bb0ba1d54c18d8ef660f/default";
+    script.src = 'https://embed.tawk.to/601a14c3c31c9117cb753836/1etiu274n';
     script.async = true;
     script.charset = "UTF-8";
     script.setAttribute("crossorigin", "*");
