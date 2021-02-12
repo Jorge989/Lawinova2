@@ -28,7 +28,7 @@ const Header: React.FC = ({ children }) => {
       <Nav>
         <NavItems>
           <button className="btnimg">
-            <a href="/login">
+            <a href="/">
               <img src={Logo} height={85} className="logo" />
             </a>
           </button>

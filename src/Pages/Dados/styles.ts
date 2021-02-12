@@ -47,7 +47,7 @@ svg{
   display:flex;
   justify-content:center;
 
-  margin-right:5.3%;
+  margin-right:3%;
 }
   .formBox {
     display: flex;

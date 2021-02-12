@@ -363,7 +363,7 @@ const NovoCadastro: React.FC = () => {
               </div>
 
               <button type="button" className="possuilogin">
-                <a href={`/login`}>Já possui login?</a>
+                <a href={`/`}>Já possui login?</a>
               </button>
             </Form>
           </div>

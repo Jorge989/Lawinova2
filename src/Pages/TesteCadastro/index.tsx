@@ -355,8 +355,8 @@ const Testenovocadastro: React.FC = () => {
             <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="radio">
                 <div>
-                  <span className="pessoafisica">Pessoa fisíca</span>
-                  <Radio
+                  <span className="pessoafisica">Pessoa Física</span>
+                  <Radio className="radiobtn"
                     value="cpf"
                     checked={gender === "cpf"}
                     color="primary"
@@ -364,8 +364,8 @@ const Testenovocadastro: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <span className="pessoajuridica">Pessoa juridíca</span>
-                  <Radio
+                  <span className="pessoajuridica">Pessoa Jurídica</span>
+                  <Radio className="radiobtn"
                     value="cnpj"
                     checked={gender === "cnpj"}
                     color="primary"
@@ -492,7 +492,7 @@ const Testenovocadastro: React.FC = () => {
               </div>
 
               <button className="possuilogin">
-                <a href="login">Já possui login?</a>
+                <a href="/">Já possui login?</a>
               </button>
             </Form>
           </div>

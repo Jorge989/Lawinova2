@@ -160,6 +160,7 @@ export const ConfirmButton = styled(Button)`
  height: 40px;
   width: 150%;
   font-size:15px;
+  background-color: #8A44C4;
 font-weight:500;
   @media (min-width: 576px) {
     max-width: 195px;

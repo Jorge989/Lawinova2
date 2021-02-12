@@ -38,7 +38,15 @@ export const Blue = styled.div`
 
   margin-top: 85px;
   margin-left:1%;
+.radiobtn{
 
+color:  #8A44C4;
+svg{
+  color:  #8A44C4; 
+}
+
+
+}
   .div4{
 
 margin-top:-0%;
@@ -75,7 +83,7 @@ border: 1px solid #C4C4C4;
   display:flex;
   justify-content:center;
 
-  margin-right:5.3%;
+  margin-right:2%;
 }
 .radiocor{
     color:#941AF9;

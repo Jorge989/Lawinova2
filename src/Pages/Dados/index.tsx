@@ -434,7 +434,7 @@ const Dados: React.FC = () => {
             <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="radio">
                 <div>
-                  <Radio
+                  <Radio className="radiocor"
                     value="fisica"
                     checked={gender === "fisica"}
                     color="primary"
@@ -443,7 +443,7 @@ const Dados: React.FC = () => {
                   <span>Pessoa Física</span>
                 </div>
                 <div>
-                  <Radio
+                  <Radio  className="radiocor"
                     value="juridica"
                     checked={gender === "juridica"}
                     color="primary"

@@ -26,7 +26,7 @@ const Routes: React.FC = () => {
         <PrivateRoute path="/home" exact component={Homepage} />
         <PrivateRoute path="/trocarsenha" exact component={TrocarSenha} />
         <PrivateRoute path="/meuplano" exact component={Meuplano} />
-        <Route path="/login" exact component={Login} />
+        <Route path="/" exact component={Login} />
         <Route
           path="/novocadastro/plano=:plano"
           exact
