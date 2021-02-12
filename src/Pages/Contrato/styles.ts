@@ -36,6 +36,7 @@ export const Blue = styled.div`
 
   margin-top: 60px;
 
+
   .formBox {
     margin-top: 64px;
     display: flex;
@@ -290,11 +291,12 @@ export const Blue = styled.div`
           align-items: center;
           width: 370px;
           margin-left: -4.7%;
-          height: 540px;
+          height: 580px;
 
           .texto {
             margin-top: 0;
             max-width: 95%;
+            
           }
           .input1 {
             width: 340px;
@@ -319,7 +321,7 @@ export const Blue = styled.div`
             width: fit-content;
             padding: 0 16px;
             width: 90%;
-            height: 64px;
+            height: 45px;
             text-align: center;
           }
           .btnazul {

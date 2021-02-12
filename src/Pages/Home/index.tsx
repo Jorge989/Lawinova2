@@ -42,7 +42,7 @@ import {
   AnswerContainer,
   Answer,
   QuestionContent,
-  Sair,
+  DropdownToggle,
 } from "./styles";
 
 import Person from "../../assets/person.svg";
@@ -215,38 +215,36 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <Header>
-        <Sair>
-          <button onClick={() => setIsShowMenu(!isShowMenu)}>
-            <FiUser size={24} className="logo2" />
-          </button>
-          {isShowMenu && (
-            <DropdownContainer>
-              <DropdownMenu>
-                <DropdownItem>
-                  <a
-                    href="/trocarsenha"
-                    className="cool-DropdownItDropdownItemnk1"
-                  >
-                    Trocar Senha
-                  </a>
-                  <hr className="linha" />
-                </DropdownItem>
-                <DropdownItem>
-                  <a href="/meuplano" className="cool-link1">
-                    Meu Plano
-                  </a>
-                  <hr className="linha" />
-                </DropdownItem>
-                <DropdownItem>
-                  <a href="/login" onClick={signOut} className="cool-link1">
-                    Sair
-                  </a>
-                  <hr className="linha" />
-                </DropdownItem>
-              </DropdownMenu>
-            </DropdownContainer>
-          )}
-        </Sair>
+        <DropdownToggle onClick={() => setIsShowMenu(!isShowMenu)}>
+          <FiUser size={24} className="logo2" />
+        </DropdownToggle>
+        {isShowMenu && (
+          <DropdownContainer>
+            <DropdownMenu>
+              <DropdownItem>
+                <a
+                  href="/trocarsenha"
+                  className="cool-DropdownItDropdownItemnk1"
+                >
+                  Trocar Senha
+                </a>
+                <hr className="linha" />
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/meuplano" className="cool-link1">
+                  Meu Plano
+                </a>
+                <hr className="linha" />
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/login" onClick={signOut} className="cool-link1">
+                  Sair
+                </a>
+                <hr className="linha" />
+              </DropdownItem>
+            </DropdownMenu>
+          </DropdownContainer>
+        )}
       </Header>
       <Container>
         <Main>

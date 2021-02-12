@@ -12,7 +12,7 @@ export const Container = styled.button<ContainerProps>`
   margin-top: 16px;
  
   border-radius: 5px;
-  background-color: #74469A
+  background-color: #8A44C4;
   ;
   color: #fff;
   font-size: 20px;

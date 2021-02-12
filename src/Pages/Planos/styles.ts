@@ -23,6 +23,7 @@ export const Container = styled.div`
   max-height: 700px;
   height: 560px;
 
+
 `;
 
 export const Main = styled.main`
@@ -33,6 +34,7 @@ export const Main = styled.main`
   @media (min-width: 900px) {
     margin-bottom: 0;
   }
+
 `;
 export const FormContainer = styled(Form)`
 
@@ -47,7 +49,7 @@ export const PricingContainer = styled.section`
 
   text-align: center;
   width: 100%;
-
+  
 
 `;
 
@@ -144,5 +146,9 @@ export const ConfirmButton = styled(Button)`
   max-width: 219px;
   margin-top:-1%;
 
-
+  @media (max-width: 576px) {
+    width: 90%;
+  max-width: 330px;
+  height: 40px;
+  }
 `;

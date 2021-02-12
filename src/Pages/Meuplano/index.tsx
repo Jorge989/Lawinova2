@@ -11,16 +11,21 @@ import { Link } from "react-router-dom";
 
 import {
   Container,
-  Lockicon1,
-  Blue,
-  Draw,
-  GoogleLogin,
-  Googleicon,
-  Facebokcion,
-  GradientCardContainer,
   GradientText,
-  GradientCard,
+  FormContainer,
+  Main,
+  PricingContainer,
+  PricingContainerTitle,
+  PlansContainer,
+  Plan,
+  Offer,
+  OffersContainer,
+  Layout,
+  ConfirmButton,
+  ButtonsContainer,
+  CancelPlanButton,
 } from "./styles";
+
 import FacebookLogin from "react-facebook-login";
 
 import Input from "../../Components/Input";
@@ -57,6 +62,7 @@ const MeuPlano: React.FC = () => {
   const [customerId, setCustomerId] = useState(0);
   const [officeId, setOfficeId] = useState(0);
   const [subscriptionId, setSubscriptionId] = useState(0);
+  const [productItemId, setProductItemId] = useState(0);
   const [plano, setPlano] = useState("");
   // const [subscription, setSubscription] = useState<{
   //   product_items: { product: { name: string } }[];
@@ -83,7 +89,7 @@ const MeuPlano: React.FC = () => {
 
   useEffect(() => {
     api
-      .get(`escritorios?nome=${parsedUser.nome}`, {
+      .get(`escritorios?email=${parsedUser.email}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -118,14 +124,17 @@ const MeuPlano: React.FC = () => {
         }
       )
       .then((response) => {
+        console.log("RESPONSE", response);
         setSubscriptionId(response.data.subscriptions[0]?.id);
         setPlanId(response.data.subscriptions[0]?.plan.id);
+        setProductItemId(response.data.subscriptions[0]?.product_items[0]?.id);
       });
-  }, [customerId]);
+  }, [customerId, loading]);
 
   console.log("PlanId", planId);
   console.log("CustomerId", customerId);
   console.log("Subscription", subscriptionId);
+  console.log("ProductItemId", productItemId);
 
   console.log("PLANO", plano);
 
@@ -188,16 +197,28 @@ const MeuPlano: React.FC = () => {
 
       console.log("ProductId", responseProduct.data.products[0].id);
 
+      if (productItemId) {
+        await axios.delete(
+          `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/product_items/${productItemId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Basic ${token64}`,
+            },
+          }
+        );
+      }
+
       const updatedSubscription = {
-        plan_id: planId,
-        customer_id: customerId,
-        payment_method_code: "credit_card",
-        product_items: [{ product_id: responseProduct.data.products[0].id }],
+        product_id: responseProduct.data.products[0].id,
+        subscription_id: subscriptionId,
+        quantity: 1,
       };
+
       console.log("updatedSubscription", updatedSubscription);
 
-      const responseSubscriptions = await axios.put(
-        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/subscriptions/${subscriptionId}`,
+      const responseSubscriptions = await axios.post(
+        `https://cors-anywhere.herokuapp.com/https://app.vindi.com.br/api/v1/product_items`,
         updatedSubscription,
         {
           headers: {
@@ -275,68 +296,75 @@ const MeuPlano: React.FC = () => {
   };
 
   return (
-    <div className="ehad">
+    <>
       <Header2 />
-      <Container>
-        <Blue>
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <section className="pricing-container">
-              <h1>Meu Plano</h1>
-              {/* <p>SMART</p> */}
-              <div className="plans-container">
-                {getFormattedPlansData(true).map((plan) => (
-                  <GradientCard
-                    key={plan.id}
-                    code={plan.code}
-                    plano={plano}
-                    onClick={() => setPlano(plan.code)}
-                  >
-                    <GradientCardContainer>
-                      <GradientText
-                        style={{ fontSize: 16 }}
+      <Layout>
+        <Container>
+          <Main>
+            <FormContainer ref={formRef} onSubmit={handleSubmit}>
+              <PricingContainer>
+                <PricingContainerTitle>Meu Plano</PricingContainerTitle>
+
+                <PlansContainer>
+                  {getFormattedPlansData(!!plano.match(/(promo[1-3])/)).map(
+                    (plan) => (
+                      <Plan
+                        key={plan.id}
                         code={plan.code}
                         plano={plano}
+                        onClick={() => setPlano(plan.code)}
                       >
-                        {plan.name}
-                      </GradientText>
-                      <GradientText code={plan.code} plano={plano}>
-                        R${plan.value}
-                      </GradientText>
-
-                      {plan.offers.map((offer) => (
-                        <li
-                          style={{
-                            color: plan.code !== plano ? "#000000" : "#ffffff",
-                          }}
-                          className="offer"
-                          key={offer.id}
+                        <GradientText
+                          style={{ fontSize: 16 }}
+                          code={plan.code}
+                          plano={plano}
                         >
-                          {offer.name.toUpperCase()}
-                        </li>
-                      ))}
-                    </GradientCardContainer>
-                  </GradientCard>
-                ))}
-              </div>
-            </section>
+                          {plan.name}
+                        </GradientText>
+                        <GradientText code={plan.code} plano={plano}>
+                          R${plan.value}
+                        </GradientText>
 
-            <div className="btnblue">
-              <Button
-                className="btnazul1"
-                isLoading={loading}
-                type="button"
+                        <OffersContainer>
+                          {plan.offers.map((offer) => (
+                            <Offer
+                              style={{
+                                color:
+                                  plan.code !== plano ? "#000000" : "#ffffff",
+                              }}
+                              key={offer.id}
+                            >
+                              {offer.name}
+                            </Offer>
+                          ))}
+                        </OffersContainer>
+                      </Plan>
+                    )
+                  )}
+                </PlansContainer>
+              </PricingContainer>
+              <ButtonsContainer>
+                <ConfirmButton
+                  disabled={!planId && !productItemId}
+                  type="submit"
+                  isLoading={loading}
+                >
+                  Confirmar
+                </ConfirmButton>
+              <CancelPlanButton
+                disabled={!planId && !productItemId}
                 onClick={handleCancelSubscription}
+                type="button"
+                isLoading={loading}
               >
                 Cancelar Plano
-              </Button>
-              <Button className="btnazul" isLoading={loading} type="submit">
-                Confirmar
-              </Button>
-            </div>
-          </Form>
-        </Blue>
-      </Container>
-    </div>
+              </CancelPlanButton>
+              </ButtonsContainer>
+            </FormContainer>
+          </Main>
+        </Container>
+      </Layout>
+    </>
   );
 };
 
