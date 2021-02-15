@@ -237,7 +237,7 @@ const Home: React.FC = () => {
                 <hr className="linha" />
               </DropdownItem>
               <DropdownItem>
-                <a href="/login" onClick={signOut} className="cool-link1">
+                <a href="/" onClick={signOut} className="cool-link1">
                   Sair
                 </a>
                 <hr className="linha" />

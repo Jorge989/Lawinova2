@@ -243,7 +243,10 @@ const MeuPlano: React.FC = () => {
           },
         }
       );
-
+      addToast({
+        type: "sucess",
+        title: "Plano atualizado com sucesso",
+      });
       setLoading(false);
     } catch (err) {
       setLoading(false);

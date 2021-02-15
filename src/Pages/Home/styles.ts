@@ -302,8 +302,12 @@ export const DropdownItem = styled.button`
   }
 
   a {
+    display:flex;
+
     color: #fff;
     font-weight: 500;
+
+    width:100%;
     text-decoration: none;
     font-size: 17px;
     line-height: 35px;
