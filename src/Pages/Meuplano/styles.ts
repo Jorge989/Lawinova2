@@ -193,3 +193,92 @@ font-weight:500;
     
   }
 `;
+
+export const DropdownContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: 76px;
+  width: 100%;
+  max-width: 300px;
+
+  z-index: 9999;
+  background: #74469a;
+  border: 0;
+  outline: 0;
+  font: 500 16px Roboto;
+  color: #f1f1f1;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  animation: drop 0.5s ease;
+
+  @keyframes drop {
+    0% {
+      transform: translateX(160px);
+    }
+
+    100% {
+      transform: translateX(0);
+    }
+  }
+`;
+
+export const DropdownMenu = styled.div`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+`;
+
+export const DropdownItem = styled.button`
+  width: 99%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 2px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #ffffff;
+
+  &:hover {
+    background: #941af9;
+    cursor: pointer;
+  }
+
+  hr {
+    width: 100%;
+    height: 1px;
+    background-color: #fff;
+  }
+
+  a {
+    display:flex;
+
+    color: #fff;
+    font-weight: 500;
+
+    width:100%;
+    text-decoration: none;
+    font-size: 17px;
+    line-height: 35px;
+  }
+`;
+export const DropdownToggle = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+ 
+  cursor: pointer;
+
+  &:hover {
+    color: #941af9;
+  }
+`;

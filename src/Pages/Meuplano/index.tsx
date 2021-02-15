@@ -3,6 +3,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import Logo from "../../assets/logolaw.svg";
 import Header2 from "../../Components/Header";
+import { FiUser } from "react-icons/fi"
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -10,6 +11,10 @@ import {
 import { Link } from "react-router-dom";
 
 import {
+  DropdownToggle,
+  DropdownContainer,
+  DropdownMenu,
+  DropdownItem,
   Container,
   GradientText,
   FormContainer,
@@ -33,6 +38,7 @@ import Button from "../../Components/Button";
 import { FiMail } from "react-icons/fi";
 import { FiLock } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
+
 import { Form } from "@unform/web";
 import getValidationErrors from "../../utils/getValidationErros";
 import * as Yup from "yup";
@@ -304,9 +310,43 @@ function HandleConfirm(){
     
   
 }
+const [isShow, setIsShow] = useState(false);
+const [isShowMenu, setIsShowMenu] = useState(false);
+const { signOut } = useAuth();
   return (
     <>
-      <Header2 />
+     <Header2>
+      <DropdownToggle onClick={() => setIsShowMenu(!isShowMenu)}>
+         <FiUser size={24} className="logo2" />
+         </DropdownToggle>
+      {isShowMenu && (
+          <DropdownContainer>
+            <DropdownMenu>
+              <DropdownItem>
+                <a
+                  href="/trocarsenha"
+                  className="cool-DropdownItDropdownItemnk1"
+                >
+                  Trocar Senha
+                </a>
+                <hr className="linha" />
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/meuplano" className="cool-link1">
+                  Meu Plano
+                </a>
+                <hr className="linha" />
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/" onClick={signOut} className="cool-link1">
+                  Sair
+                </a>
+                <hr className="linha" />
+              </DropdownItem>
+            </DropdownMenu>
+          </DropdownContainer>
+        )}
+      </Header2>
       <Layout>
         <Container>
           <Main>

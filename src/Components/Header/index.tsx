@@ -37,7 +37,7 @@ const Header: React.FC = ({ children }) => {
             <NavLink to="#" className="cool-link1">
               Site da Empresa/Produto
             </NavLink>
-            <NavLink to="#" className="cool-link">
+            <NavLink to="/meuplano" className="cool-link">
               Planos
             </NavLink>
             <NavLink to="#" className="cool-link2">
